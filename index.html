@@ -3,100 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive CS & AI Mastery Course</title>
+    <title>Computational Ecology: Cloud & AI Workflows</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- MathJax for LaTeX Rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'fade-in-up': 'fadeInUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* Slate 900 */
-            color: #f8fafc; /* Slate 50 */
-        }
-
-        .code-font {
-            font-family: 'Fira Code', monospace;
-        }
-
-        /* Custom scrollbar for better aesthetics */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1e293b; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #475569; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #64748b; 
-        }
-
-        .module-card {
-            transition: all 0.3s ease;
-            border: 1px solid #334155;
-            background: linear-gradient(145deg, #1e293b, #0f172a);
-        }
-
-        .module-card:hover {
-            transform: translateY(-5px);
-            border-color: #3b82f6;
-            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
-        }
-
-        .status-badge {
-            transition: all 0.3s ease;
-        }
-
-        .terminal-window {
-            background-color: #000000;
-            border-radius: 0.5rem;
-            border: 1px solid #334155;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        .glow-text {
-            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-        }
-        
-        .progress-bar-fill {
-            transition: width 0.5s ease-in-out;
-        }
-
-        /* Animation for completing a module */
-        @keyframes celebrate {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); background-color: #166534; }
-            100% { transform: scale(1); }
-        }
-        .celebrate-anim {
-            animation: celebrate 0.5s ease-in-out;
-        }
+        body { background-color: #0f172a; color: #f8fafc; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        .prose code { color: #e2e8f0; background-color: #334155; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-family: 'Fira Code', monospace; font-size: 0.875em; }
+        .prose pre { background-color: #1e293b; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: 'Fira Code', monospace; }
+        .glossary-dt { font-weight: 600; color: #93c5fd; margin-top: 0.5rem; }
+        .glossary-dd { margin-left: 1rem; margin-bottom: 0.5rem; color: #cbd5e1; font-size: 0.9rem; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col font-sans selection:bg-blue-500/30">
 
-    <nav class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 shadow-lg">
+    <nav class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/50">
-                        <i class="fa-solid fa-terminal text-white text-xl"></i>
-                    </div>
-                    <span class="font-bold text-xl tracking-tight glow-text">CS & AI Mastery</span>
+                    <i class="fa-solid fa-fish-fins text-blue-500 text-2xl"></i>
+                    <span class="font-bold text-xl tracking-tight text-white">Computational Ecology Primer</span>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <div class="text-sm text-slate-300 hidden md:block">
-                        Overall Progress: <span id="progress-text" class="font-bold text-blue-400">0%</span>
+                    <div class="text-sm text-slate-400 font-medium">
+                        Progress: <span id="progress-text" class="text-white">0%</span>
                     </div>
-                    <div class="w-32 h-2.5 bg-slate-700 rounded-full overflow-hidden hidden md:block">
-                        <div id="progress-bar" class="h-full bg-blue-500 progress-bar-fill w-0"></div>
+                    <div class="w-32 h-2 bg-slate-800 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="h-full bg-gradient-to-r from-blue-500 to-teal-500 w-0 transition-all duration-500"></div>
                     </div>
-                    <button onclick="resetProgress()" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-300 px-3 py-1.5 rounded transition-colors" title="Reset all progress">
-                        <i class="fa-solid fa-rotate-right mr-1"></i> Reset
-                    </button>
                 </div>
             </div>
         </div>
@@ -106,96 +77,95 @@
         
         <!-- Header Section -->
         <div class="text-center mb-12 animate-fade-in-up">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-                University Computer Science Curriculum
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-400">
+                Cloud Workstations & AI Pipelines
             </h1>
-            <p class="text-lg text-slate-400 max-w-2xl mx-auto">
-                An in-depth academic syllabus taking you from operating systems fundamentals to deploying distributed AI architectures.
+            <p class="text-lg text-slate-400 max-w-3xl mx-auto mb-6">
+                A bridge course for fishery biologists and ecologists. Transition from local desktop GUIs to deploying high-throughput ecological AI pipelines on Google Cloud Platform (GCP).
             </p>
+            <div class="inline-flex items-center space-x-2 bg-slate-800 border border-slate-700 rounded-full px-4 py-2 text-sm text-slate-300">
+                <i class="fa-solid fa-triangle-exclamation text-yellow-500"></i>
+                <span>Prerequisites: Basic understanding of marine survey data. No prior CLI experience required.</span>
+            </div>
         </div>
 
         <!-- Course Content Container -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <div class="lg:col-span-1 space-y-4 h-[calc(100vh-200px)] overflow-y-auto pr-2" id="modules-list">
-                <!-- Modules will be injected here by JavaScript -->
+            <!-- Sidebar: Syllabus Modules -->
+            <div class="lg:col-span-1 flex flex-col space-y-3" id="module-list">
+                <!-- Modules injected by JS -->
             </div>
 
-            <div class="lg:col-span-2 flex flex-col h-[calc(100vh-200px)]">
-                <div id="active-module-content" class="bg-slate-800 rounded-xl border border-slate-700 p-6 flex-grow overflow-y-auto shadow-2xl relative flex flex-col">
+            <!-- Main Panel: Learning & Practice Area -->
+            <div class="lg:col-span-2 flex flex-col h-[75vh]">
+                <div class="bg-slate-800 rounded-xl border border-slate-700 shadow-2xl overflow-hidden flex flex-col h-full animate-fade-in">
                     
                     <!-- Placeholder content before a module is selected -->
-                    <div id="welcome-placeholder" class="m-auto text-center space-y-6">
+                    <div id="welcome-placeholder" class="m-auto text-center space-y-6 p-8">
                         <div class="inline-block p-6 rounded-full bg-slate-700/50">
-                            <i class="fa-solid fa-building-columns text-6xl text-blue-500 opacity-80 mb-2"></i>
+                            <i class="fa-solid fa-server text-6xl text-blue-500 opacity-80 mb-2"></i>
                         </div>
-                        <h2 class="text-2xl font-bold text-slate-200">Welcome to the Fall Semester</h2>
-                        <p class="text-slate-400 max-w-md mx-auto">Select a course module from the syllabus on the left to begin your lecture.</p>
+                        <h2 class="text-2xl font-bold text-slate-200">Initialize Workstation</h2>
+                        <p class="text-slate-400 max-w-md mx-auto">Select a module from the syllabus on the left to begin learning how to navigate the command line and automate your video analyses.</p>
                         <button onclick="selectModule(0)" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg transition-colors shadow-lg shadow-blue-500/30">
-                            Start CS 101
+                            Start Module 1
                         </button>
                     </div>
 
-                    <!-- Dynamic content area (hidden initially) -->
-                    <div id="module-detail" class="hidden flex-col h-full">
-                        <div class="flex justify-between items-start mb-6">
-                            <div>
-                                <h2 id="detail-title" class="text-3xl font-bold text-white mb-2"></h2>
-                                <p id="detail-desc" class="text-slate-400"></p>
-                            </div>
-                            <div id="detail-icon" class="text-4xl text-blue-400 opacity-80"></div>
-                        </div>
-
-                        <!-- Tabs for Learn / Practice -->
+                    <!-- Dynamic content area -->
+                    <div id="active-module-content" class="hidden flex-col h-full p-6">
+                        
+                        <!-- Tabs -->
                         <div class="border-b border-slate-700 mb-6 flex space-x-6">
                             <button onclick="switchTab('learn')" id="tab-learn" class="pb-3 text-sm font-medium border-b-2 border-blue-500 text-blue-400 transition-colors">
-                                <i class="fa-solid fa-graduation-cap mr-2"></i>Lecture Notes
+                                <i class="fa-solid fa-book-open mr-2"></i>Lecture Notes
                             </button>
                             <button onclick="switchTab('practice')" id="tab-practice" class="pb-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors">
-                                <i class="fa-solid fa-clipboard-list mr-2"></i>Homework Assignment
+                                <i class="fa-solid fa-laptop-code mr-2"></i>Terminal Exercise
                             </button>
                         </div>
 
-                        <!-- Tab Contents -->
-                        <div id="content-learn" class="flex-grow overflow-y-auto prose prose-invert max-w-none text-slate-300">
-                            <!-- Injected HTML content goes here -->
+                        <!-- Lecture Notes Tab -->
+                        <div id="content-learn" class="flex-grow overflow-y-auto prose prose-invert max-w-none text-slate-300 pr-2 pb-8">
+                            <!-- Injected by JS -->
                         </div>
 
+                        <!-- Homework Tab -->
                         <div id="content-practice" class="flex-grow hidden flex-col">
-                            <div class="bg-slate-900 rounded-lg p-4 mb-4 border border-slate-700 flex-grow flex flex-col">
-                                <h3 class="font-semibold text-white mb-2 flex items-center">
-                                    <i class="fa-solid fa-book mr-2 text-purple-400"></i> Assignment Prompt
+                            <div class="bg-slate-900 rounded-lg p-5 mb-4 border border-slate-700">
+                                <h3 class="font-semibold text-white mb-2 flex items-center text-lg">
+                                    <i class="fa-solid fa-clipboard-question mr-2 text-teal-400"></i> Field Scenario
                                 </h3>
-                                <p id="exercise-prompt" class="text-sm text-slate-300 mb-4"></p>
-                                
-                                <!-- Interactive Area (Changes based on module) -->
-                                <div id="interactive-area" class="flex-grow flex flex-col bg-black rounded border border-slate-700 overflow-hidden font-mono text-sm">
-                                    <!-- Pseudo Terminal / Code Editor -->
-                                    <div class="bg-slate-800 px-3 py-1 flex space-x-2 border-b border-slate-700 items-center">
+                                <div id="exercise-prompt" class="text-sm text-slate-300 leading-relaxed"></div>
+                            </div>
+                            
+                            <!-- Terminal Emulator -->
+                            <div class="bg-black rounded-lg border border-slate-700 font-mono text-sm shadow-inner flex-grow flex flex-col mb-4 overflow-hidden relative">
+                                <div class="bg-slate-800 px-4 py-2 flex items-center justify-between border-b border-slate-700">
+                                    <div class="flex space-x-2">
                                         <div class="w-3 h-3 rounded-full bg-red-500"></div>
                                         <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
                                         <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                                        <span class="ml-4 text-xs text-slate-400" id="terminal-title">terminal</span>
                                     </div>
-                                    <div class="p-3 flex-grow overflow-y-auto flex flex-col" id="terminal-output">
-                                        <!-- Terminal history -->
-                                    </div>
-                                    <div class="p-3 border-t border-slate-800 flex items-center bg-slate-900">
-                                        <span class="text-green-400 mr-2">user@system:~$</span>
-                                        <input type="text" id="terminal-input" class="bg-transparent flex-grow outline-none text-slate-200 font-mono" autocomplete="off" spellcheck="false" placeholder="Type command here...">
-                                    </div>
+                                    <span id="terminal-type-label" class="text-xs text-slate-400 uppercase tracking-wider">bash</span>
+                                </div>
+                                <div class="p-4 flex-grow overflow-y-auto" id="terminal-output">
+                                    <div class="text-green-400 mb-2">Connected to GCP workstation instance...</div>
+                                </div>
+                                <div class="p-4 bg-slate-900 border-t border-slate-800 flex items-center">
+                                    <span id="terminal-prompt" class="text-blue-400 mr-2 font-bold">$</span>
+                                    <input type="text" id="terminal-input" class="bg-transparent border-none outline-none text-white w-full font-mono placeholder-slate-600" placeholder="Enter command..." autocomplete="off">
                                 </div>
                             </div>
-                            
-                            <!-- Action Buttons -->
+
                             <div class="flex justify-between items-center mt-auto">
-                                <button onclick="checkAnswer()" class="bg-green-600 hover:bg-green-500 text-white font-medium py-2 px-6 rounded-lg transition-colors flex items-center shadow-lg shadow-green-600/30">
-                                    <i class="fa-solid fa-check-double mr-2"></i> Submit Assignment
+                                <button onclick="checkAnswer()" class="bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 px-6 rounded-lg transition-colors flex items-center shadow-lg shadow-blue-600/30">
+                                    <i class="fa-solid fa-microchip mr-2"></i> Execute Command
                                 </button>
                                 <span id="feedback-msg" class="text-sm font-medium opacity-0 transition-opacity duration-300"></span>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -203,434 +173,425 @@
     </main>
 
     <script>
-        // Data structure defining the entire course
         const courseData = [
             {
-                id: 'linux-basics',
-                title: "CS 101: Operating Systems & The Unix Environment",
-                icon: "fa-brands fa-linux",
-                description: "Master the shell. Learn kernel interactions, POSIX permissions, and IPC via standard streams.",
+                id: 'cloud-cli',
+                title: "Module 1: The Cloud CLI & Moving Data",
+                icon: "fa-solid fa-terminal",
+                description: "Navigate GCP workstations. Learn shell syntaxes, moving video data, and cost management.",
                 learnContent: `
-                    <h3 class="text-xl font-bold text-white mb-2">Lecture 1: The Unix Architecture</h3>
-                    <p class="mb-4">Welcome to CS 101. Before we can engineer sophisticated software, we must understand the environment in which it executes. Modern AI and backend systems predominantly reside on Unix-like operating systems (Linux).</p>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 1: Escaping the Desktop</h3>
+                    <p class="mb-4">Ecology data (e.g., AUV stereocamera feeds) is too massive for field laptops. We use Google Cloud Platform (GCP) Workstations. While GUIs exist, they are slow. The Command Line Interface (CLI) is mandatory for moving terabytes of data efficiently.</p>
                     
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">1. The Kernel and The Shell</h3>
-                    <p class="mb-4 text-sm">The OS consists of a <strong>Kernel</strong> (the core program managing CPU, memory, and physical devices) and a <strong>Shell</strong> (the interface bridging the user and the kernel). When you open a terminal, you are interacting with a shell (like Bash or Zsh) which interprets your commands and passes them as system calls to the Kernel.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Accessing the Workstation (SSH)</h4>
+                    <p class="mb-4 text-sm">To access a remote workstation securely over the internet, we use Secure Shell (SSH). It uses asymmetric cryptography (public/private keys) to authenticate you without passwords. <br><br><strong>Best Practice:</strong> When you are done analyzing data, <em>shut the workstation down</em>. Cloud GPUs cost money by the hour. Do not leave them running over the weekend.</p>
 
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2">2. Standard Streams & IPC</h3>
-                    <p class="mb-2 text-sm">Unix follows a philosophy: <em>Write programs that do one thing and do it well. Write programs to work together.</em> This is achieved via Inter-Process Communication (IPC), specifically standard streams. Every process has three default streams:</p>
-                    <ul class="list-disc pl-5 space-y-1 mb-4 text-sm">
-                        <li><code class="bg-slate-700 px-1 rounded text-yellow-200">stdin (0)</code> - Standard Input. Data flowing into the program.</li>
-                        <li><code class="bg-slate-700 px-1 rounded text-yellow-200">stdout (1)</code> - Standard Output. Redirection (<code class="bg-slate-700 px-1 rounded">></code>) captures this and writes it to a file.</li>
-                        <li><code class="bg-slate-700 px-1 rounded text-yellow-200">stderr (2)</code> - Standard Error. Used exclusively for diagnostic output.</li>
-                    </ul>
-                    <p class="mb-4 text-sm">Piping (<code class="bg-slate-700 px-1 rounded text-yellow-200">|</code>) connects the <code>stdout</code> of one process directly into the <code>stdin</code> of another, creating powerful data processing chains.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Google Cloud Storage (GCS)</h4>
+                    <p class="mb-4 text-sm">Do not use the browser console to upload 100GB of video; it will crash. Use the Google CLI. The command <code class="bg-slate-700 px-1 rounded text-blue-300">gcloud storage cp</code> allows you to copy data from local hard drives directly to cloud "Buckets" (e.g., moving raw data to a landing bucket, then to an FMC bucket after pre-processing).</p>
 
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2">3. POSIX File Permissions</h3>
-                    <p class="mb-2 text-sm">Security is paramount. The POSIX standard defines permissions via octal bitmasks. A file has Read (4), Write (2), and Execute (1) bits. These are assigned to three entities: the User (owner), the Group, and Others.</p>
-                    <ul class="list-disc pl-5 space-y-1 mb-4 text-sm">
-                        <li><code class="bg-slate-700 px-1 rounded text-green-300">chmod +x script.sh</code> - Symbolic notation to add execution rights.</li>
-                        <li><code class="bg-slate-700 px-1 rounded text-green-300">chmod 755 app.py</code> - Octal notation. This translates to binary <code class="bg-slate-700 px-1 rounded text-green-300">111 101 101</code>, granting full access (7) to the owner, and read/execute (5) to everyone else.</li>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Shell Syntax Quirks (The Line Continuation)</h4>
+                    <p class="mb-2 text-sm">When running long commands, we break them into multiple lines for readability. This trips up many biologists moving between operating systems:</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
+                        <li><strong>Linux/Mac (Bash):</strong> Uses a backslash (<code class="bg-slate-700 px-1 rounded">\\</code>) at the end of the line.</li>
+                        <li><strong>Windows (cmd.exe):</strong> Uses a caret (<code class="bg-slate-700 px-1 rounded">^</code>). If you paste a Linux script with backslashes into a Windows prompt, it will throw errors!</li>
                     </ul>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Bucket (gs://)</dt>
+                            <dd class="glossary-dd">A logical container in Google Cloud Storage for storing objects (like .mp4 videos or .json files). It is not a traditional hard drive, but an object store.</dd>
+                            <dt class="glossary-dt">GCP</dt>
+                            <dd class="glossary-dd">Google Cloud Platform. The infrastructure provider hosting our workstations and models.</dd>
+                        </dl>
+                    </div>
                 `,
-                exercisePrompt: "Homework 1: Demonstrate stream redirection by echoing 'Initialization complete' and overwriting 'system.log'. Then, utilize 'grep' to search for 'complete' in the log. Finally, modify the POSIX permissions of 'system.log' to grant execute rights to the user (+x).",
+                exercisePrompt: "<p><strong>Scenario:</strong> You are logged into your Linux GCP Workstation. You need to copy a batch of pre-processed BRUV video files from your local directory to the center's cloud bucket.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>gcloud storage cp</code> command.</li><li>Define the source as the current directory's video folder: <code>./videos/</code>.</li><li>Define the destination as the cloud bucket: <code>gs://fmc-bruv-bucket/</code>.</li><li>Include the <code>-r</code> flag (recursive) to copy the entire folder and its contents.</li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^echo\s+['"]Initialization complete['"]\s*>\s*system\.log$/, /^grep\s+['"]?complete['"]?\s+system\.log$/, /^chmod\s+(?:\+x|755)\s+system\.log$/],
-                successMsg: "Assignment graded: A. You have mastered basic system streams and permissions.",
-                hint: "Step 1: echo 'Initialization complete' > system.log | Step 2: grep 'complete' system.log | Step 3: chmod +x system.log"
+                expectedCommands: [/^gcloud\s+storage\s+cp\s+-r\s+\.\/videos\/?\s+gs:\/\/fmc-bruv-bucket\/?$/],
+                successMsg: "Transfer initiated! You successfully utilized the CLI to bypass the browser limitations.",
+                hint: "Type: gcloud storage cp -r ./videos/ gs://fmc-bruv-bucket/"
             },
             {
-                id: 'python-lingo',
-                title: "CS 102: Programming Paradigms (Python)",
-                icon: "fa-brands fa-python",
-                description: "Learn interpreted execution, dynamic typing, and memory management.",
+                id: 'data-curation',
+                title: "Module 2: Ecological Data Curation",
+                icon: "fa-solid fa-database",
+                description: "Format annotations, handle video telemetry, and manage train/test splits.",
                 learnContent: `
-                    <h3 class="text-xl font-bold text-white mb-2">Lecture 2: High-Level Interpreted Languages</h3>
-                    <p class="mb-4">In this module, we transition from system-level operations to application logic. Python is a dynamically typed, garbage-collected, interpreted language that serves as the lingua franca for data science and AI engineering.</p>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 2: The Garbage-In, Garbage-Out Principle</h3>
+                    <p class="mb-4">A model is only as good as its training data. Biologists often spend 80% of their time curating data before an AI model is ever touched. Formatting and stratification are critical.</p>
                     
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">1. Interpretation vs. Compilation</h3>
-                    <p class="mb-4 text-sm">Unlike C or C++ which compile down to machine code (binary) ahead of time, Python code is compiled into bytecode at runtime and evaluated by the Python Virtual Machine (PVM). This sacrifices raw execution speed for rapid development speed, memory safety, and platform independence.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. COCO vs. KW-COCO</h4>
+                    <p class="mb-4 text-sm">Most standard computer vision datasets use the <strong>COCO</strong> (Common Objects in Context) JSON format to map images to bounding box annotations. However, ecology relies heavily on video. COCO does not natively support video tracking. The Kitware-COCO (<strong>KW-COCO</strong>) extension solves this, allowing us to track individual fish across consecutive frames.</p>
 
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">2. Variables, Memory, and Pointers</h3>
-                    <p class="mb-4 text-sm">In Python, a variable is not a fixed bucket in memory; it is a reference (or pointer) to an object stored dynamically on the heap. When you write <code class="bg-slate-700 px-1 rounded text-green-300">model_name = "YOLO"</code>, the string object "YOLO" is instantiated in memory, and the reference <code class="bg-slate-700 px-1 rounded text-green-300">model_name</code> is bound to it. Memory cleanup is handled automatically by a Garbage Collector via reference counting.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Data Splits and Leakage</h4>
+                    <p class="mb-4 text-sm">We split data into Training, Validation, and Test sets. <strong>Data Leakage</strong> occurs when images from the same exact video clip end up in both the Train and Test sets. Because frames in a video are nearly identical, the model "memorizes" the background and falsely appears highly accurate. Stratify your splits by <em>site</em> or <em>camera deployment</em>, not just by random frames.</p>
 
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">3. Functions and Scope</h3>
-                    <p class="mb-4 text-sm">Functions in Python are "first-class citizens." This means they can be passed as arguments, assigned to variables, and returned by other functions. Variable scope resolves in the LEGB order: Local, Enclosing, Global, and finally Built-in.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. The Importance of "Empty" Frames</h4>
+                    <p class="mb-4 text-sm">Biologists often only label frames containing animals. <strong>Best Practice:</strong> Explicitly include "empty" background images (coral, sand, water column) in your training data. This drastically helps the model learn what <em>not</em> to flag, filtering out false positives later (like identifying a sea cucumber as a rockfish).</p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Stratification</dt>
+                            <dd class="glossary-dd">Ensuring that the Train, Val, and Test datasets contain a representative balance of metadata covariates (e.g., ensuring both deep and shallow sites are in the test set).</dd>
+                            <dt class="glossary-dt">Bounding Box</dt>
+                            <dd class="glossary-dd">A tight rectangle drawn around an object. Detection requires tight boxes. Classification can tolerate wider background margins.</dd>
+                        </dl>
+                    </div>
                 `,
-                exercisePrompt: "Homework 2: Instantiate a string object containing the value 'Hello World' and bind it to the variable 'greeting'. Then, invoke the built-in print() function, passing 'greeting' as the argument.",
+                exercisePrompt: "<p><strong>Scenario:</strong> You have a KW-COCO JSON file containing annotations, but you want to use a quick python command to check how many 'images' (frames) are registered inside it before uploading to GCP.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Open a python interpreter (just type <code>python</code> to simulate this step).</li><li>Import the built-in <code>json</code> library.</li><li>Load the file: <code>data = json.load(open('annotations.json'))</code></li><li>Print the length of the images array: <code>print(len(data['images']))</code></li></ol>",
                 terminalType: "python",
-                expectedCommands: [/^greeting\s*=\s*['"]Hello World['"]$/, /^print\(greeting\)$/],
-                successMsg: "Assignment graded: A. Proper object instantiation and function invocation demonstrated.",
-                hint: "Type: greeting = 'Hello World' [Enter] then print(greeting)"
+                expectedCommands: [/^import\s+json$/, /^data\s*=\s*json\.load\(open\(['"]annotations\.json['"]\)\)$/, /^print\(len\(data\['images'\]\)\)$/],
+                successMsg: "Data parsed! Verifying annotation counts locally saves hours of failed cloud runs.",
+                hint: "1. import json | 2. data = json.load(open('annotations.json')) | 3. print(len(data['images']))"
             },
             {
-                id: 'git-hub',
-                title: "CS 201: Distributed Version Control",
-                icon: "fa-brands fa-github",
-                description: "Understand Directed Acyclic Graphs (DAGs) and collaborative engineering.",
+                id: 'model-gov',
+                title: "Module 3: Model Governance & Reproducibility",
+                icon: "fa-solid fa-scale-balanced",
+                description: "Prepare AI pipelines to pass stock assessment peer review using Git and Model Cards.",
                 learnContent: `
-                    <h3 class="text-xl font-bold text-white mb-2">Lecture 3: Managing Complexity with Git</h3>
-                    <p class="mb-4">Software engineering is a collaborative discipline. Version Control Systems (VCS) are critical for managing source code mutations over time, resolving conflicts, and maintaining a historical ledger of changes.</p>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 3: Science Requires Reproducibility</h3>
+                    <p class="mb-4">If an AI model's output is going to be used in a federal stock assessment, it must pass rigorous peer review. "We ran a model" is not sufficient. We must establish governance over how models are tracked, named, and validated.</p>
                     
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">1. Centralized vs. Distributed VCS</h3>
-                    <p class="mb-4 text-sm">Legacy systems like SVN were centralized (requiring a continuous connection to a main server). Git is a Distributed VCS (DVCS). Every developer clones the entire repository locally, including its full cryptographic history, eliminating single points of failure.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Version Control (Git/GitHub)</h4>
+                    <p class="mb-4 text-sm">Never use filenames like <code>model_final_v2_real.pt</code>. We use <strong>Git</strong> to track changes to preprocessing code and model hyperparameter configurations. Git creates a cryptographic ledger (SHA-1 hashes) of every change, ensuring absolute reproducibility of the exact workflow used to generate a specific dataset.</p>
 
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">2. The Directed Acyclic Graph (DAG)</h3>
-                    <p class="mb-4 text-sm">Under the hood, Git models version history as a Directed Acyclic Graph. A 'commit' is a node in this graph representing a snapshot of your filesystem tree. Branches are not physical copies of files; they are merely lightweight, movable pointers to specific commit nodes.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Model Families vs. Model Weights</h4>
+                    <p class="mb-4 text-sm">A "Model Family" (e.g., YOLOv8, ResNet50) is the underlying mathematical architecture. The "Model Weights" are the specific numerical parameters learned after training that architecture on <em>your</em> specific dataset (e.g., NMFS rockfish survey). Standardize how you store these weights immediately next to their metadata.</p>
 
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">3. The Three Trees Architecture</h3>
-                    <p class="mb-2 text-sm">Git operates across three primary local state mechanisms:</p>
-                    <ul class="list-disc pl-5 space-y-1 mb-4 text-sm">
-                        <li><strong>Working Directory:</strong> Your current modified files on disk.</li>
-                        <li><strong>Staging Area (Index):</strong> A buffer where you format and prepare your next snapshot (using <code class="bg-slate-700 px-1 rounded text-orange-300">git add</code>).</li>
-                        <li><strong>Local Repository (HEAD):</strong> The finalized commits securely stored in the .git directory (using <code class="bg-slate-700 px-1 rounded text-orange-300">git commit</code>).</li>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Model Cards (metadata.md)</h4>
+                    <p class="mb-4 text-sm">Every trained model must have a Model Card (usually a <code>metadata.md</code> file). This document outlines the model's intended use, the exact data it was trained on, known biases (e.g., "performs poorly in turbid water"), and the evaluation metrics. Hugging Face pioneered this standard.</p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Provenance</dt>
+                            <dd class="glossary-dd">The documented history of the data—where it originated, how it was pre-processed (color correction), and which algorithm seed was used.</dd>
+                            <dt class="glossary-dt">ISO 8601</dt>
+                            <dd class="glossary-dd">The recommended naming convention for timestamps in model files (e.g., <code>YYYY-MM-DD</code>) to ensure standardized sorting across OS platforms.</dd>
+                        </dl>
+                    </div>
+                `,
+                exercisePrompt: "<p><strong>Scenario:</strong> You have finished training a model and created a <code>metadata.md</code> file containing the Model Card. You need to commit this to your lab's Git repository for peer-review tracking.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Add the model card to the staging index: <code>git add metadata.md</code></li><li>Commit the file to the graph with a descriptive message: <code>git commit -m 'Added NMFS optics model card'</code></li></ol>",
+                terminalType: "bash",
+                expectedCommands: [/^git\s+add\s+metadata\.md$/, /^git\s+commit\s+-m\s+['"]Added NMFS optics model card['"]$/],
+                successMsg: "Commit successful. Your model's provenance is now cryptographically secured.",
+                hint: "1. git add metadata.md | 2. git commit -m 'Added NMFS optics model card'"
+            },
+            {
+                id: 'eval-metrics',
+                title: "Module 4: Evaluation Metrics & Bias",
+                icon: "fa-solid fa-chart-line",
+                description: "Move beyond simple accuracy. Calculate F1, Precision, and taxa-specific bias.",
+                learnContent: `
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 4: When "Standard" Metrics Fail</h3>
+                    <p class="mb-4">In ecology, standard accuracy is misleading. If 99% of your video is empty water, a model that simply guesses "empty" every time is 99% accurate, but utterly useless for finding fish. We must use targeted metrics.</p>
+                    
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Precision, Recall, and the F1-Score</h4>
+                    <p class="mb-2 text-sm">We categorize predictions into True Positives (TP), False Positives (FP), and False Negatives (FN). </p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
+                        <li><strong>Precision:</strong> When the model flags a fish, how often is it actually a fish? $$\\frac{TP}{TP + FP}$$</li>
+                        <li><strong>Recall:</strong> Out of all the actual fish in the video, how many did the model find? $$\\frac{TP}{TP + FN}$$</li>
+                        <li><strong>F1-Score:</strong> The harmonic mean, balancing both metrics: $$2 \\times \\frac{\\text{Precision} \\times \\text{Recall}}{\\text{Precision} + \\text{Recall}}$$</li>
                     </ul>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. The Confusion Matrix & Taxa-Specific Bias</h4>
+                    <p class="mb-4 text-sm">Aggregate (macro) metrics hide flaws. Your model might have a 90% overall F1-score, but a 10% score on a specific endangered species. A <strong>Confusion Matrix</strong> plots true classes against predicted classes, allowing you to see exactly which taxa the model is confusing with one another. Always evaluate metrics per-category!</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Out-of-Sample Testing</h4>
+                    <p class="mb-4 text-sm">Does your model work in a new environment? Testing on data that is highly correlated to your training set (e.g., same lighting, same day) yields overconfident metrics. A true test set must contain "hard" out-of-sample data (e.g., a different reef system or different turbidity levels).</p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Micro vs Macro Metrics</dt>
+                            <dd class="glossary-dd">Macro averages calculate metrics for each class independently, treating all classes equally. Micro averages aggregate all TPs and FPs across all classes, which is heavily influenced by the most common species.</dd>
+                            <dt class="glossary-dt">Calibration</dt>
+                            <dd class="glossary-dd">Checking if a model's predicted confidence score matches reality (e.g., if it predicts a fish with 80% confidence, is it correct 80% of the time?).</dd>
+                        </dl>
+                    </div>
                 `,
-                exercisePrompt: "Homework 3: Initialize a local Git repository. Add the current directory's state to the staging index. Finally, commit the snapshot to the DAG with the message 'Init'.",
+                exercisePrompt: "<p><strong>Scenario:</strong> You are evaluating a model's performance on a specific, endangered taxa. The model found 40 true individuals (TP), missed 10 individuals (FN), and falsely flagged 10 rocks as the species (FP).</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Calculate Precision (TP / (TP + FP)). Enter the decimal value (e.g., 0.50).</li><li>Calculate Recall (TP / (TP + FN)). Enter the decimal value.</li></ol>",
+                terminalType: "math",
+                expectedCommands: [/^0\.80?$/, /^0\.80?$/],
+                successMsg: "Correct. Both Precision (40/50) and Recall (40/50) are 0.80. The F1 score would also be 0.80.",
+                hint: "1. 40 / (40 + 10) = 0.8 | 2. 40 / (40 + 10) = 0.8"
+            },
+            {
+                id: 'yolo',
+                title: "Module 5: YOLO & Fast Inference",
+                icon: "fa-solid fa-camera",
+                description: "Why we use YOLO. Balancing model size, inference speed, and hyperparameter tuning.",
+                learnContent: `
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 5: The Ultralytics Paradigm</h3>
+                    <p class="mb-4">For processing millions of frames of video, speed is paramount. While complex architectures exist, we frequently recommend YOLO (You Only Look Once) models due to their incredibly low barrier to entry and massive developer community.</p>
+                    
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Inference Speed vs. Quality</h4>
+                    <p class="mb-4 text-sm">YOLO models come in different parameter sizes (Nano, Small, Medium, Large, X-Large). A massive model might give you a 2% bump in accuracy, but cost 5x more in cloud computing fees and take days to run. <strong>Baseline Practice:</strong> Always train a "Small" model first to provide fast, cheap baseline evaluations before committing to expensive, larger models.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Hyperparameter Dials</h4>
+                    <p class="mb-4 text-sm">When running inference, you control several dials. The <code>conf</code> (Confidence Threshold) determines how sure the model must be to output a bounding box. Setting this too low creates thousands of False Positives. The <code>iou</code> (Intersection over Union) threshold helps filter out redundant, overlapping boxes around the same fish.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Zero-Shot and Multimodal</h4>
+                    <p class="mb-4 text-sm">The field is moving towards "Zero-Shot" foundational models. These are massive models trained on the entire internet that allow free-form inquiry (e.g., you can ask the model to segment a "whale" without ever explicitly training it on whale data). These are excellent for rapidly generating pseudo-labels to bootstrap your own specific models.</p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Epoch</dt>
+                            <dd class="glossary-dd">The length of time required for the algorithm to perform one complete pass over the entire training dataset.</dd>
+                            <dt class="glossary-dt">Ensembling</dt>
+                            <dd class="glossary-dd">Combining the predictions of multiple different models. If one model is prone to False Positives, and another to False Negatives, ensembling them balances the weaknesses.</dd>
+                        </dl>
+                    </div>
+                `,
+                exercisePrompt: "<p><strong>Scenario:</strong> You need to train a baseline YOLO model on your new benthic survey data to test hyperparameter feasibility.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>yolo</code> command line interface for the <code>train</code> task.</li><li>Set the data file to <code>benthic.yaml</code>.</li><li>Use the nano model weights: <code>model=yolov8n.pt</code>.</li><li>Run a short test of <code>epochs=10</code>. <br><em>(Enter as one continuous command)</em></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^git\s+init$/, /^git\s+add\s+\.$/, /^git\s+commit\s+-m\s+['"]Init['"]$/],
-                successMsg: "Assignment graded: A. Graph initialized and snapshot successfully appended.",
-                hint: "Run 'git init', then 'git add .', then 'git commit -m \"Init\"'"
+                expectedCommands: [/^yolo\s+train\s+data=benthic\.yaml\s+model=yolov8n\.pt\s+epochs=10$/],
+                successMsg: "Baseline training loop initialized. Evaluating small models saves compute budget.",
+                hint: "Type: yolo train data=benthic.yaml model=yolov8n.pt epochs=10"
             },
             {
-                id: 'hugging-face',
-                title: "AI 301: Applied Machine Learning Architectures",
-                icon: "fa-regular fa-face-smile",
-                description: "Explore Transformers, tokenization, and centralized model hubs.",
+                id: 'airflow-dags',
+                title: "Module 6: Airflow DAGs & Pipelines",
+                icon: "fa-solid fa-network-wired",
+                description: "Orchestrate long-running inference jobs. Trigger Cloud Composer pipelines using JSON payloads.",
                 learnContent: `
-                    <h3 class="text-xl font-bold text-white mb-2">Lecture 4: Large Language Models & Repositories</h3>
-                    <p class="mb-4">Training Deep Neural Networks from scratch is computationally prohibitive. Modern applied AI relies almost entirely on transfer learning and utilizing pre-trained, massive architectures.</p>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 6: Heavyweight Orchestration</h3>
+                    <p class="mb-4">Running a model on a 5-minute video is easy. Running a model on 6 months of continuous acoustic data requires robust pipeline orchestration. We use Apache Airflow (hosted via GCP Cloud Composer) to manage these jobs.</p>
                     
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">1. The Transformer Architecture</h3>
-                    <p class="mb-4 text-sm">Introduced in the seminal 2017 paper 'Attention Is All You Need', the Transformer replaced Recurrent Neural Networks (RNNs) for sequential data. Its core innovation is the <em>Self-Attention Mechanism</em>, allowing the model to mathematically weigh the importance of all words in a sequence simultaneously, rather than processing them linearly. This unlocked massive parallel computation.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. What is a DAG?</h4>
+                    <p class="mb-4 text-sm">A DAG (Directed Acyclic Graph) is a collection of all the tasks you want to run, organized to reflect their relationships and dependencies. E.g., Task A (Fetch Data) -> Task B (Run VIAME Model) -> Task C (Format Output). "Directed" means there is a strict order. "Acyclic" means it cannot loop infinitely.</p>
 
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">2. Tokenization and Embeddings</h3>
-                    <p class="mb-4 text-sm">Models do not read text. They perform matrix multiplication. <strong>Tokenization</strong> splits text into sub-word integers. These integers are mapped to dense, high-dimensional vectors called <strong>embeddings</strong>, which capture semantic meaning spatially (e.g., the vector for 'King' is mathematically close to 'Queen').</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Long-Running vs. Cloud Run</h4>
+                    <p class="mb-4 text-sm">Standard GCP "Cloud Run" jobs have strict time limits (usually 1 hour). If your inference takes longer, the job is killed, and you lose your data. For heavy ecological analyses, we route jobs to <strong>Batch/Long-Running pipelines</strong> (which can run for up to 7 days). It is up to the user to chunk their data into manageable JSON inputs.</p>
 
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">3. The Model Hub Ecosystem</h3>
-                    <p class="mb-4 text-sm">Hugging Face serves as the central repository (hub) for pre-trained weights (the learned parameters) and configurations. We use the <code class="bg-slate-700 px-1 rounded text-green-300">transformers</code> library to abstract the complex PyTorch/TensorFlow math into accessible, high-level Python pipelines.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Triggering Headless Pipelines</h4>
+                    <p class="mb-4 text-sm">You do not need to click through the Airflow GUI. You can trigger a DAG directly from your workstation CLI. You define your input bucket, output bucket, and model type in a <code>config.json</code> file, and pass it to the <code>gcloud composer</code> command to start the distributed computation.</p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Payload (JSON)</dt>
+                            <dd class="glossary-dd">The configuration data sent to the pipeline to tell it what to do. Example: <code>{"input_file": "gs://bucket/data", "model": "andy-6d"}</code>.</dd>
+                            <dt class="glossary-dt">Headless</dt>
+                            <dd class="glossary-dd">Executing a process via code/CLI without interacting with a Graphical User Interface.</dd>
+                        </dl>
+                    </div>
                 `,
-                exercisePrompt: "Homework 4: Write the Python statements to import the 'pipeline' constructor from the 'transformers' library. Then, instantiate a text classification pipeline bound to the variable 'nlp_pipe'.",
-                terminalType: "python",
-                expectedCommands: [/^from\s+transformers\s+import\s+pipeline$/, /^nlp_pipe\s*=\s*pipeline\(['"]text-classification['"]\)$/],
-                successMsg: "Assignment graded: A. Transformer pipeline successfully instantiated in memory.",
-                hint: "Type: from transformers import pipeline [Enter], then: nlp_pipe = pipeline('text-classification')"
-            },
-            {
-                id: 'ultralytics',
-                title: "CV 302: Computer Vision & Convolutional Networks",
-                icon: "fa-solid fa-eye",
-                description: "Study Convolutional architectures and real-time object detection paradigms.",
-                learnContent: `
-                    <h3 class="text-xl font-bold text-white mb-2">Lecture 5: Spatial Data and Object Detection</h3>
-                    <p class="mb-4">While Transformers dominate natural language processing, Computer Vision (CV) heavily utilizes Convolutional Neural Networks (CNNs) to extract hierarchical spatial features from pixel matrices.</p>
-                    
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">1. Image Classification vs. Object Detection</h3>
-                    <p class="mb-4 text-sm">Classification assigns a single label to an entire image. Object Detection locates multiple entities within the image, returning categorical probabilities alongside a Bounding Box (X, Y, Width, Height coordinates) for each entity.</p>
-
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">2. The YOLO Paradigm</h3>
-                    <p class="mb-4 text-sm">YOLO (You Only Look Once) is an architecture that frames object detection as a single regression problem. Instead of multi-stage region proposal networks (like R-CNN), YOLO passes the image through the network exactly once, predicting bounding boxes and class probabilities simultaneously across a grid. This results in sub-millisecond, real-time inference speeds.</p>
-
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">3. Training Hyperparameters</h3>
-                    <p class="mb-4 text-sm">Training requires optimizing a Loss Function using Gradient Descent. You must define an <em>Epoch</em> (one complete forward and backward pass through the entire training dataset). Ultralytics provides a robust CLI tool that abstracts the complex PyTorch training loop.</p>
-                `,
-                exercisePrompt: "Homework 5: Utilize the yolo command-line interface to execute a training loop. Set the data configuration to 'coco.yaml', use the model weights 'yolov8n.pt', and set the hyperparameter for epochs to 5.",
+                exercisePrompt: "<p><strong>Scenario:</strong> You have prepared your <code>config.json</code> file. You need to trigger the long-running optics pipeline headless from your terminal.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Run: <code>gcloud composer environments run composer-env1</code></li><li>Specify the command: <code>dags trigger -- nmfs-optics-pipeline-longrunning-dag</code></li><li>Pass the config file: <code>--conf \"$(cat config.json)\"</code> <br><em>(Combine all 3 parts into one continuous command separated by spaces)</em></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^yolo\s+train\s+data=coco\.yaml\s+model=yolov8n\.pt\s+epochs=5$/],
-                successMsg: "Assignment graded: A. Neural network training loop successfully initialized.",
-                hint: "Type: yolo train data=coco.yaml model=yolov8n.pt epochs=5"
+                expectedCommands: [/^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+trigger\s+--\s+nmfs-optics-pipeline-longrunning-dag\s+--conf\s+['"]?\$\(cat\s+config\.json\)['"]?$/],
+                successMsg: "DAG triggered successfully. The pipeline will parse the JSON and distribute the workload.",
+                hint: "Type: gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\""
             },
             {
-                id: 'wrappers-web',
-                title: "CS 401: API Architecture & Asynchronous I/O",
-                icon: "fa-solid fa-code",
-                description: "Implement RESTful principles and manage the JavaScript event loop.",
+                id: 'docker-iam',
+                title: "Module 7: Docker & IAM Permissions",
+                icon: "fa-brands fa-docker",
+                description: "Solve dependency hell. Understand containerization and navigate GCP permission walls.",
                 learnContent: `
-                    <h3 class="text-xl font-bold text-white mb-2">Lecture 6: Distributed Applications & The Client-Server Model</h3>
-                    <p class="mb-4">AI models hold little value in isolation. They must be exposed via Application Programming Interfaces (APIs) and integrated into scalable, user-facing client applications.</p>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 7: Containers and Security Walls</h3>
+                    <p class="mb-4">A common nightmare: A model works perfectly on a developer's laptop, but crashes when deployed to the cloud because a specific Python library is missing. We solve this with Docker.</p>
                     
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">1. RESTful Architectural Style</h3>
-                    <p class="mb-4 text-sm">Representational State Transfer (REST) dictates how web services communicate over the HTTP protocol. A client sends a Request (comprising a Verb like GET or POST, a URI endpoint, and a JSON Body) to a server. The server processes it and returns a Response (with a status code like 200 OK or 500 Internal Server Error).</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. What even is Docker?</h4>
+                    <p class="mb-4 text-sm">Docker is a tool that packages an application and all its dependencies (Python version, system libraries like CUDA, exact pip packages) into an immutable <strong>Image</strong>. When run, it becomes a <strong>Container</strong>. It runs consistently regardless of the host machine. If you struggle with <code>pip install</code> errors in legacy tools (like VIAME), Dockerizing the workflow circumvents the host OS limitations entirely.</p>
 
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">2. Asynchronous JavaScript and The Event Loop</h3>
-                    <p class="mb-4 text-sm">JavaScript operates on a single execution thread. To prevent network latency from blocking the user interface rendering, JS utilizes an Event Loop and Promises. When you initiate a <code class="bg-slate-700 px-1 rounded text-yellow-300">fetch()</code> call, the browser delegates the network I/O, allowing the main thread to continue executing other code until the Promise eventually resolves.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Identity and Access Management (IAM)</h4>
+                    <p class="mb-4 text-sm">On GCP, you will run into "Permission Denied" errors. This is intentional security. GCP uses IAM Roles. For example, to view the deep python stack traces when a model crashes, your account must explicitly be granted <code>roles/logging.viewer</code>. To push a Docker image to the registry, you need <code>roles/artifactregistry.writer</code>.</p>
 
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">3. The 'Wrapper' Concept</h3>
-                    <p class="mb-4 text-sm">An 'AI Wrapper' is a full-stack application where the backend acts as an authenticated proxy. It receives client requests, mutating the data, forwarding it to an AI inference endpoint (like OpenAI or your Hugging Face model), and returning the formatted output safely to the frontend.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. The Orchestration Layer</h4>
+                    <p class="mb-4 text-sm">In our DAG pipelines, the Docker container handles the orchestration (<code>app.py</code>), pulling data from buckets, running the heavy inference (<code>model.py</code>), and pushing the formatted outputs back to the cloud. You only need to swap out the <code>model.py</code> script to bring your own custom VIAME or YOLO models into the pipeline.</p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Dockerfile</dt>
+                            <dd class="glossary-dd">A text document containing all the commands a user could call on the command line to assemble an image (e.g., <code>FROM ubuntu:20.04</code>, <code>RUN pip install ultralytics</code>).</dd>
+                            <dt class="glossary-dt">Artifact Registry</dt>
+                            <dd class="glossary-dd">The GCP service where we upload and store our compiled Docker images so that Airflow/Cloud Run can pull and execute them.</dd>
+                        </dl>
+                    </div>
                 `,
-                exercisePrompt: "Homework 6: Write asynchronous JavaScript to execute a network request. Use the fetch() API to send a 'POST' request to the '/api/inference' endpoint.",
-                terminalType: "javascript",
-                expectedCommands: [/^fetch\(['"]\/api\/inference['"]\s*,\s*\{\s*method:\s*['"]POST['"]\s*\}\)$/],
-                successMsg: "Assignment graded: A. Asynchronous I/O request configured properly.",
-                hint: "Type: fetch('/api/inference', { method: 'POST' })"
-            },
-            {
-                id: 'cloud-infra',
-                title: "CS 402: Cloud Infrastructure & Containerization",
-                icon: "fa-solid fa-cloud",
-                description: "Provision compute resources and study deployment pipelines.",
-                learnContent: `
-                    <h3 class="text-xl font-bold text-white mb-2">Lecture 7: Deployment and Compute Provisioning</h3>
-                    <p class="mb-4">For production workloads—particularly those requiring massive Graphics Processing Units (GPUs) for matrix multiplications—we must provision robust cloud infrastructure rather than relying on local hardware.</p>
-                    
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">1. Virtualization vs. Containerization</h3>
-                    <p class="mb-4 text-sm">A Virtual Machine (VM) emulates hardware and runs a full Guest OS, which is incredibly resource-heavy. <strong>Containerization</strong> (e.g., Docker) isolates processes at the OS level instead. Containers share the Host OS kernel but maintain isolated file systems, libraries, and network interfaces, solving the 'it works on my machine' paradox with minimal overhead.</p>
-
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">2. Asymmetric Cryptography (SSH)</h3>
-                    <p class="mb-4 text-sm">To interact with a remote cloud VM, we utilize the Secure Shell (SSH) protocol. It relies on a mathematical public/private key pair. Your local machine holds the private key; the server holds the public key. This allows cryptographic authentication without transmitting plain-text passwords over the public internet.</p>
-
-                    <h3 class="text-lg font-semibold text-blue-300 mb-2 mt-4">3. Infrastructure as a Service (IaaS)</h3>
-                    <p class="mb-4 text-sm">Providers like AWS (EC2) or GCP (Compute Engine) allow developers to lease raw compute power dynamically. Deploying generally involves SSHing into the instance, pulling your Git repository, and orchestrating your Docker containers to expose the application to the web.</p>
-                `,
-                exercisePrompt: "Homework 7: Authenticate into a remote Linux server via Secure Shell. The target user is 'ubuntu' and the IPv4 address is '203.0.113.50'.",
+                exercisePrompt: "<p><strong>Scenario:</strong> You have written a <code>Dockerfile</code> that contains your custom fish-detection model and all its finicky python dependencies. You need to build it into an image.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>docker build</code> command.</li><li>Tag the image using the <code>-t</code> flag with the name: <code>nmfs-custom-detector</code>.</li><li>Specify the build context as the current directory using a period: <code>.</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^ssh\s+ubuntu@203\.0\.113\.50$/],
-                successMsg: "Assignment graded: A. Cryptographic handshake initiated. You are connected.",
-                hint: "Type: ssh ubuntu@203.0.113.50"
+                expectedCommands: [/^docker\s+build\s+-t\s+nmfs-custom-detector\s+\.$/],
+                successMsg: "Image built successfully! This container will run identically on your workstation and in the cloud.",
+                hint: "Type: docker build -t nmfs-custom-detector ."
             }
         ];
 
         let userProgress = JSON.parse(localStorage.getItem('csCourseProgress')) || {};
-        let currentModuleIndex = null;
-        let commandStepIndex = 0; // Tracks which command the user needs to enter next in the exercise
+        let currentModuleIndex = -1;
+        let expectedCommandIndex = 0;
 
-        function init() {
-            renderModulesList();
-            updateGlobalProgress();
+        function renderSidebar() {
+            const list = document.getElementById('module-list');
+            list.innerHTML = '';
             
-            // Handle terminal input on Enter key
-            document.getElementById('terminal-input').addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    handleTerminalInput(this.value);
-                    this.value = ''; // clear input
-                }
-            });
-        }
+            let completedCount = 0;
 
-        function renderModulesList() {
-            const listContainer = document.getElementById('modules-list');
-            listContainer.innerHTML = '';
-
-            courseData.forEach((module, index) => {
-                const isCompleted = userProgress[module.id];
+            courseData.forEach((mod, index) => {
+                if (userProgress[mod.id]) completedCount++;
                 
-                const card = document.createElement('div');
-                card.className = `module-card rounded-xl p-4 cursor-pointer relative overflow-hidden flex items-center ${currentModuleIndex === index ? 'border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.2)]' : ''}`;
-                card.onclick = () => selectModule(index);
-
-                // Status indicator line
-                const statusColor = isCompleted ? 'bg-green-500' : 'bg-slate-600';
+                const isCompleted = userProgress[mod.id];
+                const isActive = currentModuleIndex === index;
                 
-                card.innerHTML = `
-                    <div class="absolute left-0 top-0 bottom-0 w-1.5 ${statusColor} status-badge" id="badge-${module.id}"></div>
-                    <div class="ml-4 flex-grow flex items-center justify-between">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700">
-                                <i class="${module.icon} ${isCompleted ? 'text-green-400' : 'text-slate-400'} text-lg"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-slate-200 text-sm md:text-base">${module.title}</h3>
-                                <p class="text-xs text-slate-500 hidden md:block mt-1 truncate max-w-[200px]">${module.description}</p>
-                            </div>
-                        </div>
-                        <div class="ml-2">
-                            ${isCompleted ? '<i class="fa-solid fa-circle-check text-green-500 text-xl"></i>' : '<i class="fa-regular fa-circle text-slate-600 text-xl"></i>'}
-                        </div>
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl transition-all duration-300 border flex items-start group ${
+                    isActive 
+                    ? 'bg-blue-600/20 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.15)]' 
+                    : 'bg-slate-800 border-slate-700 hover:border-slate-500 hover:bg-slate-750'
+                }`;
+                btn.onclick = () => selectModule(index);
+
+                btn.innerHTML = `
+                    <div class="mt-1 flex-shrink-0 w-8 flex justify-center">
+                        <i class="${mod.icon} ${isActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-slate-300'} text-xl transition-colors"></i>
+                    </div>
+                    <div class="ml-3 flex-grow">
+                        <h3 class="font-semibold text-sm ${isActive ? 'text-blue-300' : 'text-slate-200'}">${mod.title}</h3>
+                        <p class="text-xs text-slate-400 mt-1 line-clamp-2">${mod.description}</p>
+                    </div>
+                    <div class="ml-2 flex-shrink-0">
+                        ${isCompleted ? '<i class="fa-solid fa-circle-check text-green-500"></i>' : '<i class="fa-regular fa-circle text-slate-600"></i>'}
                     </div>
                 `;
-                listContainer.appendChild(card);
+                list.appendChild(btn);
             });
+
+            // Update Progress Bar
+            const percent = Math.round((completedCount / courseData.length) * 100);
+            document.getElementById('progress-text').innerText = `${percent}%`;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
         }
 
         function selectModule(index) {
             currentModuleIndex = index;
-            const module = courseData[index];
-            
-            // Hide welcome, show content
+            const mod = courseData[index];
+            expectedCommandIndex = 0; // Reset for multi-step checks
+
             document.getElementById('welcome-placeholder').classList.add('hidden');
-            document.getElementById('module-detail').classList.remove('hidden');
+            document.getElementById('active-module-content').classList.remove('hidden');
+            document.getElementById('active-module-content').classList.add('flex');
+
+            document.getElementById('content-learn').innerHTML = mod.learnContent;
             
-            // Populate Header
-            document.getElementById('detail-title').innerText = module.title;
-            document.getElementById('detail-desc').innerText = module.description;
-            document.getElementById('detail-icon').innerHTML = `<i class="${module.icon}"></i>`;
+            // Re-render LaTeX math if MathJax is loaded
+            if (window.MathJax) {
+                MathJax.typesetPromise([document.getElementById('content-learn')]).catch((err) => console.log('MathJax error: ', err));
+            }
+
+            document.getElementById('exercise-prompt').innerHTML = mod.exercisePrompt;
+            document.getElementById('terminal-type-label').innerText = mod.terminalType;
             
-            // Populate Content
-            document.getElementById('content-learn').innerHTML = module.learnContent;
-            document.getElementById('exercise-prompt').innerText = module.exercisePrompt;
-            
-            // Reset Terminal State
-            resetTerminal(module.terminalType);
-            commandStepIndex = 0;
-            
-            // Reset Feedback
-            const feedback = document.getElementById('feedback-msg');
-            feedback.innerText = '';
-            feedback.className = 'text-sm font-medium opacity-0 transition-opacity duration-300';
-            
-            // Re-render list to show active state
-            renderModulesList();
-            
-            // Always default to learn tab on new module
+            resetTerminal();
+            renderSidebar();
             switchTab('learn');
-            
-            // Scroll to top of content
-            document.getElementById('content-learn').scrollTop = 0;
         }
 
-        function switchTab(tabName) {
-            const tabLearn = document.getElementById('tab-learn');
-            const tabPractice = document.getElementById('tab-practice');
-            const contentLearn = document.getElementById('content-learn');
-            const contentPractice = document.getElementById('content-practice');
+        function switchTab(tabId) {
+            const learnBtn = document.getElementById('tab-learn');
+            const practiceBtn = document.getElementById('tab-practice');
+            const learnContent = document.getElementById('content-learn');
+            const practiceContent = document.getElementById('content-practice');
 
-            if (tabName === 'learn') {
-                tabLearn.classList.replace('border-transparent', 'border-blue-500');
-                tabLearn.classList.replace('text-slate-400', 'text-blue-400');
-                tabPractice.classList.replace('border-blue-500', 'border-transparent');
-                tabPractice.classList.replace('text-blue-400', 'text-slate-400');
-                
-                contentLearn.classList.remove('hidden');
-                contentPractice.classList.add('hidden');
-                contentPractice.classList.remove('flex'); // necessary because practice needs flex layout
+            if (tabId === 'learn') {
+                learnBtn.className = "pb-3 text-sm font-medium border-b-2 border-blue-500 text-blue-400 transition-colors";
+                practiceBtn.className = "pb-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors";
+                learnContent.classList.remove('hidden');
+                practiceContent.classList.remove('flex');
+                practiceContent.classList.add('hidden');
             } else {
-                tabPractice.classList.replace('border-transparent', 'border-blue-500');
-                tabPractice.classList.replace('text-slate-400', 'text-blue-400');
-                tabLearn.classList.replace('border-blue-500', 'border-transparent');
-                tabLearn.classList.replace('text-blue-400', 'text-slate-400');
-                
-                contentPractice.classList.remove('hidden');
-                contentPractice.classList.add('flex');
-                contentLearn.classList.add('hidden');
-                
-                // Focus input when switching to practice
-                setTimeout(() => document.getElementById('terminal-input').focus(), 50);
+                practiceBtn.className = "pb-3 text-sm font-medium border-b-2 border-blue-500 text-blue-400 transition-colors";
+                learnBtn.className = "pb-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors";
+                practiceContent.classList.remove('hidden');
+                practiceContent.classList.add('flex');
+                learnContent.classList.add('hidden');
+                document.getElementById('terminal-input').focus();
             }
         }
 
-        function resetTerminal(type) {
-            const output = document.getElementById('terminal-output');
-            output.innerHTML = ''; // clear history
+        function resetTerminal() {
+            const type = courseData[currentModuleIndex].terminalType;
+            let promptChar = "$";
+            if (type === 'python') promptChar = ">>>";
+            if (type === 'javascript') promptChar = ">";
+            if (type === 'math') promptChar = "=";
+            document.getElementById('terminal-prompt').innerText = promptChar;
+            document.getElementById('terminal-input').value = "";
+            document.getElementById('terminal-output').innerHTML = '<div class="text-slate-500 mb-2">// Session initialized. Waiting for input...</div>';
             
-            const title = document.getElementById('terminal-title');
-            const inputContainer = document.getElementById('terminal-input').previousElementSibling;
-            
-            if (type === 'bash') {
-                title.innerText = 'bash - user@cloud-vm';
-                inputContainer.innerText = 'user@system:~$';
-                inputContainer.className = 'text-green-400 mr-2 whitespace-nowrap';
-            } else if (type === 'python') {
-                title.innerText = 'python3 - Interactive Shell';
-                inputContainer.innerText = '>>>';
-                inputContainer.className = 'text-blue-400 mr-2 font-bold whitespace-nowrap';
-                
-                // Add python intro text
-                addTerminalOutput("Python 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0] on linux", 'text-slate-400');
-                addTerminalOutput("Type \"help\", \"copyright\", \"credits\" or \"license\" for more information.", 'text-slate-400');
-            } else if (type === 'javascript') {
-                title.innerText = 'node - REPL';
-                inputContainer.innerText = '>';
-                inputContainer.className = 'text-yellow-400 mr-2 font-bold whitespace-nowrap';
-                addTerminalOutput("Welcome to Node.js v18.17.0.", 'text-slate-400');
-            }
+            const msg = document.getElementById('feedback-msg');
+            msg.style.opacity = '0';
         }
 
-        function addTerminalOutput(text, colorClass = 'text-slate-300') {
+        function appendToTerminal(text, isError = false) {
             const output = document.getElementById('terminal-output');
-            const line = document.createElement('div');
-            line.className = `${colorClass} break-all`;
-            line.innerText = text;
-            output.appendChild(line);
-            output.scrollTop = output.scrollHeight; // auto scroll
-        }
-
-        function handleTerminalInput(val) {
-            const cmd = val.trim();
-            if (!cmd) return;
-
-            const module = courseData[currentModuleIndex];
-            const promptPrefix = document.getElementById('terminal-input').previousElementSibling.innerText;
+            const promptChar = document.getElementById('terminal-prompt').innerText;
+            const div = document.createElement('div');
             
-            // Echo command
-            addTerminalOutput(`${promptPrefix} ${cmd}`, 'text-white');
-
-            // Evaluate against expectations
-            if (commandStepIndex < module.expectedCommands.length) {
-                const regex = module.expectedCommands[commandStepIndex];
-                if (regex.test(cmd)) {
-                    // Correct command
-                    addTerminalOutput("✔ Success", 'text-green-400');
-                    commandStepIndex++;
-                    
-                    // If all commands done, auto-check
-                    if (commandStepIndex >= module.expectedCommands.length) {
-                        checkAnswer();
-                    }
-                } else {
-                    // Incorrect command
-                    addTerminalOutput("Output: command not recognized or unexpected arguments.", 'text-red-400');
-                    addTerminalOutput(`Hint: ${module.hint}`, 'text-slate-500 italic');
-                }
+            if (text.startsWith(promptChar)) {
+                div.className = "text-slate-300"; // User command echo
             } else {
-                 addTerminalOutput("Exercise already completed. Click 'Verify Completion'.", 'text-yellow-400');
+                div.className = isError ? "text-red-400 mt-1" : "text-green-400 mt-1";
             }
+            
+            div.innerText = text;
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
         }
 
         function checkAnswer() {
-            const module = courseData[currentModuleIndex];
-            const feedback = document.getElementById('feedback-msg');
+            if (currentModuleIndex === -1) return;
             
-            if (commandStepIndex >= module.expectedCommands.length) {
-                // Success
-                feedback.innerText = module.successMsg;
-                feedback.className = 'text-sm font-medium text-green-400 opacity-100 transition-opacity duration-300';
+            const mod = courseData[currentModuleIndex];
+            const inputField = document.getElementById('terminal-input');
+            const input = inputField.value.trim();
+            const msg = document.getElementById('feedback-msg');
+            const promptChar = document.getElementById('terminal-prompt').innerText;
+            
+            if (!input) return;
+
+            // Echo command to output
+            appendToTerminal(`${promptChar} ${input}`);
+            inputField.value = "";
+
+            const currentExpectedRegex = mod.expectedCommands[expectedCommandIndex];
+
+            if (currentExpectedRegex.test(input)) {
+                expectedCommandIndex++;
                 
-                // Mark complete
-                if (!userProgress[module.id]) {
-                    userProgress[module.id] = true;
-                    saveProgress();
-                    updateGlobalProgress();
+                if (expectedCommandIndex < mod.expectedCommands.length) {
+                    appendToTerminal(`[System] Step ${expectedCommandIndex} complete. Awaiting next command...`);
+                } else {
+                    // All steps completed
+                    appendToTerminal(`[System] Assignment checks passed.`);
+                    msg.innerText = mod.successMsg;
+                    msg.className = "text-sm font-medium text-green-400 opacity-100 transition-opacity duration-300";
                     
-                    // Add animation to the card
-                    const cards = document.querySelectorAll('.module-card');
-                    if(cards[currentModuleIndex]) {
-                         cards[currentModuleIndex].classList.add('celebrate-anim');
-                         setTimeout(() => cards[currentModuleIndex].classList.remove('celebrate-anim'), 500);
-                    }
-                    
-                    renderModulesList(); // update checkmarks
+                    userProgress[mod.id] = true;
+                    localStorage.setItem('csCourseProgress', JSON.stringify(userProgress));
+                    renderSidebar();
                 }
             } else {
-                // Not done yet
-                feedback.innerText = `Incomplete. You have finished ${commandStepIndex}/${module.expectedCommands.length} steps. Try typing commands in the terminal.`;
-                feedback.className = 'text-sm font-medium text-yellow-400 opacity-100 transition-opacity duration-300';
+                appendToTerminal(`Error: Invalid command or syntax. Expected task step ${expectedCommandIndex + 1} not met.`, true);
+                msg.innerText = `Hint: ${mod.hint}`;
+                msg.className = "text-sm font-medium text-yellow-400 opacity-100 transition-opacity duration-300";
             }
         }
 
-        function saveProgress() {
-            localStorage.setItem('csCourseProgress', JSON.stringify(userProgress));
-        }
-
-        function updateGlobalProgress() {
-            const total = courseData.length;
-            const completed = Object.keys(userProgress).length;
-            const percentage = Math.round((completed / total) * 100);
-            
-            document.getElementById('progress-text').innerText = `${percentage}%`;
-            document.getElementById('progress-bar').style.width = `${percentage}%`;
-        }
-
-        function resetProgress() {
-            if(confirm("Are you sure you want to reset all your progress?")) {
-                userProgress = {};
-                saveProgress();
-                updateGlobalProgress();
-                renderModulesList();
-                if(currentModuleIndex !== null) selectModule(currentModuleIndex);
+        // Handle Enter key in terminal
+        document.getElementById('terminal-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
             }
-        }
+        });
 
-        window.onload = init;
+        // Init
+        renderSidebar();
 
     </script>
 </body>
