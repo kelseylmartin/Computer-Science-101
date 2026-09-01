@@ -40,6 +40,7 @@
             }
         }
     </script>
+    
     <style>
         body { background-color: #0f172a; color: #f8fafc; }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -117,7 +118,7 @@
                     <div id="active-module-content" class="hidden flex-col h-full p-6">
                         
                         <!-- Tabs -->
-                        <div class="border-b border-slate-700 mb-6 flex space-x-6">
+                        <div class="border-b border-slate-700 mb-6 flex space-x-6 shrink-0">
                             <button onclick="switchTab('learn')" id="tab-learn" class="pb-3 text-sm font-medium border-b-2 border-blue-500 text-blue-400 transition-colors">
                                 <i class="fa-solid fa-book-open mr-2"></i>Lecture Notes
                             </button>
@@ -133,16 +134,16 @@
 
                         <!-- Homework Tab -->
                         <div id="content-practice" class="flex-grow hidden flex-col">
-                            <div class="bg-slate-900 rounded-lg p-5 mb-4 border border-slate-700">
+                            <div class="bg-slate-900 rounded-lg p-5 mb-4 border border-slate-700 shrink-0">
                                 <h3 class="font-semibold text-white mb-2 flex items-center text-lg">
                                     <i class="fa-solid fa-clipboard-question mr-2 text-teal-400"></i> Field Scenario
                                 </h3>
                                 <div id="exercise-prompt" class="text-sm text-slate-300 leading-relaxed"></div>
                             </div>
                             
-                            <!-- Terminal Emulator -->
-                            <div class="bg-black rounded-lg border border-slate-700 font-mono text-sm shadow-inner flex-grow flex flex-col mb-4 overflow-hidden relative">
-                                <div class="bg-slate-800 px-4 py-2 flex items-center justify-between border-b border-slate-700">
+                            <!-- Terminal Emulator (Now with fixed height and shrink-0 headers/footers) -->
+                            <div class="bg-black rounded-lg border border-slate-700 font-mono text-sm shadow-inner flex-grow flex flex-col mb-4 overflow-hidden relative h-64">
+                                <div class="bg-slate-800 px-4 py-2 flex items-center justify-between border-b border-slate-700 shrink-0">
                                     <div class="flex space-x-2">
                                         <div class="w-3 h-3 rounded-full bg-red-500"></div>
                                         <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -153,13 +154,13 @@
                                 <div class="p-4 flex-grow overflow-y-auto" id="terminal-output">
                                     <div class="text-green-400 mb-2">Connected to GCP workstation instance...</div>
                                 </div>
-                                <div class="p-4 bg-slate-900 border-t border-slate-800 flex items-center">
+                                <div class="p-4 bg-slate-900 border-t border-slate-800 flex items-center shrink-0">
                                     <span id="terminal-prompt" class="text-blue-400 mr-2 font-bold">$</span>
-                                    <input type="text" id="terminal-input" class="bg-transparent border-none outline-none text-white w-full font-mono placeholder-slate-600" placeholder="Enter command..." autocomplete="off">
+                                    <input type="text" id="terminal-input" class="bg-transparent border-none outline-none text-white w-full font-mono placeholder-slate-600 focus:ring-0" placeholder="Enter command..." autocomplete="off">
                                 </div>
                             </div>
 
-                            <div class="flex justify-between items-center mt-auto">
+                            <div class="flex justify-between items-center mt-auto shrink-0">
                                 <button onclick="checkAnswer()" class="bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 px-6 rounded-lg transition-colors flex items-center shadow-lg shadow-blue-600/30">
                                     <i class="fa-solid fa-microchip mr-2"></i> Execute Command
                                 </button>
@@ -208,9 +209,9 @@
                 `,
                 exercisePrompt: "<p><strong>Scenario:</strong> You are logged into your Linux GCP Workstation. You need to copy a batch of pre-processed BRUV video files from your local directory to the center's cloud bucket.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>gcloud storage cp</code> command.</li><li>Define the source as the current directory's video folder: <code>./videos/</code>.</li><li>Define the destination as the cloud bucket: <code>gs://fmc-bruv-bucket/</code>.</li><li>Include the <code>-r</code> flag (recursive) to copy the entire folder and its contents.</li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^gcloud\s+storage\s+cp\s+-r\s+\.\/videos\/?\s+gs:\/\/fmc-bruv-bucket\/?$/],
+                expectedCommands: [/^gcloud\s+storage\s+cp\s+-r\s+['"]?(?:\.\/)?videos\/?['"]?\s+['"]?gs:\/\/fmc-bruv-bucket\/?['"]?$/],
                 successMsg: "Transfer initiated! You successfully utilized the CLI to bypass the browser limitations.",
-                hint: "Type: gcloud storage cp -r ./videos/ gs://fmc-bruv-bucket/"
+                hint: "Type: gcloud storage cp -r \"./videos/\" \"gs://fmc-bruv-bucket/\""
             },
             {
                 id: 'data-curation',
@@ -276,7 +277,7 @@
                 `,
                 exercisePrompt: "<p><strong>Scenario:</strong> You have finished training a model and created a <code>metadata.md</code> file containing the Model Card. You need to commit this to your lab's Git repository for peer-review tracking.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Add the model card to the staging index: <code>git add metadata.md</code></li><li>Commit the file to the graph with a descriptive message: <code>git commit -m 'Added NMFS optics model card'</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^git\s+add\s+metadata\.md$/, /^git\s+commit\s+-m\s+['"]Added NMFS optics model card['"]$/],
+                expectedCommands: [/^git\s+add\s+['"]?metadata\.md['"]?$/, /^git\s+commit\s+-m\s+['"]Added NMFS optics model card['"]$/],
                 successMsg: "Commit successful. Your model's provenance is now cryptographically secured.",
                 hint: "1. git add metadata.md | 2. git commit -m 'Added NMFS optics model card'"
             },
@@ -349,9 +350,9 @@
                 `,
                 exercisePrompt: "<p><strong>Scenario:</strong> You need to train a baseline YOLO model on your new benthic survey data to test hyperparameter feasibility.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>yolo</code> command line interface for the <code>train</code> task.</li><li>Set the data file to <code>benthic.yaml</code>.</li><li>Use the nano model weights: <code>model=yolov8n.pt</code>.</li><li>Run a short test of <code>epochs=10</code>. <br><em>(Enter as one continuous command)</em></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^yolo\s+train\s+data=benthic\.yaml\s+model=yolov8n\.pt\s+epochs=10$/],
+                expectedCommands: [/^yolo\s+train\s+data=['"]?benthic\.yaml['"]?\s+model=['"]?yolov8n\.pt['"]?\s+epochs=10$/],
                 successMsg: "Baseline training loop initialized. Evaluating small models saves compute budget.",
-                hint: "Type: yolo train data=benthic.yaml model=yolov8n.pt epochs=10"
+                hint: "Type: yolo train data='benthic.yaml' model='yolov8n.pt' epochs=10"
             },
             {
                 id: 'airflow-dags',
@@ -383,7 +384,7 @@
                 `,
                 exercisePrompt: "<p><strong>Scenario:</strong> You have prepared your <code>config.json</code> file. You need to trigger the long-running optics pipeline headless from your terminal.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Run: <code>gcloud composer environments run composer-env1</code></li><li>Specify the command: <code>dags trigger -- nmfs-optics-pipeline-longrunning-dag</code></li><li>Pass the config file: <code>--conf \"$(cat config.json)\"</code> <br><em>(Combine all 3 parts into one continuous command separated by spaces)</em></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+trigger\s+--\s+nmfs-optics-pipeline-longrunning-dag\s+--conf\s+['"]?\$\(cat\s+config\.json\)['"]?$/],
+                expectedCommands: [/^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+trigger\s+--\s+nmfs-optics-pipeline-longrunning-dag\s+--conf\s+['"]?\$\(cat\s+['"]?config\.json['"]?\)\s*['"]?$/],
                 successMsg: "DAG triggered successfully. The pipeline will parse the JSON and distribute the workload.",
                 hint: "Type: gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\""
             },
@@ -417,9 +418,9 @@
                 `,
                 exercisePrompt: "<p><strong>Scenario:</strong> You have written a <code>Dockerfile</code> that contains your custom fish-detection model and all its finicky python dependencies. You need to build it into an image.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>docker build</code> command.</li><li>Tag the image using the <code>-t</code> flag with the name: <code>nmfs-custom-detector</code>.</li><li>Specify the build context as the current directory using a period: <code>.</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^docker\s+build\s+-t\s+nmfs-custom-detector\s+\.$/],
+                expectedCommands: [/^docker\s+build\s+-t\s+['"]?nmfs-custom-detector['"]?\s+\.$/],
                 successMsg: "Image built successfully! This container will run identically on your workstation and in the cloud.",
-                hint: "Type: docker build -t nmfs-custom-detector ."
+                hint: "Type: docker build -t \"nmfs-custom-detector\" ."
             }
         ];
 
