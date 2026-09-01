@@ -38,5 +38,5 @@ Because this is a completely static, single-file application, running it locally
 
 Clone this repository:
 
-`git clone https://github.com/yourusername/cs-ai-mastery.git`
+`git clone https://kelseylmartin.github.io/Computer-Science-101/`
 
