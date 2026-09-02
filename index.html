@@ -182,20 +182,20 @@
                 description: "Navigate GCP workstations. Learn shell syntaxes, moving video data, and cost management.",
                 learnContent: `
                     <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 1: Escaping the Desktop</h3>
-                    <p class="mb-4">Ecology data (e.g., AUV stereocamera feeds) is too massive for field laptops. For moving data or training models, we can use [OSI-specific workstations](https://console.cloud.google.com/workstations/list?inv=1&invt=Ab4l4A&project=ggn-nmfs-osi-dev-1). While GUIs exist, they are slow. The [Command Line Interface (CLI)](https://console.cloud.google.com/) is mandatory for moving terabytes of data efficiently.</p>
+                    <p class="mb-4">Ecology data (e.g., AUV stereocamera feeds) is too massive for field laptops. For moving data or training models, we can use OSI-specific workstations (link below). While GUIs exist, they are slow. The Command Line Interface (CLI)](https://console.cloud.google.com/) is mandatory for moving terabytes of data efficiently.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Accessing the Workstation (SSH)</h4>
                     <p class="mb-4 text-sm">To access a remote workstation securely over the internet, we use Secure Shell (SSH). It uses asymmetric cryptography (public/private keys) to authenticate you without passwords. To SSH into these workstations please follow the instructions below:</p>
 
                     <ol type="1">
-                      <li>Click on the workstation link above</li>
+                      <li>Click on the link to the <a href="https://console.cloud.google.com/workstations/list?inv=1&invt=Ab4l4A&project=ggn-nmfs-osi-dev-1" target="_blank" rel="noopener">OSI-specific workstations</a></li>
                       <li>Select "Create Workstation"</li>
                       <li>Choose the option that best fits your needs (i.e., if training a model, choose one of the v100 workstations)</li>
-                      <li>Once the workstation has been created, or if already created, make sure that it has been started. Press &#9660 next to the "Launch" button and click "Start"</li>
-                      <li>Press &#9660 again and then select "SSH". A little code window will pop-up. Copy the code</li>
-                      <li>Open your [Command Line Interface (CLI)](https://console.cloud.google.com/) tab and in the terminal (click on terminal icon in top right if not already open), paste the SSH code</li>
+                      <li>Once the workstation has been created, or if already created, make sure that it has been started. Press &#9660; next to the "Launch" button and click "Start"</li>
+                      <li>Press &#9660; again and then select "SSH". A little code window will pop-up. Copy the code</li>
+                      <li>Open your <a href="https://console.cloud.google.com/" target="_blank" rel="noopener">Command Line Interface (CLI)</a> tab and in the terminal (click on terminal icon in top right if not already open), paste the SSH code</li>
                       <li>You are now tapped into the workstation and are free to operate via the command line</li>
-                      <li><br><br><strong>To get the "Launch" button to work and to have a user-interface. Follow the [Optics SI Cloud Desktop (GPU) Workstation Setup Instructions](https://michaelakridge-noaa.github.io/optics-si-cloud-tools/codelabs/desktop-gpu-persistent-setup/) created by Michael Akridge and begin on step 4</strong></li>
+                      <li><strong>To get the "Launch" button to work and to have a user-interface. Follow the <a href="https://michaelakridge-noaa.github.io/optics-si-cloud-tools/codelabs/desktop-gpu-persistent-setup/" target="_blank" rel="noopener">Optics SI Cloud Desktop (GPU) Workstation Setup Instructions</a> created by Michael Akridge and begin on step 4</strong></li>
                     </ol>
                     
                     <p class="mb-4 text-sm"><br><br><strong>Best Practice:</strong> When you are done using the workstation, <em>shut the workstation down</em>. Cloud GPUs cost money by the hour. Do not leave them running over the weekend.</p>
