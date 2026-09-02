@@ -60,7 +60,7 @@
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center space-x-3">
                     <i class="fa-solid fa-fish-fins text-blue-500 text-2xl"></i>
-                    <span class="font-bold text-xl tracking-tight text-white">Optics Strategic Initiative Induction</span>
+                    <span class="font-bold text-xl tracking-tight text-white">Optics Strategic Initiative Induction Course</span>
                 </div>
                 <div class="flex items-center space-x-4">
                     <div class="text-sm text-slate-400 font-medium">
@@ -243,6 +243,11 @@
                         <li><strong>Video to Frames:</strong> YOLO cannot train directly on <code>.mp4</code> files. You must first extract your video into individual frame images (e.g., at 1 fps).</li>
                         <li><strong>Filename Matching:</strong> Every image must have a corresponding text file with the exact same name (e.g., <code>cam1_frame001.jpg</code> maps to <code>cam1_frame001.txt</code>).</li>
                         <li><strong>The Folder Split:</strong> Data must be physically separated into an <code>images/</code> folder and a <code>labels/</code> folder, each containing <code>train/</code>, <code>val/</code>, and <code>test/</code> subfolders.</li>
+                            <ol class="list-[circle] pl-5 space-y-2 mb-4 text-sm">
+                            <li><strong>Training dataset:</strong> This is the largest portion of your data (typically 70–80%). The model directly "sees" and learns from these images.</li>
+                            <li><strong>Validation dataset:</strong> This is a smaller subset (usually 10–15%) used iteratively during the training process. After every epoch (one full pass through the training data), the model tests itself on the validation set to see how well it is learning.</li>
+                            <li><strong>Test dataset:</strong> This is the strictly held-out "gold standard" set (usually 10–15%). The model never interacts with this data during the training or tuning phases. This provides an unbiased, final evaluation of how the model will perform on brand-new, out-of-sample survey footage.</li>
+                           </ol>                             
                     </ul>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">2. Architecture Comparisons</h4>
@@ -411,7 +416,7 @@ my-project-bucket/
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">3. The Orchestration Layer</h4>
                     <p class="mb-4 text-sm">In our DAG pipelines, the Docker container handles the orchestration (<code>app.py</code>), pulling data from buckets, running the heavy inference (<code>model.py</code>), and pushing the formatted outputs back to the cloud. You only need to swap out the <code>model.py</code> script to bring your own custom VIAME or YOLO models into the pipeline.</p>
-
+            
                     <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
                     <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
                         <dl>
@@ -605,7 +610,44 @@ True_GG   |    0    |    0    |    4
                 expectedCommands: [/^GG$/i, /^(RS,VS|VS,RS|RS,\sVS|VS,\sRS)$/i],
                 successMsg: "Correct! GG only has 4 total samples. RS and VS have 65 instances of cross-confusion and may need to be merged.",
                 hint: "1. Look for the row with the lowest total numbers across the board. | 2. Look for the largest numbers outside of the correct diagonal matches (RS and VS)."
-            }
+            },
+            {
+                id: 'eval-metrics',
+                title: "Module 9: Resources & SOPs",
+                icon: "fa-solid fa-chart-line",
+                description: "Here are some helpful links and documents that walk you through how to access, use, and interact with the OSI tools.",
+                learnContent: `
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Resources & SOPs</h3>
+                    <p class="mb-4">In ecology, standard accuracy is misleading. If 99% of your video is empty water, a model that simply guesses "empty" every time is 99% accurate, but utterly useless for finding fish. We must use targeted metrics.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">How to Gain Access</h4>
+                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
+                    <li><a href="https://apps-st.fisheries.noaa.gov/jira/servicedesk/customer/portal/14/user/login?destination=portal%2F14" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">JIRA Ticket</a> - Needed to gain access to <strong>OSI workstations</strong>, <strong>OCIO workstations</strong>, and <strong>data buckets</strong>.</li>
+                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScUErQURDotb8glOJjDkASTjxfznTS4FHklCrjiVeNsdvUWkw/viewform?usp=dialog" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Optics Environment Issues Report</a> - Submit a form to gain access to Airflow DAG. Also use this form to report any issues that you have had with either the VIAME or DAG the environments.</li>
+                    </ul>
+            
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">Guides & Templates</h4>
+                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
+                        <li><a href="https://docs.google.com/document/d/1f9GYO564yCH4Z6yofDLJ6ti4yBlv-KtBCfPvIAzBunc/edit?tab=t.0#heading=h.9nfu7k9muaju" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Airflow & Cloud Batch Optics Pipeline - User Guide:</a> Walks you through how to run your data through a model using Airflow.</li>
+                        <li><a href="https://docs.google.com/document/d/1DrOIvt9l-owLrv3388qGjroTEtkEWoAfI7xjs3CZrv8/edit?tab=t.0#heading=h.bka726cftr42" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Build Standard Ultralytics and VIAME Models:</a> Guide for building your own ultralytics or VIAME models.</li>
+                        <li><a href="https://docs.google.com/document/d/12fqDmZUKytkDYhLj-7FLqf-RxoFs1BMrfv8ihtv5Zlc/edit?tab=t.0" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Bring Your Own Trained VIAME Model to OSI:</a> Full end-to-end pipeline of how to open a workstation, docker your model, deploy it in Airflow, and run data through your new model.</li>
+                        <li><a href="https://docs.google.com/document/d/12fqDmZUKytkDYhLj-7FLqf-RxoFs1BMrfv8ihtv5Zlc/edit?tab=t.0" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">NOAA NMFS Optics Model Deployment Template ("Hello World"):</a> "Hello World" template for the full end-to-end pipeline.</li>
+                        <li><a href="https://github.com/csbrown-noaa/optics-models-ultralytics-detection" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">NOAA NMFS Optics Model Deployment Template:</a> This repository is a starting template for deploying custom Ultralytics YOLO Computer Vision models into the Optics SI Airflow ecosystem on Google Cloud.</li>
+                    </ul> 
+                    
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">VIAME Resources</h4>
+                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
+                    <li><a href="https://docs.google.com/document/d/1JmdbZxPyKhJygvFKGrSm0Ck0IS5-8HJ7nruB5qe7iUo/edit?tab=t.0#heading=h.bka726cftr42" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">VIAME Web - End User Guide:</a> Guide for operating in the OSI VIAME environment.</li>
+                    <li><a href="https://osi-viame-dev.nmfs.local/#/login" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">VIAME DIVE Link:</a> Must be on VPN or your centers network to access.</li>
+                    <li><a href="https://osi-viame-dev.nmfs.local/girder#" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">VIAME Girder Link:</a> Must be on VPN or your centers network to access. Portal to transfer your files to the DIVE environment</li>
+                    </ul>
+                    
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">R Package</h4>
+                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
+                    <li><a href="https://kelseylmartin.github.io/OSI_Model_Performance/" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">R Package Site Link</a></li>
+                    <li><a href="https://github.com/kelseylmartin/OSI_Model_Performance/tree/main/Optics" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Github Link to Repository</a></li>
+                    </ul>
+            }   
         ];
 
         let userProgress = JSON.parse(localStorage.getItem('csCourseProgress')) || {};
