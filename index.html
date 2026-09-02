@@ -611,7 +611,7 @@ True_GG   |    0    |    0    |    4
                 successMsg: "Correct! GG only has 4 total samples. RS and VS have 65 instances of cross-confusion and may need to be merged.",
                 hint: "1. Look for the row with the lowest total numbers across the board. | 2. Look for the largest numbers outside of the correct diagonal matches (RS and VS)."
             },
-            {
+{
                 id: 'resources',
                 title: "Module 9: Resources & SOPs",
                 icon: "fa-solid fa-chart-line",
@@ -647,7 +647,13 @@ True_GG   |    0    |    0    |    4
                     <li><a href="https://kelseylmartin.github.io/OSI_Model_Performance/" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">R Package Site Link</a></li>
                     <li><a href="https://github.com/kelseylmartin/OSI_Model_Performance/tree/main/Optics" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Github Link to Repository</a></li>
                     </ul>
-                } 
+                `,
+                exercisePrompt: "<p><strong>Scenario:</strong> There is no terminal exercise for this module. Please review the documentation and SOPs linked in the Learning Material tab.</p>",
+                terminalType: "bash",
+                expectedCommands: [/.*/], 
+                successMsg: "Review complete! You have successfully finished the course.",
+                hint: "Just type any key and press Enter to complete this module."
+            }
         ];
 
         let userProgress = JSON.parse(localStorage.getItem('csCourseProgress')) || {};
