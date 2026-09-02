@@ -232,9 +232,9 @@
                 id: 'model-training',
                 title: "Module 2: Model Training & Architecture",
                 icon: "fa-solid fa-brain",
-                description: "Understand YOLO directory structures, model architectures, and how to balance inference speed with hyperparameter tuning.",
+                description: "Understand YOLO directory structures, model architectures, and how to choose the right model for your survey data.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 4: Training Your Own Model</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 2: Training Your Own Model</h3>
                     <p class="mb-4">For processing millions of frames of video, speed is paramount. While complex architectures exist, we frequently recommend YOLO (You Only Look Once) models due to their incredibly low barrier to entry and massive developer community. If an existing model doesn't work for your survey, you will need to train your own.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Preparing Data for YOLO</h4>
@@ -245,13 +245,59 @@
                         <li><strong>The Folder Split:</strong> Data must be physically separated into an <code>images/</code> folder and a <code>labels/</code> folder, each containing <code>train/</code>, <code>val/</code>, and <code>test/</code> subfolders.</li>
                     </ul>
 
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Architectures & Versions</h4>
-                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
-                        <li><strong>CNNs & RF-DETR:</strong> CNNs (Convolutional Neural Networks) slide a mathematical filter over an image to detect features. RF-DETR (Detection Transformer) uses "attention mechanisms" instead, excelling in highly variable benthic habitats without needing Non-Maximum Suppression (NMS) to filter boxes.</li>
-                        <li><strong>Zero-Shot Models:</strong> Massive foundational models trained on the internet. You can ask them to segment a "whale" without explicit training. Great for rapidly generating pseudo-labels.</li>
-                        <li><strong>YOLOv8 & YOLOv11:</strong> v8 is highly stable and best for general use. v11 offers faster processing and improved feature extraction for complex underwater scenes.</li>
-                        <li><strong>YOLO26:</strong> The newest edge-optimized generation. It eliminates NMS bottlenecks and is highly optimized for CPU inference (ideal for deployment directly on AUVs/ROVs).</li>
-                    </ul>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">2. Architecture Comparisons</h4>
+                    <p class="mb-2 text-sm">Choosing the right model depends on your compute constraints and how messy your background data is. Use this chart to determine the best fit for your survey:</p>
+                    
+                    <div class="overflow-x-auto mb-6 mt-4">
+                        <table class="w-full text-sm text-left text-slate-300 border border-slate-700 rounded-lg overflow-hidden shadow-lg">
+                            <thead class="bg-slate-800 text-teal-300 font-semibold border-b border-slate-700">
+                                <tr>
+                                    <th class="px-4 py-3">Feature</th>
+                                    <th class="px-4 py-3">YOLOv8</th>
+                                    <th class="px-4 py-3">YOLOv11</th>
+                                    <th class="px-4 py-3">YOLO26</th>
+                                    <th class="px-4 py-3">RF-DETR</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-700 bg-slate-900/50">
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-white bg-slate-800/50 border-r border-slate-700">Architecture</td>
+                                    <td class="px-4 py-3">CNN</td>
+                                    <td class="px-4 py-3">CNN (Enhanced Features)</td>
+                                    <td class="px-4 py-3">Native End-to-End CNN (One-to-One Head)</td>
+                                    <td class="px-4 py-3">Transformer (DETR) with DINOv2 Backbone</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-white bg-slate-800/50 border-r border-slate-700">Best Data / Use Case</td>
+                                    <td class="px-4 py-3">Standard survey data, legacy pipelines, beginners.</td>
+                                    <td class="px-4 py-3">Complex underwater scenes, high target occlusion (overlapping fish).</td>
+                                    <td class="px-4 py-3">Edge deployment (ROVs/AUVs) and multi-task pipelines utilizing open-vocabulary zero-shot capabilities.</td>
+                                    <td class="px-4 py-3">Highly variable benthic habitats requiring extreme cross-domain transfer accuracy.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-white bg-slate-800/50 border-r border-slate-700">NMS Required?</td>
+                                    <td class="px-4 py-3">Yes</td>
+                                    <td class="px-4 py-3">Yes</td>
+                                    <td class="px-4 py-3 text-green-400 font-medium">No (Eliminates post-processing bottleneck)</td>
+                                    <td class="px-4 py-3 text-green-400 font-medium">No</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-white bg-slate-800/50 border-r border-slate-700">Tasks Supported</td>
+                                    <td class="px-4 py-3">Detection, Instance Seg, Pose, Classification, OBB</td>
+                                    <td class="px-4 py-3">Detection, Instance Seg, Pose, Classification, OBB</td>
+                                    <td class="px-4 py-3">Detection, Instance & Semantic Seg, Depth Estimation, Pose, Classification, OBB</td>
+                                    <td class="px-4 py-3">Detection, Instance Seg, Keypoint (Pose)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-white bg-slate-800/50 border-r border-slate-700">Inference Efficiency</td>
+                                    <td class="px-4 py-3">Standard (Requires GPU for real-time)</td>
+                                    <td class="px-4 py-3">Fast (Requires GPU for real-time)</td>
+                                    <td class="px-4 py-3 text-green-400">Ultra-Fast (Nano model runs efficiently on ordinary CPUs)</td>
+                                    <td class="px-4 py-3">High (Real-time speed with adjustable runtime resolution)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Inference Speed & Hyperparameters</h4>
                     <p class="mb-4 text-sm">YOLO models come in different parameter sizes (Nano, Small, Medium, Large, X-Large). A massive model might give you a 2% bump in accuracy but cost 5x more in cloud fees. <strong>Baseline Practice:</strong> Always train a "Small" or "Nano" model first to test feasibility. When running inference, control your dials: the <code>conf</code> (Confidence) threshold determines how sure the model must be to output a box, and <code>iou</code> (Intersection over Union) filters out redundant overlapping boxes.</p>
@@ -259,6 +305,12 @@
                     <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
                     <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
                         <dl>
+                            <dt class="glossary-dt">CNNs</dt>
+                            <dd class="glossary-dd">CNNs (Convolutional Neural Networks) slide a mathematical filter over an image to detect features.</dd>
+                            <dt class="glossary-dt">RF-DETR</dt>
+                            <dd class="glossary-dd">RF-DETR (Detection Transformer) uses "attention mechanisms" instead, excelling in highly variable benthic habitats without needing Non-Maximum Suppression (NMS) to filter boxes.</dd>
+                            <dt class="glossary-dt">Zero-Shot Models</dt>
+                            <dd class="glossary-dd">Massive foundational models trained on the internet. You can ask them to segment a "whale" without explicit training. Great for rapidly generating pseudo-labels.</dd>
                             <dt class="glossary-dt">Epoch</dt>
                             <dd class="glossary-dd">The length of time required for the algorithm to perform one complete pass over the entire training dataset.</dd>
                             <dt class="glossary-dt">Ensembling</dt>
@@ -278,22 +330,22 @@
                 icon: "fa-solid fa-database",
                 description: "Prepare your data to run through established AI pipelines using FAIR file naming and standardized manifests.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 2: Pre-Processing for the Pipeline</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 3: Pre-Processing for the Pipeline</h3>
                     <p class="mb-4">When you are running your survey images through an existing, pre-trained AI model, the model expects the input data to be organized perfectly. If your data organization is messy, the cloud pipeline will fail.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Standardized File Naming</h4>
-                    <p class="mb-2 text-sm">To ensure your data is processed correctly, you must adhere to established FAIR (Findable, Accessible, Interoperable, and Reusable) data principles[cite: 1]:</p>
+                    <p class="mb-2 text-sm">To ensure your data is processed correctly, you must adhere to established FAIR (Findable, Accessible, Interoperable, and Reusable) data principles:</p>
                     <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
-                        <li><strong>No Spaces:</strong> Never use spaces in object or file names[cite: 1].</li>
-                        <li><strong>Standardized Time:</strong> Use ISO 8601 formatting for dates and times (e.g., <code>YYYY-MM-DDThh:mm:ssZ</code>), preferably in UTC[cite: 1].</li>
-                        <li><strong>Logical Ordering:</strong> Use leading zeros (e.g., <code>01, 02... 10</code>) in object names to ensure the computer sorts your files sequentially[cite: 1].</li>
+                        <li><strong>No Spaces:</strong> Never use spaces in object or file names.</li>
+                        <li><strong>Standardized Time:</strong> Use ISO 8601 formatting for dates and times (e.g., <code>YYYY-MM-DDThh:mm:ssZ</code>), preferably in UTC.</li>
+                        <li><strong>Logical Ordering:</strong> Use leading zeros (e.g., <code>01, 02... 10</code>) in object names to ensure the computer sorts your files sequentially.</li>
                     </ul>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">2. The Manifest Approach</h4>
-                    <p class="mb-4 text-sm">You do not need to move your data into a single centralized OSI bucket if it is already established in your center's bucket[cite: 1]. Instead, models use a "Manifest"—a tabular metadata file that points the AI to your data[cite: 1]. Your manifest must contain these required fields: <em>Filename, Latitude, Longitude, Depth, Timestamp, Optical Instrument, Data Type, and Asset Reference (the cloud URL)</em>[cite: 1].</p>
+                    <p class="mb-4 text-sm">You do not need to move your data into a single centralized OSI bucket if it is already established in your center's bucket. Instead, models use a "Manifest"—a tabular metadata file that points the AI to your data. Your manifest must contain these required fields: <em>Filename, Latitude, Longitude, Depth, Timestamp, Optical Instrument, Data Type, and Asset Reference (the cloud URL)</em>.</p>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Bucket Architecture & Permissions</h4>
-                    <p class="mb-4 text-sm">To upload data, you need an autonomous "landing bucket"[cite: 1]. Ensure you have requested IAM write and delete privileges at the project level to manage your files[cite: 1]. When staging data for the pipeline, arrange your directories using the OSI standard[cite: 1]:</p>
+                    <p class="mb-4 text-sm">To upload data, you need an autonomous "landing bucket". Ensure you have requested IAM write and delete privileges at the project level to manage your files. When staging data for the pipeline, arrange your directories using the OSI standard:</p>
                     <pre class="bg-slate-900 p-3 rounded text-sm text-slate-300 font-mono border border-slate-700 mb-4">
 my-project-bucket/
 ├── raw/
@@ -314,7 +366,7 @@ my-project-bucket/
                 icon: "fa-solid fa-scale-balanced",
                 description: "Prepare AI pipelines to pass stock assessment peer review using Git and Model Cards.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 3: Science Requires Reproducibility</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 4: Science Requires Reproducibility</h3>
                     <p class="mb-4">If an AI model's output is going to be used in a federal stock assessment, it must pass rigorous peer review. "We ran a model" is not sufficient. We must establish governance over how models are tracked, named, and validated.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Version Control (Git/GitHub)</h4>
@@ -324,7 +376,7 @@ my-project-bucket/
                     <p class="mb-4 text-sm">A "Model Family" (e.g., YOLOv8, ResNet50) is the underlying mathematical architecture. The "Model Weights" are the specific numerical parameters learned after training that architecture on <em>your</em> specific dataset (e.g., NMFS rockfish survey). Standardize how you store these weights immediately next to their metadata.</p>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Model Cards (metadata.md)</h4>
-                    <p class="mb-4 text-sm">Every trained model must have a Model Card (usually a <code>metadata.md</code> file). This document outlines the model's intended use, the exact data it was trained on, known biases (e.g., "performs poorly in turbid water"), and the evaluation metrics. Hugging Face pioneered this standard.</p>
+                    <p class="mb-4 text-sm">Every trained model must have a Model Card (usually a <code>metadata.md</code> file). This document outlines the model's intended use, the exact data it was trained on, known biases (e.g., "performs poorly in turbid water"), and the evaluation metrics. Hugging Face pioneered this standard; click here to access the <a href="https://huggingface.co/docs/hub/en/model-cards" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener"> hugging face model card template</a>.</p>
 
                     <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
                     <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
@@ -348,7 +400,7 @@ my-project-bucket/
                 icon: "fa-brands fa-docker",
                 description: "Solve dependency hell. Understand containerization and navigate GCP permission walls.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 7: Containers and Security Walls</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 5: Containers and Security Walls</h3>
                     <p class="mb-4">A common nightmare: A model works perfectly on a developer's laptop, but crashes when deployed to the cloud because a specific Python library is missing. We solve this with Docker.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. What even is Docker?</h4>
@@ -437,16 +489,17 @@ my-project-bucket/
                         <li><strong>Jupyter Notebooks:</strong> Ideal for Python-based <code>pandas</code> analysis and interactive model debugging.</li>
                         <li><strong>Positron:</strong> Posit's next-generation IDE that handles both Python and R beautifully.</li>
                     </ul>
-                    <p class="mb-4 text-sm">Your cloud buckets (e.g., <code>gs://ggn-nmfs-osi-dev-1-data</code>) can be mounted directly to these environments or accessed via SDKs (like <code>googleCloudStorageR</code>), keeping your data securely in the cloud ecosystem. The code below is an example of how to mount a google cloud bucket directly in an RStudio workstations. Copy and save this code in a script and then paste it into the terminal. You will have to mount the bucket each time you log into the workstation.</p>
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">Mounting GCS Buckets via Terminal</h4>
-<p class="mb-4 text-sm">Paste all of this code in the terminal and follow the instructions to authenticate your Google account.</p>
+                    <p class="mb-4 text-sm">Your cloud buckets (e.g., <code>gs://ggn-nmfs-osi-dev-1-data</code>) can be mounted directly to these environments or accessed via SDKs (like <code>googleCloudStorageR</code>), keeping your data securely in the cloud ecosystem.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">3. Mounting GCS Buckets via Terminal</h4>
+<p class="mb-4 text-sm">The code below is an example of how to mount a google cloud bucket directly in an RStudio workstations. Copy and save this code in a script and then paste it into the terminal. You will have to mount the bucket each time you log into the workstation. Paste all of this code in the terminal and follow the instructions to authenticate your Google account.</p>
+<p class="mb-4 text-sm">Be sure to change <code class="language-bash">BUCKET_NAME</code> in line 6 with the name of your bucket.</p>
 <pre class="text-xs my-8 border border-slate-600 shadow-2xl bg-black rounded-lg p-5"><code class="language-bash"># Terminal code for mounting Google Cloud Buckets to Google Cloud Workstations
 # Author: Alexandra Norelli with Gemini assistance for R to BASH translations.  
 
 # Define your bucket and the mount point.
 # replace "nmfs-opensci" with your bucket name
 # The $HOME symbol is a shortcut for your home directory, so this will create the folder at /home/your_username/my_gcs_bucket.
-BUCKET_NAME="nmfs-dev-uc1-sefsc"
+BUCKET_NAME="ggn-nmfs-osi-dev-1-data"
 MOUNT_POINT="$HOME/my_gcs_bucket"
 
 # --- Authentication ---
@@ -488,7 +541,7 @@ echo "Mounting complete. You can now access the bucket contents at $MOUNT_POINT"
 # Optional: List the contents to verify the mount was successful.
 ls -l "$MOUNT_POINT"</code></pre>
 
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Linking Your GitHub Repository</h4>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">4. Linking Your GitHub Repository</h4>
                     <p class="mb-4 text-sm">You should never write unversioned analysis scripts. To link your lab's GitHub repository to your Cloud IDE:</p>
                     <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
                         <li>Open the terminal within your IDE (e.g., the RStudio Terminal tab).</li>
@@ -536,7 +589,7 @@ ls -l "$MOUNT_POINT"</code></pre>
                     </div>
                 `,
                 exercisePrompt: `
-                    <p><strong>Scenario:</strong> You are reviewing a model's confusion matrix for three classes: Red Snapper (RS), Vermilion Snapper (VS), and Goliath Grouper (GG). Rows represent the <em>True</em> labels; Columns represent the <em>Predicted</em> labels.</p>
+                    <p><strong>Scenario:</strong> You are reviewing a model's confusion matrix for three classes: Red Snapper (RS), Vermilion Snapper (VS), and Gag Grouper (GG). Rows represent the <em>True</em> labels; Columns represent the <em>Predicted</em> labels.</p>
                     <pre class="bg-slate-800 p-3 rounded-lg text-xs my-3 font-mono border border-slate-600 text-slate-300 overflow-x-auto">
           | Pred_RS | Pred_VS | Pred_GG
 ----------|---------|---------|---------
