@@ -182,22 +182,24 @@
                 description: "Navigate GCP workstations. Learn shell syntaxes, moving video data, and cost management.",
                 learnContent: `
                     <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 1: Escaping the Desktop</h3>
-                    <p class="mb-4">Ecology data (e.g., AUV stereocamera feeds) is too massive for field laptops. For moving data or training models, we can use OSI-specific workstations (link below). While GUIs exist, they are slow. The Command Line Interface (CLI)](https://console.cloud.google.com/) is mandatory for moving terabytes of data efficiently.</p>
+                    <p class="mb-4">Ecology data (e.g., AUV stereocamera feeds) is too massive for field laptops. For moving data or training models, we can use OSI-specific workstations (link below). While GUIs exist, they are slow. The Command Line Interface (CLI) is mandatory for moving terabytes of data efficiently.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Accessing the Workstation (SSH)</h4>
                     <p class="mb-4 text-sm">To access a remote workstation securely over the internet, we use Secure Shell (SSH). It uses asymmetric cryptography (public/private keys) to authenticate you without passwords. To SSH into these workstations please follow the instructions below:</p>
 
                     <ol class="list-decimal pl-5 space-y-2 mb-4 text-sm">
                       <li>Click on the link to the <a href="https://console.cloud.google.com/workstations/list?inv=1&invt=Ab4l4A&project=ggn-nmfs-osi-dev-1" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">OSI-specific workstations</a></li>
-                      <li>Select "Create Workstation"</li>
+                            <ol class="list-lower-alpha pl-5 space-y-2 mb-4 text-sm">
+                            <li>If you do not have access to these workstations, please fill out a <a href="https://apps-st.fisheries.noaa.gov/jira/servicedesk/customer/portal/14/user/login?destination=portal%2F14" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">JIRA Ticket</a> and specify that you need access to the OSI workstations.</li>
+                            </ol>                      
+                      <li>Select <strong>Create Workstation<strong></li>
                       <li>Choose the option that best fits your needs (i.e., if training a model, choose one of the v100 workstations)</li>
-                      <li>Once the workstation has been created, or if already created, make sure that it has been started. Press &#9660; next to the "Launch" button and click "Start"</li>
-                      <li>Press &#9660; again and then select "SSH". A little code window will pop-up. Copy the code</li>
+                      <li>Once the workstation has been created, or if already created, make sure that it has been started. Press &#9660; next to the <strong>Launch<strong> button and click <strong>Start<strong></li>
+                      <li>Press &#9660; again and then select <strong>SSH<strong>. A little code window will pop-up. Copy the code</li>
                       <li>Open your <a href="https://console.cloud.google.com/" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Command Line Interface (CLI)</a> tab and in the terminal (click on terminal icon in top right if not already open), paste the SSH code</li>
                       <li>You are now tapped into the workstation and are free to operate via the command line</li>
-                      <li><strong>To get the "Launch" button to work and to have a user-interface. Follow the <a href="https://michaelakridge-noaa.github.io/optics-si-cloud-tools/codelabs/desktop-gpu-persistent-setup/" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Optics SI Cloud Desktop (GPU) Workstation Setup Instructions</a> created by Michael Akridge and begin on step 4</strong></li>
-                    </ol>
-                    
+                      <li><strong>To get the <strong>Launch<strong> button to work and to have a user-interface. Follow the <a href="https://michaelakridge-noaa.github.io/optics-si-cloud-tools/codelabs/desktop-gpu-persistent-setup/" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Optics SI Cloud Desktop (GPU) Workstation Setup Instructions</a> created by Michael Akridge and begin on step 4</strong></li>
+                    </ol>                    
                     <p class="mb-4 text-sm"><br><br><strong>Best Practice:</strong> When you are done using the workstation, <em>shut the workstation down</em>. Cloud GPUs cost money by the hour. Do not leave them running over the weekend.</p>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Google Cloud Storage (GCS)</h4>
@@ -295,8 +297,203 @@
                 hint: "1. git add metadata.md | 2. git commit -m 'Added NMFS optics model card'"
             },
             {
+                id: 'yolo',
+                title: "Module 4: YOLO & Fast Inference",
+                icon: "fa-solid fa-camera",
+                description: "Why we use YOLO. Balancing model size, inference speed, and hyperparameter tuning.",
+                learnContent: `
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 5: The Ultralytics Paradigm</h3>
+                    <p class="mb-4">For processing millions of frames of video, speed is paramount. While complex architectures exist, we frequently recommend YOLO (You Only Look Once) models due to their incredibly low barrier to entry and massive developer community.</p>
+                    
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Inference Speed vs. Quality</h4>
+                    <p class="mb-4 text-sm">YOLO models come in different parameter sizes (Nano, Small, Medium, Large, X-Large). A massive model might give you a 2% bump in accuracy, but cost 5x more in cloud computing fees and take days to run. <strong>Baseline Practice:</strong> Always train a "Small" model first to provide fast, cheap baseline evaluations before committing to expensive, larger models.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Hyperparameter Dials</h4>
+                    <p class="mb-4 text-sm">When running inference, you control several dials. The <code>conf</code> (Confidence Threshold) determines how sure the model must be to output a bounding box. Setting this too low creates thousands of False Positives. The <code>iou</code> (Intersection over Union) threshold helps filter out redundant, overlapping boxes around the same fish.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Zero-Shot and Multimodal</h4>
+                    <p class="mb-4 text-sm">The field is moving towards "Zero-Shot" foundational models. These are massive models trained on the entire internet that allow free-form inquiry (e.g., you can ask the model to segment a "whale" without ever explicitly training it on whale data). These are excellent for rapidly generating pseudo-labels to bootstrap your own specific models.</p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Epoch</dt>
+                            <dd class="glossary-dd">The length of time required for the algorithm to perform one complete pass over the entire training dataset.</dd>
+                            <dt class="glossary-dt">Ensembling</dt>
+                            <dd class="glossary-dd">Combining the predictions of multiple different models. If one model is prone to False Positives, and another to False Negatives, ensembling them balances the weaknesses.</dd>
+                        </dl>
+                    </div>
+                `,
+                exercisePrompt: "<p><strong>Scenario:</strong> You need to train a baseline YOLO model on your new benthic survey data to test hyperparameter feasibility.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>yolo</code> command line interface for the <code>train</code> task.</li><li>Set the data file to <code>benthic.yaml</code>.</li><li>Use the nano model weights: <code>model=yolov8n.pt</code>.</li><li>Run a short test of <code>epochs=10</code>. <br><em>(Enter as one continuous command)</em></li></ol>",
+                terminalType: "bash",
+                expectedCommands: [/^yolo\s+train\s+data=['"]?benthic\.yaml['"]?\s+model=['"]?yolov8n\.pt['"]?\s+epochs=10$/],
+                successMsg: "Baseline training loop initialized. Evaluating small models saves compute budget.",
+                hint: "Type: yolo train data='benthic.yaml' model='yolov8n.pt' epochs=10"
+            },
+            {
+                id: 'airflow-dags',
+                title: "Module 5: Airflow DAGs & Pipelines",
+                icon: "fa-solid fa-network-wired",
+                description: "Orchestrate long-running inference jobs. Trigger Cloud Composer pipelines using JSON payloads.",
+                learnContent: `
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 6: Heavyweight Orchestration</h3>
+                    <p class="mb-4">Running a model on a 5-minute video is easy. Running a model on 6 months of continuous acoustic data requires robust pipeline orchestration. We use Apache Airflow (hosted via GCP Cloud Composer) to manage these jobs.</p>
+                    
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. What is a DAG?</h4>
+                    <p class="mb-4 text-sm">A DAG (Directed Acyclic Graph) is a collection of all the tasks you want to run, organized to reflect their relationships and dependencies. E.g., Task A (Fetch Data) -> Task B (Run VIAME Model) -> Task C (Format Output). "Directed" means there is a strict order. "Acyclic" means it cannot loop infinitely.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Long-Running vs. Cloud Run</h4>
+                    <p class="mb-4 text-sm">Standard GCP "Cloud Run" jobs have strict time limits (usually 1 hour). If your inference takes longer, the job is killed, and you lose your data. For heavy ecological analyses, we route jobs to <strong>Batch/Long-Running pipelines</strong> (which can run for up to 7 days). It is up to the user to chunk their data into manageable JSON inputs.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Triggering Headless Pipelines</h4>
+                    <p class="mb-4 text-sm">You do not need to click through the Airflow GUI. You can trigger a DAG directly from your workstation CLI. You define your input bucket, output bucket, and model type in a <code>config.json</code> file, and pass it to the <code>gcloud composer</code> command to start the distributed computation.</p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Payload (JSON)</dt>
+                            <dd class="glossary-dd">The configuration data sent to the pipeline to tell it what to do. Example: <code>{"input_file": "gs://bucket/data", "model": "andy-6d"}</code>.</dd>
+                            <dt class="glossary-dt">Headless</dt>
+                            <dd class="glossary-dd">Executing a process via code/CLI without interacting with a Graphical User Interface.</dd>
+                        </dl>
+                    </div>
+                `,
+                exercisePrompt: "<p><strong>Scenario:</strong> You have prepared your <code>config.json</code> file. You need to trigger the long-running optics pipeline headless from your terminal.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Run: <code>gcloud composer environments run composer-env1</code></li><li>Specify the command: <code>dags trigger -- nmfs-optics-pipeline-longrunning-dag</code></li><li>Pass the config file: <code>--conf \"$(cat config.json)\"</code> <br><em>(Combine all 3 parts into one continuous command separated by spaces)</em></li></ol>",
+                terminalType: "bash",
+                expectedCommands: [/^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+trigger\s+--\s+nmfs-optics-pipeline-longrunning-dag\s+--conf\s+['"]?\$\(cat\s+['"]?config\.json['"]?\)\s*['"]?$/],
+                successMsg: "DAG triggered successfully. The pipeline will parse the JSON and distribute the workload.",
+                hint: "Type: gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\""
+            },
+            {
+                id: 'docker-iam',
+                title: "Module 6: Docker & IAM Permissions",
+                icon: "fa-brands fa-docker",
+                description: "Solve dependency hell. Understand containerization and navigate GCP permission walls.",
+                learnContent: `
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 7: Containers and Security Walls</h3>
+                    <p class="mb-4">A common nightmare: A model works perfectly on a developer's laptop, but crashes when deployed to the cloud because a specific Python library is missing. We solve this with Docker.</p>
+                    
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. What even is Docker?</h4>
+                    <p class="mb-4 text-sm">Docker is a tool that packages an application and all its dependencies (Python version, system libraries like CUDA, exact pip packages) into an immutable <strong>Image</strong>. When run, it becomes a <strong>Container</strong>. It runs consistently regardless of the host machine. If you struggle with <code>pip install</code> errors in legacy tools (like VIAME), Dockerizing the workflow circumvents the host OS limitations entirely.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Identity and Access Management (IAM)</h4>
+                    <p class="mb-4 text-sm">On GCP, you will run into "Permission Denied" errors. This is intentional security. GCP uses IAM Roles. For example, to view the deep python stack traces when a model crashes, your account must explicitly be granted <code>roles/logging.viewer</code>. To push a Docker image to the registry, you need <code>roles/artifactregistry.writer</code>.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. The Orchestration Layer</h4>
+                    <p class="mb-4 text-sm">In our DAG pipelines, the Docker container handles the orchestration (<code>app.py</code>), pulling data from buckets, running the heavy inference (<code>model.py</code>), and pushing the formatted outputs back to the cloud. You only need to swap out the <code>model.py</code> script to bring your own custom VIAME or YOLO models into the pipeline.</p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Dockerfile</dt>
+                            <dd class="glossary-dd">A text document containing all the commands a user could call on the command line to assemble an image (e.g., <code>FROM ubuntu:20.04</code>, <code>RUN pip install ultralytics</code>).</dd>
+                            <dt class="glossary-dt">Artifact Registry</dt>
+                            <dd class="glossary-dd">The GCP service where we upload and store our compiled Docker images so that Airflow/Cloud Run can pull and execute them.</dd>
+                        </dl>
+                    </div>
+                `,
+                exercisePrompt: "<p><strong>Scenario:</strong> You have written a <code>Dockerfile</code> that contains your custom fish-detection model and all its finicky python dependencies. You need to build it into an image.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>docker build</code> command.</li><li>Tag the image using the <code>-t</code> flag with the name: <code>nmfs-custom-detector</code>.</li><li>Specify the build context as the current directory using a period: <code>.</code></li></ol>",
+                terminalType: "bash",
+                expectedCommands: [/^docker\s+build\s+-t\s+['"]?nmfs-custom-detector['"]?\s+\.$/],
+                successMsg: "Image built successfully! This container will run identically on your workstation and in the cloud.",
+                hint: "Type: docker build -t \"nmfs-custom-detector\" ."
+            },
+            {
+                id: 'data-processing',
+                title: "Module 7: Model Data Processing",
+                icon: "fa-solid fa-code-branch",
+                description: "Access OCIO workstations. Set up RStudio, Jupyter, or Positron, and link your GitHub repositories for data analysis.",
+                learnContent: `
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 7: Analyzing the Outputs</h3>
+                    <p class="mb-4">Once your heavy AI pipelines have run, you need a comfortable environment to analyze the tabular outputs (e.g., CSVs of fish counts or trajectory JSONs). Along with the OSI workstations (see Module 1), we can use OCIO-created workstations to host our favorite IDEs directly in the cloud, allowing us to process data without downloading gigabytes to our local machines.</p>
+                    
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Accessing OCIO Workstations</h4>
+                    <p class="mb-4 text-sm">Similar to the OSI workstations in Module 1, you can access OCIO-managed environments for downstream data processing:</p>
+                    <ol class="list-decimal pl-5 space-y-2 mb-4 text-sm">
+                        <li>Navigate to the <a href="https://console.cloud.google.com/workstations/list?project=ggn-nmfs-wsent-prod-1&pli=1" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">OCIO Workstations Console</a>.</li>
+                            <ol class="list-lower-alpha pl-5 space-y-2 mb-4 text-sm">
+                            <li>If you do not have access to these workstations, please fill out a <a href="https://apps-st.fisheries.noaa.gov/jira/servicedesk/customer/portal/14/user/login?destination=portal%2F14" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">JIRA Ticket</a> to gain access.</li>
+                            </ol>
+                        <li>Click <strong>Create Workstation</strong> and select a configuration suitable for data analysis (e.g., standard CPU instances are fine here, unless you are doing heavy spatial mapping).</li>
+                        <li>Unlike the OSI workstations, the UI is built-in. Simply click <strong>Launch</strong> to activate.</li>
+                    </ol>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. RStudio, Jupyter, & Positron</h4>
+                    <p class="mb-4 text-sm">Depending on your workstation configuration, you can launch different interactive environments directly from your browser:</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
+                        <li><strong>RStudio:</strong> The standard for marine ecologists. Perfect for <code>dplyr</code> and <code>ggplot2</code> workflows.</li>
+                        <li><strong>Jupyter Notebooks:</strong> Ideal for Python-based <code>pandas</code> analysis and interactive model debugging.</li>
+                        <li><strong>Positron:</strong> Posit's next-generation IDE that handles both Python and R beautifully.</li>
+                    </ul>
+                    <p class="mb-4 text-sm">Your cloud buckets (e.g., <code>gs://ggn-nmfs-osi-dev-1-data</code>) can be mounted directly to these environments or accessed via SDKs (like <code>googleCloudStorageR</code>), keeping your data securely in the cloud ecosystem. The code below is an example of how to mount a google cloud bucket directly in an RStudio workstations. Copy and save this code in a script and then paste it into the terminal. You will have to mount the bucket each time you log into the workstation.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">Mounting GCS Buckets via Terminal</h4>
+<p class="mb-4 text-sm">Paste all of this code in the terminal and follow the instructions to authenticate your Google account.</p>
+
+<pre><code class="language-bash"># Terminal code for mounting Google Cloud Buckets to Google Cloud Workstations
+# Author: Alexandra Norelli with Gemini assistance for R to BASH translations.  
+
+# Define your bucket and the mount point.
+# replace "nmfs-opensci" with your bucket name
+# The $HOME symbol is a shortcut for your home directory, so this will create the folder at /home/your_username/my_gcs_bucket.
+BUCKET_NAME="nmfs-dev-uc1-sefsc"
+MOUNT_POINT="$HOME/my_gcs_bucket"
+
+# --- Authentication ---
+# This command authenticates your user account with Google Cloud.
+# You'll be prompted to open a browser to complete the login process.
+echo "Running gcloud authentication. Please follow the instructions to log in in your browser."
+gcloud auth application-default login --no-launch-browser
+
+# --- Installation and Setup (Run only once) ---
+# Create the mount point if it doesn't exist.
+# Since this directory is in your home folder, you don't need \`sudo\` to create it.
+if [ ! -d "$MOUNT_POINT" ]; then
+mkdir -p "$MOUNT_POINT"
+fi
+
+# Add the Google Cloud GPG key to your system's trusted keys.
+# This is a critical step to verify the authenticity of the packages.
+curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/gcsfuse.gpg
+
+# Add the GCS FUSE repository to your system's sources list.
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/gcsfuse.gpg] https://packages.cloud.google.com/apt gcsfuse-\`lsb_release -c -s\` main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list &gt; /dev/null
+
+# Update the package list to include the new repository.
+echo "Updating package list..."
+sudo apt-get update
+
+# Install gcsfuse.
+echo "Installing gcsfuse..."
+sudo apt-get install -y gcsfuse
+
+# --- Mounting the Bucket ---  you might only need to run this if restarting a workstation
+# Use the gcsfuse tool to mount the bucket to the specified mount point.
+# The mount point is in your home directory, so \`sudo\` is no longer needed.
+echo "Mounting the bucket..."
+gcsfuse --implicit-dirs "$BUCKET_NAME" "$MOUNT_POINT"
+
+echo "Mounting complete. You can now access the bucket contents at $MOUNT_POINT"
+
+# Optional: List the contents to verify the mount was successful.
+ls -l "$MOUNT_POINT"</code></pre>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Linking Your GitHub Repository</h4>
+                    <p class="mb-4 text-sm">You should never write unversioned analysis scripts. To link your lab's GitHub repository to your Cloud IDE:</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
+                        <li>Open the terminal within your IDE (e.g., the RStudio Terminal tab).</li>
+                        <li>Use <code>git clone</code> to pull down your analysis repository. Alternatively, you can open a New Project in the Project dropdown in the top-right, select Version Control, and then select Git.</li>
+                        <li><strong>Authentication:</strong> Because cloud workstations are separate from your laptop, you will need to authenticate using a GitHub Personal Access Token (PAT) or by generating a new SSH key pair on the workstation and adding the public key to your GitHub settings.</li>
+                    </ul>
+                `,
+                exercisePrompt: "<p><strong>Scenario:</strong> You have just spun up your OCIO Jupyter workstation. You need to pull down your lab's data processing scripts from GitHub to analyze the latest AI survey outputs.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the git CLI to clone the repository.</li><li>The repository URL is: <code>https://github.com/noaa/nmfs-optics-analysis.git</code></li></ol>",
+                terminalType: "bash",
+                expectedCommands: [/^git\s+clone\s+https:\/\/github\.com\/noaa\/nmfs-optics-analysis\.git$/],
+                successMsg: "Repository cloned! Your workspace is now synced and ready for data analysis.",
+                hint: "Type: git clone https://github.com/noaa/nmfs-optics-analysis.git"
+            },
+            {
                 id: 'eval-metrics',
-                title: "Module 4: Evaluation Metrics & Bias",
+                title: "Module 8: Evaluation Metrics & Bias",
                 icon: "fa-solid fa-chart-line",
                 description: "Move beyond simple accuracy. Calculate F1, Precision, and taxa-specific bias.",
                 learnContent: `
@@ -332,108 +529,6 @@
                 expectedCommands: [/^0\.80?$/, /^0\.80?$/],
                 successMsg: "Correct. Both Precision (40/50) and Recall (40/50) are 0.80. The F1 score would also be 0.80.",
                 hint: "1. 40 / (40 + 10) = 0.8 | 2. 40 / (40 + 10) = 0.8"
-            },
-            {
-                id: 'yolo',
-                title: "Module 5: YOLO & Fast Inference",
-                icon: "fa-solid fa-camera",
-                description: "Why we use YOLO. Balancing model size, inference speed, and hyperparameter tuning.",
-                learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 5: The Ultralytics Paradigm</h3>
-                    <p class="mb-4">For processing millions of frames of video, speed is paramount. While complex architectures exist, we frequently recommend YOLO (You Only Look Once) models due to their incredibly low barrier to entry and massive developer community.</p>
-                    
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Inference Speed vs. Quality</h4>
-                    <p class="mb-4 text-sm">YOLO models come in different parameter sizes (Nano, Small, Medium, Large, X-Large). A massive model might give you a 2% bump in accuracy, but cost 5x more in cloud computing fees and take days to run. <strong>Baseline Practice:</strong> Always train a "Small" model first to provide fast, cheap baseline evaluations before committing to expensive, larger models.</p>
-
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Hyperparameter Dials</h4>
-                    <p class="mb-4 text-sm">When running inference, you control several dials. The <code>conf</code> (Confidence Threshold) determines how sure the model must be to output a bounding box. Setting this too low creates thousands of False Positives. The <code>iou</code> (Intersection over Union) threshold helps filter out redundant, overlapping boxes around the same fish.</p>
-
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Zero-Shot and Multimodal</h4>
-                    <p class="mb-4 text-sm">The field is moving towards "Zero-Shot" foundational models. These are massive models trained on the entire internet that allow free-form inquiry (e.g., you can ask the model to segment a "whale" without ever explicitly training it on whale data). These are excellent for rapidly generating pseudo-labels to bootstrap your own specific models.</p>
-
-                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
-                        <dl>
-                            <dt class="glossary-dt">Epoch</dt>
-                            <dd class="glossary-dd">The length of time required for the algorithm to perform one complete pass over the entire training dataset.</dd>
-                            <dt class="glossary-dt">Ensembling</dt>
-                            <dd class="glossary-dd">Combining the predictions of multiple different models. If one model is prone to False Positives, and another to False Negatives, ensembling them balances the weaknesses.</dd>
-                        </dl>
-                    </div>
-                `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You need to train a baseline YOLO model on your new benthic survey data to test hyperparameter feasibility.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>yolo</code> command line interface for the <code>train</code> task.</li><li>Set the data file to <code>benthic.yaml</code>.</li><li>Use the nano model weights: <code>model=yolov8n.pt</code>.</li><li>Run a short test of <code>epochs=10</code>. <br><em>(Enter as one continuous command)</em></li></ol>",
-                terminalType: "bash",
-                expectedCommands: [/^yolo\s+train\s+data=['"]?benthic\.yaml['"]?\s+model=['"]?yolov8n\.pt['"]?\s+epochs=10$/],
-                successMsg: "Baseline training loop initialized. Evaluating small models saves compute budget.",
-                hint: "Type: yolo train data='benthic.yaml' model='yolov8n.pt' epochs=10"
-            },
-            {
-                id: 'airflow-dags',
-                title: "Module 6: Airflow DAGs & Pipelines",
-                icon: "fa-solid fa-network-wired",
-                description: "Orchestrate long-running inference jobs. Trigger Cloud Composer pipelines using JSON payloads.",
-                learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 6: Heavyweight Orchestration</h3>
-                    <p class="mb-4">Running a model on a 5-minute video is easy. Running a model on 6 months of continuous acoustic data requires robust pipeline orchestration. We use Apache Airflow (hosted via GCP Cloud Composer) to manage these jobs.</p>
-                    
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. What is a DAG?</h4>
-                    <p class="mb-4 text-sm">A DAG (Directed Acyclic Graph) is a collection of all the tasks you want to run, organized to reflect their relationships and dependencies. E.g., Task A (Fetch Data) -> Task B (Run VIAME Model) -> Task C (Format Output). "Directed" means there is a strict order. "Acyclic" means it cannot loop infinitely.</p>
-
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Long-Running vs. Cloud Run</h4>
-                    <p class="mb-4 text-sm">Standard GCP "Cloud Run" jobs have strict time limits (usually 1 hour). If your inference takes longer, the job is killed, and you lose your data. For heavy ecological analyses, we route jobs to <strong>Batch/Long-Running pipelines</strong> (which can run for up to 7 days). It is up to the user to chunk their data into manageable JSON inputs.</p>
-
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Triggering Headless Pipelines</h4>
-                    <p class="mb-4 text-sm">You do not need to click through the Airflow GUI. You can trigger a DAG directly from your workstation CLI. You define your input bucket, output bucket, and model type in a <code>config.json</code> file, and pass it to the <code>gcloud composer</code> command to start the distributed computation.</p>
-
-                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
-                        <dl>
-                            <dt class="glossary-dt">Payload (JSON)</dt>
-                            <dd class="glossary-dd">The configuration data sent to the pipeline to tell it what to do. Example: <code>{"input_file": "gs://bucket/data", "model": "andy-6d"}</code>.</dd>
-                            <dt class="glossary-dt">Headless</dt>
-                            <dd class="glossary-dd">Executing a process via code/CLI without interacting with a Graphical User Interface.</dd>
-                        </dl>
-                    </div>
-                `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have prepared your <code>config.json</code> file. You need to trigger the long-running optics pipeline headless from your terminal.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Run: <code>gcloud composer environments run composer-env1</code></li><li>Specify the command: <code>dags trigger -- nmfs-optics-pipeline-longrunning-dag</code></li><li>Pass the config file: <code>--conf \"$(cat config.json)\"</code> <br><em>(Combine all 3 parts into one continuous command separated by spaces)</em></li></ol>",
-                terminalType: "bash",
-                expectedCommands: [/^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+trigger\s+--\s+nmfs-optics-pipeline-longrunning-dag\s+--conf\s+['"]?\$\(cat\s+['"]?config\.json['"]?\)\s*['"]?$/],
-                successMsg: "DAG triggered successfully. The pipeline will parse the JSON and distribute the workload.",
-                hint: "Type: gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\""
-            },
-            {
-                id: 'docker-iam',
-                title: "Module 7: Docker & IAM Permissions",
-                icon: "fa-brands fa-docker",
-                description: "Solve dependency hell. Understand containerization and navigate GCP permission walls.",
-                learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 7: Containers and Security Walls</h3>
-                    <p class="mb-4">A common nightmare: A model works perfectly on a developer's laptop, but crashes when deployed to the cloud because a specific Python library is missing. We solve this with Docker.</p>
-                    
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. What even is Docker?</h4>
-                    <p class="mb-4 text-sm">Docker is a tool that packages an application and all its dependencies (Python version, system libraries like CUDA, exact pip packages) into an immutable <strong>Image</strong>. When run, it becomes a <strong>Container</strong>. It runs consistently regardless of the host machine. If you struggle with <code>pip install</code> errors in legacy tools (like VIAME), Dockerizing the workflow circumvents the host OS limitations entirely.</p>
-
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Identity and Access Management (IAM)</h4>
-                    <p class="mb-4 text-sm">On GCP, you will run into "Permission Denied" errors. This is intentional security. GCP uses IAM Roles. For example, to view the deep python stack traces when a model crashes, your account must explicitly be granted <code>roles/logging.viewer</code>. To push a Docker image to the registry, you need <code>roles/artifactregistry.writer</code>.</p>
-
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. The Orchestration Layer</h4>
-                    <p class="mb-4 text-sm">In our DAG pipelines, the Docker container handles the orchestration (<code>app.py</code>), pulling data from buckets, running the heavy inference (<code>model.py</code>), and pushing the formatted outputs back to the cloud. You only need to swap out the <code>model.py</code> script to bring your own custom VIAME or YOLO models into the pipeline.</p>
-
-                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
-                        <dl>
-                            <dt class="glossary-dt">Dockerfile</dt>
-                            <dd class="glossary-dd">A text document containing all the commands a user could call on the command line to assemble an image (e.g., <code>FROM ubuntu:20.04</code>, <code>RUN pip install ultralytics</code>).</dd>
-                            <dt class="glossary-dt">Artifact Registry</dt>
-                            <dd class="glossary-dd">The GCP service where we upload and store our compiled Docker images so that Airflow/Cloud Run can pull and execute them.</dd>
-                        </dl>
-                    </div>
-                `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have written a <code>Dockerfile</code> that contains your custom fish-detection model and all its finicky python dependencies. You need to build it into an image.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>docker build</code> command.</li><li>Tag the image using the <code>-t</code> flag with the name: <code>nmfs-custom-detector</code>.</li><li>Specify the build context as the current directory using a period: <code>.</code></li></ol>",
-                terminalType: "bash",
-                expectedCommands: [/^docker\s+build\s+-t\s+['"]?nmfs-custom-detector['"]?\s+\.$/],
-                successMsg: "Image built successfully! This container will run identically on your workstation and in the cloud.",
-                hint: "Type: docker build -t \"nmfs-custom-detector\" ."
             }
         ];
 
