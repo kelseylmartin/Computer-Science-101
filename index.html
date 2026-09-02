@@ -60,7 +60,7 @@
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center space-x-3">
                     <i class="fa-solid fa-fish-fins text-blue-500 text-2xl"></i>
-                    <span class="font-bold text-xl tracking-tight text-white">Computational Ecology Primer</span>
+                    <span class="font-bold text-xl tracking-tight text-white">Optics Strategic Initiative Induction</span>
                 </div>
                 <div class="flex items-center space-x-4">
                     <div class="text-sm text-slate-400 font-medium">
@@ -82,11 +82,11 @@
                 Cloud Workstations & AI Pipelines
             </h1>
             <p class="text-lg text-slate-400 max-w-3xl mx-auto mb-6">
-                A bridge course for fishery biologists and ecologists. Transition from local desktop GUIs to deploying high-throughput ecological AI pipelines on Google Cloud Platform (GCP).
+                A bridge course for fishery biologists and ecologists conducting optics surveys and looking to step into the world of cloud computing. Transition from local desktop GUIs to deploying high-throughput ecological AI pipelines on Google Cloud Platform (GCP).
             </p>
             <div class="inline-flex items-center space-x-2 bg-slate-800 border border-slate-700 rounded-full px-4 py-2 text-sm text-slate-300">
                 <i class="fa-solid fa-triangle-exclamation text-yellow-500"></i>
-                <span>Prerequisites: Basic understanding of marine survey data. No prior CLI experience required.</span>
+                <span>Prerequisites: Basic understanding of marine survey data. No prior CLI experience required. Must have a noaa.gov email address.</span>
             </div>
         </div>
 
@@ -108,7 +108,7 @@
                             <i class="fa-solid fa-server text-6xl text-blue-500 opacity-80 mb-2"></i>
                         </div>
                         <h2 class="text-2xl font-bold text-slate-200">Initialize Workstation</h2>
-                        <p class="text-slate-400 max-w-md mx-auto">Select a module from the syllabus on the left to begin learning how to navigate the command line and automate your video analyses.</p>
+                        <p class="text-slate-400 max-w-md mx-auto">Select a module from the syllabus on the left to begin learning how to setup your workstations, navigate the command line, and automate your image analyses.</p>
                         <button onclick="selectModule(0)" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg transition-colors shadow-lg shadow-blue-500/30">
                             Start Module 1
                         </button>
@@ -120,7 +120,7 @@
                         <!-- Tabs -->
                         <div class="border-b border-slate-700 mb-6 flex space-x-6 shrink-0">
                             <button onclick="switchTab('learn')" id="tab-learn" class="pb-3 text-sm font-medium border-b-2 border-blue-500 text-blue-400 transition-colors">
-                                <i class="fa-solid fa-book-open mr-2"></i>Lecture Notes
+                                <i class="fa-solid fa-book-open mr-2"></i>Learning Material
                             </button>
                             <button onclick="switchTab('practice')" id="tab-practice" class="pb-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors">
                                 <i class="fa-solid fa-laptop-code mr-2"></i>Terminal Exercise
@@ -189,16 +189,16 @@
 
                     <ol class="list-decimal pl-5 space-y-2 mb-4 text-sm">
                       <li>Click on the link to the <a href="https://console.cloud.google.com/workstations/list?inv=1&invt=Ab4l4A&project=ggn-nmfs-osi-dev-1" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">OSI-specific workstations</a></li>
-                            <ol class="list-lower-alpha pl-5 space-y-2 mb-4 text-sm">
+                            <ol class="list-[lower-alpha] pl-5 space-y-2 mb-4 text-sm">
                             <li>If you do not have access to these workstations, please fill out a <a href="https://apps-st.fisheries.noaa.gov/jira/servicedesk/customer/portal/14/user/login?destination=portal%2F14" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">JIRA Ticket</a> and specify that you need access to the OSI workstations.</li>
                             </ol>                      
-                      <li>Select <strong>Create Workstation<strong></li>
+                      <li>Select <strong>Create Workstation</strong></li>
                       <li>Choose the option that best fits your needs (i.e., if training a model, choose one of the v100 workstations)</li>
-                      <li>Once the workstation has been created, or if already created, make sure that it has been started. Press &#9660; next to the <strong>Launch<strong> button and click <strong>Start<strong></li>
-                      <li>Press &#9660; again and then select <strong>SSH<strong>. A little code window will pop-up. Copy the code</li>
+                      <li>Once the workstation has been created, or if already created, make sure that it has been started. Press &#9660; next to the <strong>Launch</strong> button and click <strong>Start</strong></li>
+                      <li>Press &#9660; again and then select <strong>SSH</strong>. A little code window will pop-up. Copy the code</li>
                       <li>Open your <a href="https://console.cloud.google.com/" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Command Line Interface (CLI)</a> tab and in the terminal (click on terminal icon in top right if not already open), paste the SSH code</li>
                       <li>You are now tapped into the workstation and are free to operate via the command line</li>
-                      <li><strong>To get the <strong>Launch<strong> button to work and to have a user-interface. Follow the <a href="https://michaelakridge-noaa.github.io/optics-si-cloud-tools/codelabs/desktop-gpu-persistent-setup/" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Optics SI Cloud Desktop (GPU) Workstation Setup Instructions</a> created by Michael Akridge and begin on step 4</strong></li>
+                      <li><strong>To get the <strong>Launch</strong> button to work and to have a user-interface. Follow the <a href="https://michaelakridge-noaa.github.io/optics-si-cloud-tools/codelabs/desktop-gpu-persistent-setup/" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Optics SI Cloud Desktop (GPU) Workstation Setup Instructions</a> created by Michael Akridge and begin on step 4</strong></li>
                     </ol>                    
                     <p class="mb-4 text-sm"><br><br><strong>Best Practice:</strong> When you are done using the workstation, <em>shut the workstation down</em>. Cloud GPUs cost money by the hour. Do not leave them running over the weekend.</p>
 
@@ -230,37 +230,42 @@
             },
             {
                 id: 'data-curation',
-                title: "Module 2: Ecological Data Curation",
+                title: "Module 2: Data Organization & Pre-Processing",
                 icon: "fa-solid fa-database",
-                description: "Format annotations, handle video telemetry, and manage train/test splits.",
+                description: "Establish shared practices for staging, organizing, and pre-processing optical data using FAIR principles.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 2: The Garbage-In, Garbage-Out Principle</h3>
-                    <p class="mb-4">A model is only as good as its training data. Biologists often spend 80% of their time curating data before an AI model is ever touched. Formatting and stratification are critical.</p>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 2: National Standardization</h3>
+                    <p class="mb-4">Currently, inconsistent file organization and varying directory structures across centers hinder national collaboration. To solve this, we must prioritize shared practices for staging, uploading, and pre-processing optical data so teams can move into annotation and training with consistent inputs.</p>
                     
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. COCO vs. KW-COCO</h4>
-                    <p class="mb-4 text-sm">Most standard computer vision datasets use the <strong>COCO</strong> (Common Objects in Context) JSON format to map images to bounding box annotations. However, ecology relies heavily on video. COCO does not natively support video tracking. The Kitware-COCO (<strong>KW-COCO</strong>) extension solves this, allowing us to track individual fish across consecutive frames.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. FAIR Data & File Naming</h4>
+                    <p class="mb-2 text-sm">To ensure data is Findable, Accessible, Interoperable, and Reusable (FAIR), adhere to these project-agnostic best practices[cite: 1]:</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
+                        <li><strong>No spaces:</strong> Never use spaces in object or file names[cite: 1].</li>
+                        <li><strong>Time standards:</strong> Use ISO 8601 formatting for dates and times (e.g., <code>YYYY-MM-DDThh:mm:ssZ</code>), preferably in UTC[cite: 1].</li>
+                        <li><strong>Logical ordering:</strong> Use leading zeros (e.g., <code>01, 02... 10</code>) in object names to support correct computational sorting[cite: 1].</li>
+                    </ul>
 
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Data Splits and Leakage</h4>
-                    <p class="mb-4 text-sm">We split data into Training, Validation, and Test sets. <strong>Data Leakage</strong> occurs when images from the same exact video clip end up in both the Train and Test sets. Because frames in a video are nearly identical, the model "memorizes" the background and falsely appears highly accurate. Stratify your splits by <em>site</em> or <em>camera deployment</em>, not just by random frames.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. The Manifest Approach & Metadata</h4>
+                    <p class="mb-4 text-sm">Rather than forcing the migration of data already stored in functional regional buckets, we use a manifest-style approach[cite: 1]. This combines descriptive metadata (tabular data) with the Asset Reference (URL or URI) pointing to where the data lives in the cloud[cite: 1]. Standard required fields should always include: <em>Filename, Latitude, Longitude, Depth, Timestamp, Optical Instrument, Data Type, and Asset Reference</em>[cite: 1].</p>
 
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. The Importance of "Empty" Frames</h4>
-                    <p class="mb-4 text-sm">Biologists often only label frames containing animals. <strong>Best Practice:</strong> Explicitly include "empty" background images (coral, sand, water column) in your training data. This drastically helps the model learn what <em>not</em> to flag, filtering out false positives later (like identifying a sea cucumber as a rockfish).</p>
-
-                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
-                        <dl>
-                            <dt class="glossary-dt">Stratification</dt>
-                            <dd class="glossary-dd">Ensuring that the Train, Val, and Test datasets contain a representative balance of metadata covariates (e.g., ensuring both deep and shallow sites are in the test set).</dd>
-                            <dt class="glossary-dt">Bounding Box</dt>
-                            <dd class="glossary-dd">A tight rectangle drawn around an object. Detection requires tight boxes. Classification can tolerate wider background margins.</dd>
-                        </dl>
-                    </div>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Bucket Architecture & Permissions</h4>
+                    <p class="mb-4 text-sm">Scientists need autonomous "landing buckets" to stage their data[cite: 1]. You will need specific IAM privileges (like write and delete access) granted at the project level to manage this data[cite: 1].</p>
+                    <p class="mb-4 text-sm">A standardized multi-bucket (or directory) framework looks like this[cite: 1]:</p>
+                    <pre class="bg-slate-900 p-3 rounded text-sm text-slate-300 font-mono border border-slate-700 mb-4">
+my-project-bucket/
+├── raw/
+├── staged/
+├── annotations/
+├── training/
+├── evaluation/
+├── releases/
+└── archive/</pre>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have a KW-COCO JSON file containing annotations, but you want to use a quick python command to check how many 'images' (frames) are registered inside it before uploading to GCP.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Open a python interpreter (just type <code>python</code> to simulate this step).</li><li>Import the built-in <code>json</code> library.</li><li>Load the file: <code>data = json.load(open('annotations.json'))</code></li><li>Print the length of the images array: <code>print(len(data['images']))</code></li></ol>",
-                terminalType: "python",
-                expectedCommands: [/^import\s+json$/, /^data\s*=\s*json\.load\(open\(['"]annotations\.json['"]\)\)$/, /^print\(len\(data\['images'\]\)\)$/],
-                successMsg: "Data parsed! Verifying annotation counts locally saves hours of failed cloud runs.",
-                hint: "1. import json | 2. data = json.load(open('annotations.json')) | 3. print(len(data['images']))"
+                exercisePrompt: "<p><strong>Scenario:</strong> You've been granted IAM write access to your center's landing bucket. Before uploading your data, you need to set up the standardized directory structure locally.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>mkdir</code> command with the <code>-p</code> flag to create multiple directories at once.</li><li>Create the following directories: <code>raw staged annotations training</code>.</li></ol>",
+                terminalType: "bash",
+                expectedCommands: [/^mkdir\s+-p\s+raw\s+staged\s+annotations\s+training$/],
+                successMsg: "Directories established! Creating standardized environments ensures seamless handoffs between data providers and AI models.",
+                hint: "Type: mkdir -p raw staged annotations training"
             },
             {
                 id: 'model-gov',
@@ -331,42 +336,8 @@
                 hint: "Type: yolo train data='benthic.yaml' model='yolov8n.pt' epochs=10"
             },
             {
-                id: 'airflow-dags',
-                title: "Module 5: Airflow DAGs & Pipelines",
-                icon: "fa-solid fa-network-wired",
-                description: "Orchestrate long-running inference jobs. Trigger Cloud Composer pipelines using JSON payloads.",
-                learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 6: Heavyweight Orchestration</h3>
-                    <p class="mb-4">Running a model on a 5-minute video is easy. Running a model on 6 months of continuous acoustic data requires robust pipeline orchestration. We use Apache Airflow (hosted via GCP Cloud Composer) to manage these jobs.</p>
-                    
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. What is a DAG?</h4>
-                    <p class="mb-4 text-sm">A DAG (Directed Acyclic Graph) is a collection of all the tasks you want to run, organized to reflect their relationships and dependencies. E.g., Task A (Fetch Data) -> Task B (Run VIAME Model) -> Task C (Format Output). "Directed" means there is a strict order. "Acyclic" means it cannot loop infinitely.</p>
-
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Long-Running vs. Cloud Run</h4>
-                    <p class="mb-4 text-sm">Standard GCP "Cloud Run" jobs have strict time limits (usually 1 hour). If your inference takes longer, the job is killed, and you lose your data. For heavy ecological analyses, we route jobs to <strong>Batch/Long-Running pipelines</strong> (which can run for up to 7 days). It is up to the user to chunk their data into manageable JSON inputs.</p>
-
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Triggering Headless Pipelines</h4>
-                    <p class="mb-4 text-sm">You do not need to click through the Airflow GUI. You can trigger a DAG directly from your workstation CLI. You define your input bucket, output bucket, and model type in a <code>config.json</code> file, and pass it to the <code>gcloud composer</code> command to start the distributed computation.</p>
-
-                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
-                        <dl>
-                            <dt class="glossary-dt">Payload (JSON)</dt>
-                            <dd class="glossary-dd">The configuration data sent to the pipeline to tell it what to do. Example: <code>{"input_file": "gs://bucket/data", "model": "andy-6d"}</code>.</dd>
-                            <dt class="glossary-dt">Headless</dt>
-                            <dd class="glossary-dd">Executing a process via code/CLI without interacting with a Graphical User Interface.</dd>
-                        </dl>
-                    </div>
-                `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have prepared your <code>config.json</code> file. You need to trigger the long-running optics pipeline headless from your terminal.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Run: <code>gcloud composer environments run composer-env1</code></li><li>Specify the command: <code>dags trigger -- nmfs-optics-pipeline-longrunning-dag</code></li><li>Pass the config file: <code>--conf \"$(cat config.json)\"</code> <br><em>(Combine all 3 parts into one continuous command separated by spaces)</em></li></ol>",
-                terminalType: "bash",
-                expectedCommands: [/^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+trigger\s+--\s+nmfs-optics-pipeline-longrunning-dag\s+--conf\s+['"]?\$\(cat\s+['"]?config\.json['"]?\)\s*['"]?$/],
-                successMsg: "DAG triggered successfully. The pipeline will parse the JSON and distribute the workload.",
-                hint: "Type: gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\""
-            },
-            {
                 id: 'docker-iam',
-                title: "Module 6: Docker & IAM Permissions",
+                title: "Module 5: Docker & IAM Permissions",
                 icon: "fa-brands fa-docker",
                 description: "Solve dependency hell. Understand containerization and navigate GCP permission walls.",
                 learnContent: `
@@ -399,6 +370,40 @@
                 hint: "Type: docker build -t \"nmfs-custom-detector\" ."
             },
             {
+                id: 'airflow-dags',
+                title: "Module 6: Airflow DAGs & Pipelines",
+                icon: "fa-solid fa-network-wired",
+                description: "Orchestrate long-running inference jobs. Trigger Cloud Composer pipelines using JSON payloads.",
+                learnContent: `
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 6: Heavyweight Orchestration</h3>
+                    <p class="mb-4">Running a model on a 5-minute video is easy. Running a model on 6 months of continuous acoustic data requires robust pipeline orchestration. We use Apache Airflow (hosted via GCP Cloud Composer) to manage these jobs.</p>
+                    
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. What is a DAG?</h4>
+                    <p class="mb-4 text-sm">A DAG (Directed Acyclic Graph) is a collection of all the tasks you want to run, organized to reflect their relationships and dependencies. E.g., Task A (Fetch Data) -> Task B (Run VIAME Model) -> Task C (Format Output). "Directed" means there is a strict order. "Acyclic" means it cannot loop infinitely.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Long-Running vs. Cloud Run</h4>
+                    <p class="mb-4 text-sm">Standard GCP "Cloud Run" jobs have strict time limits (usually 1 hour). If your inference takes longer, the job is killed, and you lose your data. For heavy ecological analyses, we route jobs to <strong>Batch/Long-Running pipelines</strong> (which can run for up to 7 days). It is up to the user to chunk their data into manageable JSON inputs.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Triggering Headless Pipelines</h4>
+                    <p class="mb-4 text-sm">You do not need to click through the Airflow GUI. You can trigger a DAG directly from your workstation CLI. You define your input bucket, output bucket, and model type in a <code>config.json</code> file, and pass it to the <code>gcloud composer</code> command to start the distributed computation.</p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Payload (JSON)</dt>
+                            <dd class="glossary-dd">The configuration data sent to the pipeline to tell it what to do. Example: <code>{"input_file": "gs://bucket/data", "model": "andy-6d"}</code>.</dd>
+                            <dt class="glossary-dt">Headless</dt>
+                            <dd class="glossary-dd">Executing a process via code/CLI without interacting with a Graphical User Interface.</dd>
+                        </dl>
+                    </div>
+                `,
+                exercisePrompt: "<p><strong>Scenario:</strong> You have prepared your <code>config.json</code> file. You need to trigger the long-running optics pipeline headless from your terminal.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Run: <code>gcloud composer environments run composer-env1</code></li><li>Specify the command: <code>dags trigger -- nmfs-optics-pipeline-longrunning-dag</code></li><li>Pass the config file: <code>--conf \"$(cat config.json)\"</code> <br><em>(Combine all 3 parts into one continuous command separated by spaces)</em></li></ol>",
+                terminalType: "bash",
+                expectedCommands: [/^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+trigger\s+--\s+nmfs-optics-pipeline-longrunning-dag\s+--conf\s+['"]?\$\(cat\s+['"]?config\.json['"]?\)\s*['"]?$/],
+                successMsg: "DAG triggered successfully. The pipeline will parse the JSON and distribute the workload.",
+                hint: "Type: gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\""
+            },
+            {
                 id: 'data-processing',
                 title: "Module 7: Model Data Processing",
                 icon: "fa-solid fa-code-branch",
@@ -411,7 +416,7 @@
                     <p class="mb-4 text-sm">Similar to the OSI workstations in Module 1, you can access OCIO-managed environments for downstream data processing:</p>
                     <ol class="list-decimal pl-5 space-y-2 mb-4 text-sm">
                         <li>Navigate to the <a href="https://console.cloud.google.com/workstations/list?project=ggn-nmfs-wsent-prod-1&pli=1" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">OCIO Workstations Console</a>.</li>
-                            <ol class="list-lower-alpha pl-5 space-y-2 mb-4 text-sm">
+                            <ol class="list-[lower-alpha] pl-5 space-y-2 mb-4 text-sm">
                             <li>If you do not have access to these workstations, please fill out a <a href="https://apps-st.fisheries.noaa.gov/jira/servicedesk/customer/portal/14/user/login?destination=portal%2F14" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">JIRA Ticket</a> to gain access.</li>
                             </ol>
                         <li>Click <strong>Create Workstation</strong> and select a configuration suitable for data analysis (e.g., standard CPU instances are fine here, unless you are doing heavy spatial mapping).</li>
@@ -484,19 +489,19 @@ ls -l "$MOUNT_POINT"</code></pre>
                         <li><strong>Authentication:</strong> Because cloud workstations are separate from your laptop, you will need to authenticate using a GitHub Personal Access Token (PAT) or by generating a new SSH key pair on the workstation and adding the public key to your GitHub settings.</li>
                     </ul>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have just spun up your OCIO Jupyter workstation. You need to pull down your lab's data processing scripts from GitHub to analyze the latest AI survey outputs.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the git CLI to clone the repository.</li><li>The repository URL is: <code>https://github.com/noaa/nmfs-optics-analysis.git</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You have just spun up your OCIO Jupyter workstation. You need to pull down your lab's data processing scripts from GitHub to analyze the latest AI survey outputs.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the git CLI to clone the repository.</li><li>The repository URL is: <code>https://github.com/kelseylmartin/OSI_Model_Performance.git</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^git\s+clone\s+https:\/\/github\.com\/noaa\/nmfs-optics-analysis\.git$/],
+                expectedCommands: [/^git\s+clone\s+https:\/\/github\.com\/kelseylmartin\/OSI_Model_Performance\.git$/],
                 successMsg: "Repository cloned! Your workspace is now synced and ready for data analysis.",
-                hint: "Type: git clone https://github.com/noaa/nmfs-optics-analysis.git"
+                hint: "Type: 'git clone' followed by the repository URL"
             },
             {
                 id: 'eval-metrics',
                 title: "Module 8: Evaluation Metrics & Bias",
                 icon: "fa-solid fa-chart-line",
-                description: "Move beyond simple accuracy. Calculate F1, Precision, and taxa-specific bias.",
+                description: "Move beyond simple accuracy. Interpret confusion matrices to identify data gaps and taxonomic grouping strategies.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 4: When "Standard" Metrics Fail</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 8: When "Standard" Metrics Fail</h3>
                     <p class="mb-4">In ecology, standard accuracy is misleading. If 99% of your video is empty water, a model that simply guesses "empty" every time is 99% accurate, but utterly useless for finding fish. We must use targeted metrics.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Precision, Recall, and the F1-Score</h4>
@@ -523,11 +528,23 @@ ls -l "$MOUNT_POINT"</code></pre>
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You are evaluating a model's performance on a specific, endangered taxa. The model found 40 true individuals (TP), missed 10 individuals (FN), and falsely flagged 10 rocks as the species (FP).</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Calculate Precision (TP / (TP + FP)). Enter the decimal value (e.g., 0.50).</li><li>Calculate Recall (TP / (TP + FN)). Enter the decimal value.</li></ol>",
-                terminalType: "math",
-                expectedCommands: [/^0\.80?$/, /^0\.80?$/],
-                successMsg: "Correct. Both Precision (40/50) and Recall (40/50) are 0.80. The F1 score would also be 0.80.",
-                hint: "1. 40 / (40 + 10) = 0.8 | 2. 40 / (40 + 10) = 0.8"
+                exercisePrompt: `
+                    <p><strong>Scenario:</strong> You are reviewing a model's confusion matrix for three classes: Red Snapper (RS), Vermilion Snapper (VS), and Goliath Grouper (GG). Rows represent the <em>True</em> labels; Columns represent the <em>Predicted</em> labels.</p>
+                    <pre class="bg-slate-800 p-3 rounded-lg text-xs my-3 font-mono border border-slate-600 text-slate-300 overflow-x-auto">
+          | Pred_RS | Pred_VS | Pred_GG
+----------|---------|---------|---------
+True_RS   |   85    |   35    |    0
+True_VS   |   30    |   70    |    0
+True_GG   |    0    |    0    |    4
+                    </pre>
+                    <ol class='list-[lower-alpha] pl-5 mt-2 space-y-1'>
+                        <li>Which species desperately needs more training data due to an extremely low sample size? (Enter the 2-letter code)</li>
+                        <li>Which two species are highly confused and might need to be combined into a single "Snapper_Complex" training class? (Enter as: XX,XX)</li>
+                    </ol>`,
+                terminalType: "text",
+                expectedCommands: [/^GG$/i, /^(RS,VS|VS,RS|RS,\sVS|VS,\sRS)$/i],
+                successMsg: "Correct! GG only has 4 total samples. RS and VS have 65 instances of cross-confusion and may need to be merged.",
+                hint: "1. Look for the row with the lowest total numbers across the board. | 2. Look for the largest numbers outside of the correct diagonal matches (RS and VS)."
             }
         ];
 
