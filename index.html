@@ -229,47 +229,88 @@
                 hint: "Type: gcloud storage cp -r \"./videos/\" \"gs://fmc-bruv-bucket/\""
             },
             {
-                id: 'data-curation',
-                title: "Module 2: Data Organization & Pre-Processing",
-                icon: "fa-solid fa-database",
-                description: "Establish shared practices for staging, organizing, and pre-processing optical data using FAIR principles.",
+                id: 'model-training',
+                title: "Module 2: Model Training & Architecture",
+                icon: "fa-solid fa-brain",
+                description: "Understand YOLO directory structures, model architectures, and how to balance inference speed with hyperparameter tuning.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 2: National Standardization</h3>
-                    <p class="mb-4">Currently, inconsistent file organization and varying directory structures across centers hinder national collaboration. To solve this, we must prioritize shared practices for staging, uploading, and pre-processing optical data so teams can move into annotation and training with consistent inputs.</p>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 4: Training Your Own Model</h3>
+                    <p class="mb-4">For processing millions of frames of video, speed is paramount. While complex architectures exist, we frequently recommend YOLO (You Only Look Once) models due to their incredibly low barrier to entry and massive developer community. If an existing model doesn't work for your survey, you will need to train your own.</p>
                     
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. FAIR Data & File Naming</h4>
-                    <p class="mb-2 text-sm">To ensure data is Findable, Accessible, Interoperable, and Reusable (FAIR), adhere to these project-agnostic best practices[cite: 1]:</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Preparing Data for YOLO</h4>
+                    <p class="mb-2 text-sm">YOLO requires extreme strictness regarding how your images and labels are fed into the algorithm:</p>
                     <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
-                        <li><strong>No spaces:</strong> Never use spaces in object or file names[cite: 1].</li>
-                        <li><strong>Time standards:</strong> Use ISO 8601 formatting for dates and times (e.g., <code>YYYY-MM-DDThh:mm:ssZ</code>), preferably in UTC[cite: 1].</li>
-                        <li><strong>Logical ordering:</strong> Use leading zeros (e.g., <code>01, 02... 10</code>) in object names to support correct computational sorting[cite: 1].</li>
+                        <li><strong>Video to Frames:</strong> YOLO cannot train directly on <code>.mp4</code> files. You must first extract your video into individual frame images (e.g., at 1 fps).</li>
+                        <li><strong>Filename Matching:</strong> Every image must have a corresponding text file with the exact same name (e.g., <code>cam1_frame001.jpg</code> maps to <code>cam1_frame001.txt</code>).</li>
+                        <li><strong>The Folder Split:</strong> Data must be physically separated into an <code>images/</code> folder and a <code>labels/</code> folder, each containing <code>train/</code>, <code>val/</code>, and <code>test/</code> subfolders.</li>
                     </ul>
 
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. The Manifest Approach & Metadata</h4>
-                    <p class="mb-4 text-sm">Rather than forcing the migration of data already stored in functional regional buckets, we use a manifest-style approach[cite: 1]. This combines descriptive metadata (tabular data) with the Asset Reference (URL or URI) pointing to where the data lives in the cloud[cite: 1]. Standard required fields should always include: <em>Filename, Latitude, Longitude, Depth, Timestamp, Optical Instrument, Data Type, and Asset Reference</em>[cite: 1].</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Architectures & Versions</h4>
+                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
+                        <li><strong>CNNs & RF-DETR:</strong> CNNs (Convolutional Neural Networks) slide a mathematical filter over an image to detect features. RF-DETR (Detection Transformer) uses "attention mechanisms" instead, excelling in highly variable benthic habitats without needing Non-Maximum Suppression (NMS) to filter boxes.</li>
+                        <li><strong>Zero-Shot Models:</strong> Massive foundational models trained on the internet. You can ask them to segment a "whale" without explicit training. Great for rapidly generating pseudo-labels.</li>
+                        <li><strong>YOLOv8 & YOLOv11:</strong> v8 is highly stable and best for general use. v11 offers faster processing and improved feature extraction for complex underwater scenes.</li>
+                        <li><strong>YOLO26:</strong> The newest edge-optimized generation. It eliminates NMS bottlenecks and is highly optimized for CPU inference (ideal for deployment directly on AUVs/ROVs).</li>
+                    </ul>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Inference Speed & Hyperparameters</h4>
+                    <p class="mb-4 text-sm">YOLO models come in different parameter sizes (Nano, Small, Medium, Large, X-Large). A massive model might give you a 2% bump in accuracy but cost 5x more in cloud fees. <strong>Baseline Practice:</strong> Always train a "Small" or "Nano" model first to test feasibility. When running inference, control your dials: the <code>conf</code> (Confidence) threshold determines how sure the model must be to output a box, and <code>iou</code> (Intersection over Union) filters out redundant overlapping boxes.</p>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Epoch</dt>
+                            <dd class="glossary-dd">The length of time required for the algorithm to perform one complete pass over the entire training dataset.</dd>
+                            <dt class="glossary-dt">Ensembling</dt>
+                            <dd class="glossary-dd">Combining the predictions of multiple different models to balance out False Positives and False Negatives.</dd>
+                        </dl>
+                    </div>
+                `,
+                exercisePrompt: "<p><strong>Scenario:</strong> You have correctly formatted your dataset and need to train a baseline YOLO model on your new benthic survey data to test hyperparameter feasibility.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>yolo</code> command line interface for the <code>train</code> task.</li><li>Set the data file to <code>benthic.yaml</code>.</li><li>Use the nano model weights: <code>model=yolov8n.pt</code>.</li><li>Run a short test of <code>epochs=10</code>. <br><em>(Enter as one continuous command)</em></li></ol>",
+                terminalType: "bash",
+                expectedCommands: [/^yolo\s+train\s+data=['"]?benthic\.yaml['"]?\s+model=['"]?yolov8n\.pt['"]?\s+epochs=10$/],
+                successMsg: "Baseline training loop initialized. Evaluating small models saves compute budget.",
+                hint: "Type: yolo train data='benthic.yaml' model='yolov8n.pt' epochs=10"
+            },
+            {
+                id: 'data-curation',
+                title: "Module 3: Data Setup for Existing Models",
+                icon: "fa-solid fa-database",
+                description: "Prepare your data to run through established AI pipelines using FAIR file naming and standardized manifests.",
+                learnContent: `
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 2: Pre-Processing for the Pipeline</h3>
+                    <p class="mb-4">When you are running your survey images through an existing, pre-trained AI model, the model expects the input data to be organized perfectly. If your data organization is messy, the cloud pipeline will fail.</p>
+                    
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Standardized File Naming</h4>
+                    <p class="mb-2 text-sm">To ensure your data is processed correctly, you must adhere to established FAIR (Findable, Accessible, Interoperable, and Reusable) data principles[cite: 1]:</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
+                        <li><strong>No Spaces:</strong> Never use spaces in object or file names[cite: 1].</li>
+                        <li><strong>Standardized Time:</strong> Use ISO 8601 formatting for dates and times (e.g., <code>YYYY-MM-DDThh:mm:ssZ</code>), preferably in UTC[cite: 1].</li>
+                        <li><strong>Logical Ordering:</strong> Use leading zeros (e.g., <code>01, 02... 10</code>) in object names to ensure the computer sorts your files sequentially[cite: 1].</li>
+                    </ul>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. The Manifest Approach</h4>
+                    <p class="mb-4 text-sm">You do not need to move your data into a single centralized OSI bucket if it is already established in your center's bucket[cite: 1]. Instead, models use a "Manifest"—a tabular metadata file that points the AI to your data[cite: 1]. Your manifest must contain these required fields: <em>Filename, Latitude, Longitude, Depth, Timestamp, Optical Instrument, Data Type, and Asset Reference (the cloud URL)</em>[cite: 1].</p>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Bucket Architecture & Permissions</h4>
-                    <p class="mb-4 text-sm">Scientists need autonomous "landing buckets" to stage their data[cite: 1]. You will need specific IAM privileges (like write and delete access) granted at the project level to manage this data[cite: 1].</p>
-                    <p class="mb-4 text-sm">A standardized multi-bucket (or directory) framework looks like this[cite: 1]:</p>
+                    <p class="mb-4 text-sm">To upload data, you need an autonomous "landing bucket"[cite: 1]. Ensure you have requested IAM write and delete privileges at the project level to manage your files[cite: 1]. When staging data for the pipeline, arrange your directories using the OSI standard[cite: 1]:</p>
                     <pre class="bg-slate-900 p-3 rounded text-sm text-slate-300 font-mono border border-slate-700 mb-4">
 my-project-bucket/
 ├── raw/
 ├── staged/
 ├── annotations/
-├── training/
 ├── evaluation/
-├── releases/
 └── archive/</pre>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You've been granted IAM write access to your center's landing bucket. Before uploading your data, you need to set up the standardized directory structure locally.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>mkdir</code> command with the <code>-p</code> flag to create multiple directories at once.</li><li>Create the following directories: <code>raw staged annotations training</code>.</li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You've been granted IAM write access to your center's bucket. Before uploading your imagery, you need to set up the standardized directory structure locally.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>mkdir</code> command with the <code>-p</code> flag to create multiple directories at once.</li><li>Create the following directories: <code>raw staged annotations evaluation</code>.</li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^mkdir\s+-p\s+raw\s+staged\s+annotations\s+training$/],
-                successMsg: "Directories established! Creating standardized environments ensures seamless handoffs between data providers and AI models.",
-                hint: "Type: mkdir -p raw staged annotations training"
+                expectedCommands: [/^mkdir\s+-p\s+raw\s+staged\s+annotations\s+evaluation$/],
+                successMsg: "Directories established! Creating standardized environments ensures the AI pipeline can locate and process your files without errors.",
+                hint: "Type: mkdir -p raw staged annotations evaluation"
             },
             {
                 id: 'model-gov',
-                title: "Module 3: Model Governance & Reproducibility",
+                title: "Module 4: Model Governance & Reproducibility",
                 icon: "fa-solid fa-scale-balanced",
                 description: "Prepare AI pipelines to pass stock assessment peer review using Git and Model Cards.",
                 learnContent: `
@@ -300,41 +341,7 @@ my-project-bucket/
                 expectedCommands: [/^git\s+add\s+['"]?metadata\.md['"]?$/, /^git\s+commit\s+-m\s+['"]Added NMFS optics model card['"]$/],
                 successMsg: "Commit successful. Your model's provenance is now cryptographically secured.",
                 hint: "1. git add metadata.md | 2. git commit -m 'Added NMFS optics model card'"
-            },
-            {
-                id: 'yolo',
-                title: "Module 4: YOLO & Fast Inference",
-                icon: "fa-solid fa-camera",
-                description: "Why we use YOLO. Balancing model size, inference speed, and hyperparameter tuning.",
-                learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 5: The Ultralytics Paradigm</h3>
-                    <p class="mb-4">For processing millions of frames of video, speed is paramount. While complex architectures exist, we frequently recommend YOLO (You Only Look Once) models due to their incredibly low barrier to entry and massive developer community.</p>
-                    
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Inference Speed vs. Quality</h4>
-                    <p class="mb-4 text-sm">YOLO models come in different parameter sizes (Nano, Small, Medium, Large, X-Large). A massive model might give you a 2% bump in accuracy, but cost 5x more in cloud computing fees and take days to run. <strong>Baseline Practice:</strong> Always train a "Small" model first to provide fast, cheap baseline evaluations before committing to expensive, larger models.</p>
-
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Hyperparameter Dials</h4>
-                    <p class="mb-4 text-sm">When running inference, you control several dials. The <code>conf</code> (Confidence Threshold) determines how sure the model must be to output a bounding box. Setting this too low creates thousands of False Positives. The <code>iou</code> (Intersection over Union) threshold helps filter out redundant, overlapping boxes around the same fish.</p>
-
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Zero-Shot and Multimodal</h4>
-                    <p class="mb-4 text-sm">The field is moving towards "Zero-Shot" foundational models. These are massive models trained on the entire internet that allow free-form inquiry (e.g., you can ask the model to segment a "whale" without ever explicitly training it on whale data). These are excellent for rapidly generating pseudo-labels to bootstrap your own specific models.</p>
-
-                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
-                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
-                        <dl>
-                            <dt class="glossary-dt">Epoch</dt>
-                            <dd class="glossary-dd">The length of time required for the algorithm to perform one complete pass over the entire training dataset.</dd>
-                            <dt class="glossary-dt">Ensembling</dt>
-                            <dd class="glossary-dd">Combining the predictions of multiple different models. If one model is prone to False Positives, and another to False Negatives, ensembling them balances the weaknesses.</dd>
-                        </dl>
-                    </div>
-                `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You need to train a baseline YOLO model on your new benthic survey data to test hyperparameter feasibility.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>yolo</code> command line interface for the <code>train</code> task.</li><li>Set the data file to <code>benthic.yaml</code>.</li><li>Use the nano model weights: <code>model=yolov8n.pt</code>.</li><li>Run a short test of <code>epochs=10</code>. <br><em>(Enter as one continuous command)</em></li></ol>",
-                terminalType: "bash",
-                expectedCommands: [/^yolo\s+train\s+data=['"]?benthic\.yaml['"]?\s+model=['"]?yolov8n\.pt['"]?\s+epochs=10$/],
-                successMsg: "Baseline training loop initialized. Evaluating small models saves compute budget.",
-                hint: "Type: yolo train data='benthic.yaml' model='yolov8n.pt' epochs=10"
-            },
+            },            
             {
                 id: 'docker-iam',
                 title: "Module 5: Docker & IAM Permissions",
