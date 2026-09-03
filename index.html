@@ -141,7 +141,7 @@
                                 <div id="exercise-prompt" class="text-sm text-slate-300 leading-relaxed"></div>
                             </div>
                             
-                            <!-- Terminal Emulator (Now with fixed height and shrink-0 headers/footers) -->
+                            <!-- Terminal Emulator -->
                             <div class="bg-black rounded-lg border border-slate-700 font-mono text-sm shadow-inner flex-grow flex flex-col mb-4 overflow-hidden relative h-64">
                                 <div class="bg-slate-800 px-4 py-2 flex items-center justify-between border-b border-slate-700 shrink-0">
                                     <div class="flex space-x-2">
@@ -261,7 +261,7 @@
                       <li>You are now tapped into the workstation and are free to operate via the command line</li>
                       <li><strong>To get the <strong>Launch</strong> button to work and to have a user-interface. Follow the <a href="https://michaelakridge-noaa.github.io/optics-si-cloud-tools/codelabs/desktop-gpu-persistent-setup/" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Optics SI Cloud Desktop (GPU) Workstation Setup Instructions</a> created by Michael Akridge and begin on step 4</strong></li>
                     </ol>                    
-                    <p class="mb-4 text-sm"><strong>Best Practice:</strong> When you are done using the workstation, <em>shut the workstation down</em>. Cloud GPUs cost money by the hour. Do not leave them running over the weekend.</p>
+                    <p class="mb-4 text-sm"><br><br><strong>Best Practice:</strong> When you are done using the workstation, <em>shut the workstation down</em>. Cloud GPUs cost money by the hour. Do not leave them running over the weekend.</p>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Google Cloud Storage (GCS)</h4>
                     <p class="mb-4 text-sm">Do not use the browser console to upload 100GB of video; it will crash. Use the Google CLI. The command <code class="bg-slate-700 px-1 rounded text-blue-300">gcloud storage cp</code> allows you to copy data directly to cloud "Buckets". <strong>Note:</strong> Always check your workstation's available disk space using the <code>df -h</code> command before downloading large bucket data to your local workstation drive.</p>
@@ -290,12 +290,62 @@
                 hint: "1. df -h | 2. mkdir -p ./videos/ | 3. gcloud storage cp -r \"gs://fmc-bruv-bucket/\" \"./videos/\""
             },
             {
+                id: 'data-curation',
+                title: "Module 3: Ecological Data Curation & Setup",
+                icon: "fa-solid fa-database",
+                description: "Understand KW-COCO annotations, data stratification, and how to format your files for the pipeline using FAIR principles.",
+                learnContent: `
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 3: The Garbage-In, Garbage-Out Principle</h3>
+                    <p class="mb-4">A model is only as good as its training data. Biologists often spend 80% of their time curating data before an AI model is ever touched. Formatting, file naming, and stratification are critical.</p>
+                    
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. COCO vs. KW-COCO & "Empty" Frames</h4>
+                    <p class="mb-2 text-sm">Most standard computer vision datasets use the <strong>COCO</strong> (Common Objects in Context) JSON format to map images to bounding box annotations. However, ecology relies heavily on video. COCO does not natively support video tracking. The Kitware-COCO (<strong>KW-COCO</strong>) extension solves this, allowing us to track individual fish across consecutive frames.</p>
+                    <p class="mb-4 text-sm"><strong>Best Practice:</strong> Explicitly include "empty" background images (coral, sand, water column) in your training data. This drastically helps the model learn what <em>not</em> to flag, filtering out false positives later.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Standardized File Naming (FAIR)</h4>
+                    <p class="mb-2 text-sm">To ensure your data is Findable, Accessible, Interoperable, and Reusable (FAIR), adhere to these principles:</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
+                        <li><strong>No Spaces:</strong> Never use spaces in object or file names.</li>
+                        <li><strong>Standardized Time:</strong> Use ISO 8601 formatting for dates and times (e.g., <code>YYYY-MM-DDThh:mm:ssZ</code>), preferably in UTC.</li>
+                        <li><strong>Logical Ordering:</strong> Use leading zeros (e.g., <code>01, 02... 10</code>) in object names to ensure the computer sorts your files sequentially.</li>
+                    </ul>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. The Manifest Approach</h4>
+                    <p class="mb-4 text-sm">You do not need to move your data into a single centralized OSI bucket if it is already established in your center's bucket. Instead, models use a "Manifest"—a tabular metadata file that points the AI to your data. Your manifest must contain these required fields: <em>Filename, Latitude, Longitude, Depth, Timestamp, Optical Instrument, Data Type, and Asset Reference (the cloud URL)</em>.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">4. Bucket Architecture</h4>
+                    <p class="mb-4 text-sm">To upload data, you need an autonomous "landing bucket". When staging data for the pipeline, arrange your directories using the OSI standard:</p>
+                    <pre class="bg-slate-900 p-3 rounded text-sm text-slate-300 font-mono border border-slate-700 mb-4">
+my-project-bucket/
+├── raw/
+├── staged/
+├── annotations/
+├── evaluation/
+└── archive/</pre>
+
+                    <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <dl>
+                            <dt class="glossary-dt">Stratification</dt>
+                            <dd class="glossary-dd">Ensuring that the Train, Val, and Test datasets contain a representative balance of metadata covariates (e.g., ensuring both deep and shallow sites are in the test set). Stratify by site or deployment, not by random frame, to avoid <strong>Data Leakage</strong>.</dd>
+                            <dt class="glossary-dt">Bounding Box</dt>
+                            <dd class="glossary-dd">A tight rectangle drawn around an object. Detection requires tight boxes. Classification can tolerate wider background margins.</dd>
+                        </dl>
+                    </div>
+                `,
+                exercisePrompt: "<p><strong>Scenario:</strong> You've been granted IAM write access to your center's bucket. Before uploading your imagery, you need to set up the standardized directory structure locally and prepare your empty manifest file for staging.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Create the standard directories: <code>mkdir -p raw staged annotations evaluation</code></li><li>Create the empty manifest file in the staged folder: <code>touch staged/manifest.csv</code></li><li>Verify it was created by listing the directory contents: <code>ls -la staged/</code></li></ol>",
+                terminalType: "bash",
+                expectedCommands: [/^mkdir\s+-p\s+raw\s+staged\s+annotations\s+evaluation$/, /^touch\s+staged\/manifest\.csv$/, /^ls\s+-la\s+staged\/?$/],
+                successMsg: "Directories established! You are ready to populate your manifest and run the pipeline.",
+                hint: "1. mkdir -p raw staged annotations evaluation | 2. touch staged/manifest.csv | 3. ls -la staged/"
+            },
+            {
                 id: 'model-training',
-                title: "Module 3: Model Training & Architecture",
+                title: "Module 4: Model Training & Architecture",
                 icon: "fa-solid fa-brain",
                 description: "Understand YOLO directory structures, model architectures, and how to choose the right model for your survey data.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 3: Training Your Own Model</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 4: Training Your Own Model</h3>
                     <p class="mb-4">For processing millions of frames of video, speed is paramount. While complex architectures exist, we frequently recommend YOLO (You Only Look Once) models due to their incredibly low barrier to entry and massive developer community. If an existing model doesn't work for your survey, you will need to train your own.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Preparing Data for YOLO</h4>
@@ -391,42 +441,6 @@
                 hint: "1. mkdir -p dataset/images/train dataset/labels/train | 2. yolo train data='benthic.yaml' model='yolov8n.pt' epochs=10 | 3. yolo val model='runs/detect/train/weights/best.pt' data='benthic.yaml'"
             },
             {
-                id: 'data-curation',
-                title: "Module 4: Data Setup for Existing Models",
-                icon: "fa-solid fa-database",
-                description: "Prepare your data to run through established AI pipelines using FAIR file naming and standardized manifests.",
-                learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 4: Pre-Processing for the Pipeline</h3>
-                    <p class="mb-4">When you are running your survey images through an existing, pre-trained AI model, the model expects the input data to be organized perfectly. If your data organization is messy, the cloud pipeline will fail. Always ensure your image counts match your manifest row counts before uploading.</p>
-                    
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Standardized File Naming</h4>
-                    <p class="mb-2 text-sm">To ensure your data is processed correctly, you must adhere to established FAIR (Findable, Accessible, Interoperable, and Reusable) data principles:</p>
-                    <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
-                        <li><strong>No Spaces:</strong> Never use spaces in object or file names.</li>
-                        <li><strong>Standardized Time:</strong> Use ISO 8601 formatting for dates and times (e.g., <code>YYYY-MM-DDThh:mm:ssZ</code>), preferably in UTC.</li>
-                        <li><strong>Logical Ordering:</strong> Use leading zeros (e.g., <code>01, 02... 10</code>) in object names to ensure the computer sorts your files sequentially.</li>
-                    </ul>
-
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. The Manifest Approach</h4>
-                    <p class="mb-4 text-sm">You do not need to move your data into a single centralized OSI bucket if it is already established in your center's bucket. Instead, models use a "Manifest"—a tabular metadata file that points the AI to your data. Your manifest must contain these required fields: <em>Filename, Latitude, Longitude, Depth, Timestamp, Optical Instrument, Data Type, and Asset Reference (the cloud URL)</em>.</p>
-
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Bucket Architecture & Permissions</h4>
-                    <p class="mb-4 text-sm">To upload data, you need an autonomous "landing bucket". Ensure you have requested IAM write and delete privileges at the project level to manage your files. When staging data for the pipeline, arrange your directories using the OSI standard:</p>
-                    <pre class="bg-slate-900 p-3 rounded text-sm text-slate-300 font-mono border border-slate-700 mb-4">
-my-project-bucket/
-├── raw/
-├── staged/
-├── annotations/
-├── evaluation/
-└── archive/</pre>
-                `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You've been granted IAM write access. Before uploading your imagery, you need to set up the standardized directory structure locally and prepare your empty manifest file for staging.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Create the standard directories: <code>mkdir -p raw staged annotations evaluation</code></li><li>Create the empty manifest file in the staged folder: <code>touch staged/manifest.csv</code></li><li>Verify it was created by listing the directory contents: <code>ls -la staged/</code></li></ol>",
-                terminalType: "bash",
-                expectedCommands: [/^mkdir\s+-p\s+raw\s+staged\s+annotations\s+evaluation$/, /^touch\s+staged\/manifest\.csv$/, /^ls\s+-la\s+staged\/?$/],
-                successMsg: "Directories established! You are ready to populate your manifest and run the pipeline.",
-                hint: "1. mkdir -p raw staged annotations evaluation | 2. touch staged/manifest.csv | 3. ls -la staged/"
-            },
-            {
                 id: 'model-gov',
                 title: "Module 5: Model Governance & Reproducibility",
                 icon: "fa-solid fa-scale-balanced",
@@ -488,11 +502,11 @@ my-project-bucket/
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have written a <code>Dockerfile</code> that contains your custom fish-detection model. You need to build it, tag it for the cloud, and push it to the GCP registry.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Build the image locally: <code>docker build -t \"nmfs-custom-detector\" .</code></li><li>Tag the image for the specific GCP registry path: <code>docker tag nmfs-custom-detector gcr.io/ggn-nmfs-osi-dev-1/nmfs-custom-detector:v1</code></li><li>Push the image to the cloud repository: <code>docker push gcr.io/ggn-nmfs-osi-dev-1/nmfs-custom-detector:v1</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You have written a <code>Dockerfile</code> that contains your custom rockfish-detection model. You need to build it, tag it for the cloud, and push it to the GCP registry.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Build the image locally: <code>docker build -t \"nmfs-rockfish-detector\" .</code></li><li>Tag the image for the specific GCP registry path: <code>docker tag nmfs-rockfish-detector gcr.io/ggn-nmfs-osi-dev-1/nmfs-rockfish-detector:v1</code></li><li>Push the image to the cloud repository: <code>docker push gcr.io/ggn-nmfs-osi-dev-1/nmfs-rockfish-detector:v1</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^docker\s+build\s+-t\s+['"]?nmfs-custom-detector['"]?\s+\.$/, /^docker\s+tag\s+nmfs-custom-detector\s+gcr\.io\/ggn-nmfs-osi-dev-1\/nmfs-custom-detector:v1$/, /^docker\s+push\s+gcr\.io\/ggn-nmfs-osi-dev-1\/nmfs-custom-detector:v1$/],
+                expectedCommands: [/^docker\s+build\s+-t\s+['"]?nmfs-rockfish-detector['"]?\s+\.$/, /^docker\s+tag\s+nmfs-rockfish-detector\s+gcr\.io\/ggn-nmfs-osi-dev-1\/nmfs-rockfish-detector:v1$/, /^docker\s+push\s+gcr\.io\/ggn-nmfs-osi-dev-1\/nmfs-rockfish-detector:v1$/],
                 successMsg: "Image built, tagged, and pushed successfully! Airflow can now pull this exact container down to run on cloud batches.",
-                hint: "1. docker build -t \"nmfs-custom-detector\" . | 2. docker tag nmfs-custom-detector gcr.io/ggn-nmfs-osi-dev-1/nmfs-custom-detector:v1 | 3. docker push gcr.io/ggn-nmfs-osi-dev-1/nmfs-custom-detector:v1"
+                hint: "1. docker build -t \"nmfs-rockfish-detector\" . | 2. docker tag nmfs-rockfish-detector gcr.io/ggn-nmfs-osi-dev-1/nmfs-rockfish-detector:v1 | 3. docker push gcr.io/ggn-nmfs-osi-dev-1/nmfs-rockfish-detector:v1"
             },
             {
                 id: 'airflow-dags',
@@ -615,11 +629,11 @@ ls -l "$MOUNT_POINT"</code></pre>
                         <li><strong>Authentication:</strong> Because cloud workstations are separate from your laptop, you will need to authenticate using a GitHub Personal Access Token (PAT) or by generating a new SSH key pair on the workstation and adding the public key to your GitHub settings.</li>
                     </ul>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You spun up your OCIO workstation. You need to pull down your lab's data processing scripts, navigate to the folder, and install the isolated Python dependencies via pip.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Clone the repository: <code>git clone https://github.com/kelseylmartin/OSI_Model_Performance.git</code></li><li>Navigate into the new directory: <code>cd OSI_Model_Performance</code></li><li>Install the dependencies: <code>pip install -r requirements.txt</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You spun up your OCIO workstation. You need to pull down your lab's data processing scripts, navigate to the folder, and install the isolated Python dependencies via pip.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Clone the repository: <code>git clone https://github.com/noaa/nmfs-optics-analysis.git</code></li><li>Navigate into the new directory: <code>cd nmfs-optics-analysis</code></li><li>Install the dependencies: <code>pip install -r requirements.txt</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^git\s+clone\s+https:\/\/github\.com\/kelseylmartin\/OSI_Model_Performance\.git$/, /^cd\s+OSI_Model_Performance$/, /^pip\s+install\s+-r\s+requirements\.txt$/],
+                expectedCommands: [/^git\s+clone\s+https:\/\/github\.com\/noaa\/nmfs-optics-analysis\.git$/, /^cd\s+nmfs-optics-analysis$/, /^pip\s+install\s+-r\s+requirements\.txt$/],
                 successMsg: "Repository cloned and dependencies mapped! Your workspace is isolated and ready for data analysis.",
-                hint: "1. git clone https://github.com/kelseylmartin/OSI_Model_Performance.git | 2. cd OSI_Model_Performance | 3. pip install -r requirements.txt"
+                hint: "1. git clone https://github.com/noaa/nmfs-optics-analysis.git | 2. cd nmfs-optics-analysis | 3. pip install -r requirements.txt"
             },
             {
                 id: 'eval-metrics',
