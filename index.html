@@ -110,7 +110,7 @@
                         <h2 class="text-2xl font-bold text-slate-200">Initialize Workstation</h2>
                         <p class="text-slate-400 max-w-md mx-auto">Select a module from the syllabus on the left to begin learning how to setup your workstations, navigate the command line, and automate your image analyses.</p>
                         <button onclick="selectModule(0)" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg transition-colors shadow-lg shadow-blue-500/30">
-                            Start Module 1
+                            Start Course
                         </button>
                     </div>
 
@@ -176,12 +176,43 @@
     <script>
         const courseData = [
             {
-                id: 'cloud-cli',
-                title: "Module 1: The Cloud CLI & Moving Data",
-                icon: "fa-solid fa-terminal",
-                description: "Navigate GCP workstations. Learn shell syntaxes, moving video data, and cost management.",
+                id: 'intro-cv',
+                title: "Module 1: How Computer Vision Works",
+                icon: "fa-solid fa-eye",
+                description: "Understand edge detection, vectors, logistic regressions, and the FAFO methodology.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 1: Escaping the Desktop</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 1: Looking Under the Hood</h3>
+                    <p class="mb-4">Before we run massive AI pipelines, it's critical to understand what the computer is actually "seeing." Computers don't see fish; they see matrices of numbers.</p>
+                    
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Finding the Edges</h4>
+                    <p class="mb-2 text-sm">Every image is a grid of pixel intensity values (0 to 255). The first layers of a computer vision model scan this grid to find sharp mathematical contrasts. If a dark pixel sits directly next to a bright pixel, the model registers an "edge."</p>
+                    <div class="bg-slate-900 p-4 border border-slate-700 rounded text-center my-4 font-mono text-xs text-slate-400">
+                        // A sharp contrast indicates an outline (e.g., the edge of a dorsal fin against water)<br>
+                        [ 10 ]  [ 12 ]  [ 15 ]  |  [ 240 ]  [ 245 ]  [ 250 ]
+                    </div>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Vectors & Logistic Regression</h4>
+                    <p class="mb-4 text-sm">Once edges and shapes are mapped across multiple hidden layers, the model flattens all of this spatial data into a 1D mathematical array called a <strong>Vector</strong>. This vector is passed into a final layer—often using a Logistic Regression function (Sigmoid). This function takes the raw math and "squashes" it into a clean probability score between 0.0 and 1.0 (e.g., indicating an 85% certainty the object is a rockfish).</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Model Dimensions</h4>
+                    <p class="mb-4 text-sm">Models are scaled using three main dimensions: <strong>Depth</strong> (number of neural layers), <strong>Width</strong> (number of feature filters per layer), and <strong>Resolution</strong> (size of the input image). Increasing these dimensions allows the model to learn highly complex ecological traits, but it drastically increases computational load.</p>
+
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">4. FAFO: Balancing Time & Money</h4>
+                    <p class="mb-4 text-sm">Running massive, deep models on Google Cloud costs money by the hour and can take days to run. A common mantra in applied AI is <strong>FAFO (Fit All and Find Out)</strong>. Rather than immediately committing to a massive model, the best practice is to test multiple small, fast models on your data first to gauge feasibility and save your project budget.</p>
+                `,
+                exercisePrompt: "<p><strong>Concept Check:</strong> Based on the lecture, answer the following two questions to unlock your workstation.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>If you increase a model's depth and resolution to catch tiny fish, what happens to your computational load? (Type: <code>Increase</code> or <code>Decrease</code>)</li><li>What acronym describes the strategy of testing multiple fast models to save money before committing to a massive one? (Type the 4-letter acronym)</li></ol>",
+                terminalType: "text",
+                expectedCommands: [/^Increase$/i, /^FAFO$/i],
+                successMsg: "Correct! Understanding these basic trade-offs will save you hundreds of hours in cloud compute.",
+                hint: "1. Type 'Increase' | 2. Type 'FAFO'"
+            },
+            {
+                id: 'cloud-cli',
+                title: "Module 2: The Cloud CLI & Moving Data",
+                icon: "fa-solid fa-terminal",
+                description: "Navigate GCP workstations. Learn shell syntaxes, checking disk space, and moving video data.",
+                learnContent: `
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 2: Escaping the Desktop</h3>
                     <p class="mb-4">Ecology data (e.g., AUV stereocamera feeds) is too massive for field laptops. For moving data or training models, we can use OSI-specific workstations (link below). While GUIs exist, they are slow. The Command Line Interface (CLI) is mandatory for moving terabytes of data efficiently.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Accessing the Workstation (SSH)</h4>
@@ -200,10 +231,10 @@
                       <li>You are now tapped into the workstation and are free to operate via the command line</li>
                       <li><strong>To get the <strong>Launch</strong> button to work and to have a user-interface. Follow the <a href="https://michaelakridge-noaa.github.io/optics-si-cloud-tools/codelabs/desktop-gpu-persistent-setup/" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Optics SI Cloud Desktop (GPU) Workstation Setup Instructions</a> created by Michael Akridge and begin on step 4</strong></li>
                     </ol>                    
-                    <p class="mb-4 text-sm"><br><br><strong>Best Practice:</strong> When you are done using the workstation, <em>shut the workstation down</em>. Cloud GPUs cost money by the hour. Do not leave them running over the weekend.</p>
+                    <p class="mb-4 text-sm"><strong>Best Practice:</strong> When you are done using the workstation, <em>shut the workstation down</em>. Cloud GPUs cost money by the hour. Do not leave them running over the weekend.</p>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Google Cloud Storage (GCS)</h4>
-                    <p class="mb-4 text-sm">Do not use the browser console to upload 100GB of video; it will crash. Use the Google CLI. The command <code class="bg-slate-700 px-1 rounded text-blue-300">gcloud storage cp</code> allows you to copy data from local hard drives directly to cloud "Buckets" (e.g., moving raw data to a landing bucket, then to an FMC bucket after pre-processing).</p>
+                    <p class="mb-4 text-sm">Do not use the browser console to upload 100GB of video; it will crash. Use the Google CLI. The command <code class="bg-slate-700 px-1 rounded text-blue-300">gcloud storage cp</code> allows you to copy data directly to cloud "Buckets". <strong>Note:</strong> Always check your workstation's available disk space using the <code>df -h</code> command before downloading large bucket data to your local workstation drive.</p>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Shell Syntax Quirks (The Line Continuation)</h4>
                     <p class="mb-2 text-sm">When running long commands, we break them into multiple lines for readability. This trips up many biologists moving between operating systems:</p>
@@ -222,23 +253,23 @@
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You are logged into your Linux GCP Workstation. You need to copy a batch of pre-processed BRUV video files from your local directory to the center's cloud bucket.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>gcloud storage cp</code> command.</li><li>Define the source as the current directory's video folder: <code>./videos/</code>.</li><li>Define the destination as the cloud bucket: <code>gs://fmc-bruv-bucket/</code>.</li><li>Include the <code>-r</code> flag (recursive) to copy the entire folder and its contents.</li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You need to copy a batch of pre-processed BRUV video files from the cloud bucket to your workstation, but you need to ensure you have enough disk space first.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Run the command to check disk space in human-readable format: <code>df -h</code></li><li>Create a local folder to hold the data: <code>mkdir -p ./videos/</code></li><li>Copy the data from the bucket to your new folder using the recursive flag: <code>gcloud storage cp -r \"gs://fmc-bruv-bucket/\" \"./videos/\"</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^gcloud\s+storage\s+cp\s+-r\s+['"]?(?:\.\/)?videos\/?['"]?\s+['"]?gs:\/\/fmc-bruv-bucket\/?['"]?$/],
-                successMsg: "Transfer initiated! You successfully utilized the CLI to bypass the browser limitations.",
-                hint: "Type: gcloud storage cp -r \"./videos/\" \"gs://fmc-bruv-bucket/\""
+                expectedCommands: [/^df\s+-h$/, /^mkdir\s+-p\s+(?:\.\/)?videos\/?$/, /^gcloud\s+storage\s+cp\s+-r\s+['"]?gs:\/\/fmc-bruv-bucket\/?['"]?\s+['"]?(?:\.\/)?videos\/?['"]?$/],
+                successMsg: "Transfer complete! You verified your space and securely pulled data bypassing the browser limits.",
+                hint: "1. df -h | 2. mkdir -p ./videos/ | 3. gcloud storage cp -r \"gs://fmc-bruv-bucket/\" \"./videos/\""
             },
             {
                 id: 'model-training',
-                title: "Module 2: Model Training & Architecture",
+                title: "Module 3: Model Training & Architecture",
                 icon: "fa-solid fa-brain",
                 description: "Understand YOLO directory structures, model architectures, and how to choose the right model for your survey data.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 2: Training Your Own Model</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 3: Training Your Own Model</h3>
                     <p class="mb-4">For processing millions of frames of video, speed is paramount. While complex architectures exist, we frequently recommend YOLO (You Only Look Once) models due to their incredibly low barrier to entry and massive developer community. If an existing model doesn't work for your survey, you will need to train your own.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Preparing Data for YOLO</h4>
-                    <p class="mb-2 text-sm">YOLO requires extreme strictness regarding how your images and labels are fed into the algorithm:</p>
+                    <p class="mb-2 text-sm">YOLO requires extreme strictness regarding how your images and labels are fed into the algorithm. Note: Consider using <strong>Data Augmentation</strong> (automatically blurring, flipping, or darkening images during training) to make your model more robust to varied underwater conditions.</p>
                     <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
                         <li><strong>Video to Frames:</strong> YOLO cannot train directly on <code>.mp4</code> files. You must first extract your video into individual frame images (e.g., at 1 fps).</li>
                         <li><strong>Filename Matching:</strong> Every image must have a corresponding text file with the exact same name (e.g., <code>cam1_frame001.jpg</code> maps to <code>cam1_frame001.txt</code>).</li>
@@ -247,7 +278,7 @@
                             <li><strong>Training dataset:</strong> This is the largest portion of your data (typically 70–80%). The model directly "sees" and learns from these images.</li>
                             <li><strong>Validation dataset:</strong> This is a smaller subset (usually 10–15%) used iteratively during the training process. After every epoch (one full pass through the training data), the model tests itself on the validation set to see how well it is learning.</li>
                             <li><strong>Test dataset:</strong> This is the strictly held-out "gold standard" set (usually 10–15%). The model never interacts with this data during the training or tuning phases. This provides an unbiased, final evaluation of how the model will perform on brand-new, out-of-sample survey footage.</li>
-                           </ol>                             
+                           </ol>                              
                     </ul>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">2. Architecture Comparisons</h4>
@@ -262,6 +293,7 @@
                                     <th class="px-4 py-3">YOLOv11</th>
                                     <th class="px-4 py-3">YOLO26</th>
                                     <th class="px-4 py-3">RF-DETR</th>
+                                    <th class="px-4 py-3">SAM3</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-700 bg-slate-900/50">
@@ -269,53 +301,52 @@
                                     <td class="px-4 py-3 font-semibold text-white bg-slate-800/50 border-r border-slate-700">Architecture</td>
                                     <td class="px-4 py-3">CNN</td>
                                     <td class="px-4 py-3">CNN (Enhanced Features)</td>
-                                    <td class="px-4 py-3">Native End-to-End CNN (One-to-One Head)</td>
-                                    <td class="px-4 py-3">Transformer (DETR) with DINOv2 Backbone</td>
+                                    <td class="px-4 py-3">Native End-to-End CNN</td>
+                                    <td class="px-4 py-3">Transformer (DETR) w/ DINOv2</td>
+                                    <td class="px-4 py-3">Vision Transformer (ViT) Segmenter</td>
                                 </tr>
                                 <tr>
                                     <td class="px-4 py-3 font-semibold text-white bg-slate-800/50 border-r border-slate-700">Best Data / Use Case</td>
                                     <td class="px-4 py-3">Standard survey data, legacy pipelines, beginners.</td>
-                                    <td class="px-4 py-3">Complex underwater scenes, high target occlusion (overlapping fish).</td>
-                                    <td class="px-4 py-3">Edge deployment (ROVs/AUVs) and multi-task pipelines utilizing open-vocabulary zero-shot capabilities.</td>
-                                    <td class="px-4 py-3">Highly variable benthic habitats requiring extreme cross-domain transfer accuracy.</td>
+                                    <td class="px-4 py-3">Complex underwater scenes, high target occlusion.</td>
+                                    <td class="px-4 py-3">Edge deployment (ROVs/AUVs).</td>
+                                    <td class="px-4 py-3">Highly variable benthic habitats.</td>
+                                    <td class="px-4 py-3">Zero-shot promptable segmentation without existing boxes.</td>
                                 </tr>
                                 <tr>
                                     <td class="px-4 py-3 font-semibold text-white bg-slate-800/50 border-r border-slate-700">NMS Required?</td>
                                     <td class="px-4 py-3">Yes</td>
                                     <td class="px-4 py-3">Yes</td>
-                                    <td class="px-4 py-3 text-green-400 font-medium">No (Eliminates post-processing bottleneck)</td>
+                                    <td class="px-4 py-3 text-green-400 font-medium">No</td>
+                                    <td class="px-4 py-3 text-green-400 font-medium">No</td>
                                     <td class="px-4 py-3 text-green-400 font-medium">No</td>
                                 </tr>
                                 <tr>
                                     <td class="px-4 py-3 font-semibold text-white bg-slate-800/50 border-r border-slate-700">Tasks Supported</td>
-                                    <td class="px-4 py-3">Detection, Instance Seg, Pose, Classification, OBB</td>
-                                    <td class="px-4 py-3">Detection, Instance Seg, Pose, Classification, OBB</td>
-                                    <td class="px-4 py-3">Detection, Instance & Semantic Seg, Depth Estimation, Pose, Classification, OBB</td>
-                                    <td class="px-4 py-3">Detection, Instance Seg, Keypoint (Pose)</td>
+                                    <td class="px-4 py-3">Detect, Seg, Pose, Classify, OBB</td>
+                                    <td class="px-4 py-3">Detect, Seg, Pose, Classify, OBB</td>
+                                    <td class="px-4 py-3">Detect, Seg, Depth, Classify</td>
+                                    <td class="px-4 py-3">Detect, Seg, Pose</td>
+                                    <td class="px-4 py-3">Promptable Instance Seg</td>
                                 </tr>
                                 <tr>
                                     <td class="px-4 py-3 font-semibold text-white bg-slate-800/50 border-r border-slate-700">Inference Efficiency</td>
-                                    <td class="px-4 py-3">Standard (Requires GPU for real-time)</td>
-                                    <td class="px-4 py-3">Fast (Requires GPU for real-time)</td>
-                                    <td class="px-4 py-3 text-green-400">Ultra-Fast (Nano model runs efficiently on ordinary CPUs)</td>
-                                    <td class="px-4 py-3">High (Real-time speed with adjustable runtime resolution)</td>
+                                    <td class="px-4 py-3">Standard</td>
+                                    <td class="px-4 py-3">Fast</td>
+                                    <td class="px-4 py-3 text-green-400">Ultra-Fast (CPU optimized)</td>
+                                    <td class="px-4 py-3">High</td>
+                                    <td class="px-4 py-3">Medium-Fast</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Inference Speed & Hyperparameters</h4>
-                    <p class="mb-4 text-sm">YOLO models come in different parameter sizes (Nano, Small, Medium, Large, X-Large). A massive model might give you a 2% bump in accuracy but cost 5x more in cloud fees. <strong>Baseline Practice:</strong> Always train a "Small" or "Nano" model first to test feasibility. When running inference, control your dials: the <code>conf</code> (Confidence) threshold determines how sure the model must be to output a box, and <code>iou</code> (Intersection over Union) filters out redundant overlapping boxes.</p>
+                    <p class="mb-4 text-sm"><strong>Baseline Practice:</strong> Always train a "Small" or "Nano" model first to test feasibility before burning compute on Large versions. When running inference, control your dials: the <code>conf</code> (Confidence) threshold determines how sure the model must be to output a box, and <code>iou</code> (Intersection over Union) filters out redundant overlapping boxes.</p>
 
                     <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
                     <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
                         <dl>
-                            <dt class="glossary-dt">CNNs</dt>
-                            <dd class="glossary-dd">CNNs (Convolutional Neural Networks) slide a mathematical filter over an image to detect features.</dd>
-                            <dt class="glossary-dt">RF-DETR</dt>
-                            <dd class="glossary-dd">RF-DETR (Detection Transformer) uses "attention mechanisms" instead, excelling in highly variable benthic habitats without needing Non-Maximum Suppression (NMS) to filter boxes.</dd>
-                            <dt class="glossary-dt">Zero-Shot Models</dt>
-                            <dd class="glossary-dd">Massive foundational models trained on the internet. You can ask them to segment a "whale" without explicit training. Great for rapidly generating pseudo-labels.</dd>
                             <dt class="glossary-dt">Epoch</dt>
                             <dd class="glossary-dd">The length of time required for the algorithm to perform one complete pass over the entire training dataset.</dd>
                             <dt class="glossary-dt">Ensembling</dt>
@@ -323,20 +354,20 @@
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have correctly formatted your dataset and need to train a baseline YOLO model on your new benthic survey data to test hyperparameter feasibility.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>yolo</code> command line interface for the <code>train</code> task.</li><li>Set the data file to <code>benthic.yaml</code>.</li><li>Use the nano model weights: <code>model=yolov8n.pt</code>.</li><li>Run a short test of <code>epochs=10</code>. <br><em>(Enter as one continuous command)</em></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You need to set up the directories for a YOLOv8 Nano model, run a quick baseline training cycle, and then validate the best weights on your test data.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Create the directory split: <code>mkdir -p dataset/images/train dataset/labels/train</code></li><li>Train the model: <code>yolo train data='benthic.yaml' model='yolov8n.pt' epochs=10</code></li><li>Validate the output: <code>yolo val model='runs/detect/train/weights/best.pt' data='benthic.yaml'</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^yolo\s+train\s+data=['"]?benthic\.yaml['"]?\s+model=['"]?yolov8n\.pt['"]?\s+epochs=10$/],
-                successMsg: "Baseline training loop initialized. Evaluating small models saves compute budget.",
-                hint: "Type: yolo train data='benthic.yaml' model='yolov8n.pt' epochs=10"
+                expectedCommands: [/^mkdir\s+-p\s+dataset\/images\/train\s+dataset\/labels\/train$/, /^yolo\s+train\s+data=['"]?benthic\.yaml['"]?\s+model=['"]?yolov8n\.pt['"]?\s+epochs=10$/, /^yolo\s+val\s+model=['"]?runs\/detect\/train\/weights\/best\.pt['"]?\s+data=['"]?benthic\.yaml['"]?$/],
+                successMsg: "Training complete! Validating against 'best.pt' ensures you capture the exact epoch where your model peaked.",
+                hint: "1. mkdir -p dataset/images/train dataset/labels/train | 2. yolo train data='benthic.yaml' model='yolov8n.pt' epochs=10 | 3. yolo val model='runs/detect/train/weights/best.pt' data='benthic.yaml'"
             },
             {
                 id: 'data-curation',
-                title: "Module 3: Data Setup for Existing Models",
+                title: "Module 4: Data Setup for Existing Models",
                 icon: "fa-solid fa-database",
                 description: "Prepare your data to run through established AI pipelines using FAIR file naming and standardized manifests.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 3: Pre-Processing for the Pipeline</h3>
-                    <p class="mb-4">When you are running your survey images through an existing, pre-trained AI model, the model expects the input data to be organized perfectly. If your data organization is messy, the cloud pipeline will fail.</p>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 4: Pre-Processing for the Pipeline</h3>
+                    <p class="mb-4">When you are running your survey images through an existing, pre-trained AI model, the model expects the input data to be organized perfectly. If your data organization is messy, the cloud pipeline will fail. Always ensure your image counts match your manifest row counts before uploading.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Standardized File Naming</h4>
                     <p class="mb-2 text-sm">To ensure your data is processed correctly, you must adhere to established FAIR (Findable, Accessible, Interoperable, and Reusable) data principles:</p>
@@ -359,23 +390,23 @@ my-project-bucket/
 ├── evaluation/
 └── archive/</pre>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You've been granted IAM write access to your center's bucket. Before uploading your imagery, you need to set up the standardized directory structure locally.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>mkdir</code> command with the <code>-p</code> flag to create multiple directories at once.</li><li>Create the following directories: <code>raw staged annotations evaluation</code>.</li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You've been granted IAM write access. Before uploading your imagery, you need to set up the standardized directory structure locally and prepare your empty manifest file for staging.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Create the standard directories: <code>mkdir -p raw staged annotations evaluation</code></li><li>Create the empty manifest file in the staged folder: <code>touch staged/manifest.csv</code></li><li>Verify it was created by listing the directory contents: <code>ls -la staged/</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^mkdir\s+-p\s+raw\s+staged\s+annotations\s+evaluation$/],
-                successMsg: "Directories established! Creating standardized environments ensures the AI pipeline can locate and process your files without errors.",
-                hint: "Type: mkdir -p raw staged annotations evaluation"
+                expectedCommands: [/^mkdir\s+-p\s+raw\s+staged\s+annotations\s+evaluation$/, /^touch\s+staged\/manifest\.csv$/, /^ls\s+-la\s+staged\/?$/],
+                successMsg: "Directories established! You are ready to populate your manifest and run the pipeline.",
+                hint: "1. mkdir -p raw staged annotations evaluation | 2. touch staged/manifest.csv | 3. ls -la staged/"
             },
             {
                 id: 'model-gov',
-                title: "Module 4: Model Governance & Reproducibility",
+                title: "Module 5: Model Governance & Reproducibility",
                 icon: "fa-solid fa-scale-balanced",
                 description: "Prepare AI pipelines to pass stock assessment peer review using Git and Model Cards.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 4: Science Requires Reproducibility</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 5: Science Requires Reproducibility</h3>
                     <p class="mb-4">If an AI model's output is going to be used in a federal stock assessment, it must pass rigorous peer review. "We ran a model" is not sufficient. We must establish governance over how models are tracked, named, and validated.</p>
                     
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Version Control (Git/GitHub)</h4>
-                    <p class="mb-4 text-sm">Never use filenames like <code>model_final_v2_real.pt</code>. We use <strong>Git</strong> to track changes to preprocessing code and model hyperparameter configurations. Git creates a cryptographic ledger (SHA-1 hashes) of every change, ensuring absolute reproducibility of the exact workflow used to generate a specific dataset.</p>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Version Control (Git & Git LFS)</h4>
+                    <p class="mb-4 text-sm">Never use filenames like <code>model_final_v2_real.pt</code>. We use <strong>Git</strong> to track changes to preprocessing code and model hyperparameter configurations. Because model weight files (<code>.pt</code>) are too large for standard Git, always ensure <strong>Git LFS (Large File Storage)</strong> is enabled on your repository to track these heavy binary files properly without bloating your commit history.</p>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Model Families vs. Model Weights</h4>
                     <p class="mb-4 text-sm">A "Model Family" (e.g., YOLOv8, ResNet50) is the underlying mathematical architecture. The "Model Weights" are the specific numerical parameters learned after training that architecture on <em>your</em> specific dataset (e.g., NMFS rockfish survey). Standardize how you store these weights immediately next to their metadata.</p>
@@ -393,23 +424,23 @@ my-project-bucket/
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have finished training a model and created a <code>metadata.md</code> file containing the Model Card. You need to commit this to your lab's Git repository for peer-review tracking.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Add the model card to the staging index: <code>git add metadata.md</code></li><li>Commit the file to the graph with a descriptive message: <code>git commit -m 'Added NMFS optics model card'</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You have finished training your model and filled out the <code>metadata.md</code> Model Card. You need to commit this to your lab's Git repository for peer-review tracking.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Add the model card to the staging index: <code>git add metadata.md</code></li><li>Commit the file to the graph with a descriptive message: <code>git commit -m 'Added NMFS optics model card'</code></li><li>Push your changes to the remote branch: <code>git push origin main</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^git\s+add\s+['"]?metadata\.md['"]?$/, /^git\s+commit\s+-m\s+['"]Added NMFS optics model card['"]$/],
-                successMsg: "Commit successful. Your model's provenance is now cryptographically secured.",
-                hint: "1. git add metadata.md | 2. git commit -m 'Added NMFS optics model card'"
+                expectedCommands: [/^git\s+add\s+['"]?metadata\.md['"]?$/, /^git\s+commit\s+-m\s+['"]Added NMFS optics model card['"]$/, /^git\s+push\s+origin\s+main$/],
+                successMsg: "Commit and push successful. Your model's provenance is now cryptographically secured on GitHub.",
+                hint: "1. git add metadata.md | 2. git commit -m 'Added NMFS optics model card' | 3. git push origin main"
             },            
             {
                 id: 'docker-iam',
-                title: "Module 5: Docker & IAM Permissions",
+                title: "Module 6: Docker & IAM Permissions",
                 icon: "fa-brands fa-docker",
                 description: "Solve dependency hell. Understand containerization and navigate GCP permission walls.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 5: Containers and Security Walls</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 6: Containers and Security Walls</h3>
                     <p class="mb-4">A common nightmare: A model works perfectly on a developer's laptop, but crashes when deployed to the cloud because a specific Python library is missing. We solve this with Docker.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. What even is Docker?</h4>
-                    <p class="mb-4 text-sm">Docker is a tool that packages an application and all its dependencies (Python version, system libraries like CUDA, exact pip packages) into an immutable <strong>Image</strong>. When run, it becomes a <strong>Container</strong>. It runs consistently regardless of the host machine. If you struggle with <code>pip install</code> errors in legacy tools (like VIAME), Dockerizing the workflow circumvents the host OS limitations entirely.</p>
+                    <p class="mb-4 text-sm">Docker is a tool that packages an application and all its dependencies (Python version, system libraries like CUDA, exact pip packages) into an immutable <strong>Image</strong>. When run, it becomes a <strong>Container</strong>. <strong>Best Practice:</strong> Always order your <code>Dockerfile</code> lines strategically so that heavy dependencies install *before* your code copies over, utilizing Docker's <em>layer caching</em> to drastically speed up build times.</p>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Identity and Access Management (IAM)</h4>
                     <p class="mb-4 text-sm">On GCP, you will run into "Permission Denied" errors. This is intentional security. GCP uses IAM Roles. For example, to view the deep python stack traces when a model crashes, your account must explicitly be granted <code>roles/logging.viewer</code>. To push a Docker image to the registry, you need <code>roles/artifactregistry.writer</code>.</p>
@@ -427,26 +458,26 @@ my-project-bucket/
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have written a <code>Dockerfile</code> that contains your custom fish-detection model and all its finicky python dependencies. You need to build it into an image.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the <code>docker build</code> command.</li><li>Tag the image using the <code>-t</code> flag with the name: <code>nmfs-custom-detector</code>.</li><li>Specify the build context as the current directory using a period: <code>.</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You have written a <code>Dockerfile</code> that contains your custom fish-detection model. You need to build it, tag it for the cloud, and push it to the GCP registry.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Build the image locally: <code>docker build -t \"nmfs-custom-detector\" .</code></li><li>Tag the image for the specific GCP registry path: <code>docker tag nmfs-custom-detector gcr.io/ggn-nmfs-osi-dev-1/nmfs-custom-detector:v1</code></li><li>Push the image to the cloud repository: <code>docker push gcr.io/ggn-nmfs-osi-dev-1/nmfs-custom-detector:v1</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^docker\s+build\s+-t\s+['"]?nmfs-custom-detector['"]?\s+\.$/],
-                successMsg: "Image built successfully! This container will run identically on your workstation and in the cloud.",
-                hint: "Type: docker build -t \"nmfs-custom-detector\" ."
+                expectedCommands: [/^docker\s+build\s+-t\s+['"]?nmfs-custom-detector['"]?\s+\.$/, /^docker\s+tag\s+nmfs-custom-detector\s+gcr\.io\/ggn-nmfs-osi-dev-1\/nmfs-custom-detector:v1$/, /^docker\s+push\s+gcr\.io\/ggn-nmfs-osi-dev-1\/nmfs-custom-detector:v1$/],
+                successMsg: "Image built, tagged, and pushed successfully! Airflow can now pull this exact container down to run on cloud batches.",
+                hint: "1. docker build -t \"nmfs-custom-detector\" . | 2. docker tag nmfs-custom-detector gcr.io/ggn-nmfs-osi-dev-1/nmfs-custom-detector:v1 | 3. docker push gcr.io/ggn-nmfs-osi-dev-1/nmfs-custom-detector:v1"
             },
             {
                 id: 'airflow-dags',
-                title: "Module 6: Airflow DAGs & Pipelines",
+                title: "Module 7: Airflow DAGs & Pipelines",
                 icon: "fa-solid fa-network-wired",
                 description: "Orchestrate long-running inference jobs. Trigger Cloud Composer pipelines using JSON payloads.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 6: Heavyweight Orchestration</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 7: Heavyweight Orchestration</h3>
                     <p class="mb-4">Running a model on a 5-minute video is easy. Running a model on 6 months of continuous acoustic data requires robust pipeline orchestration. We use Apache Airflow (hosted via GCP Cloud Composer) to manage these jobs.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. What is a DAG?</h4>
                     <p class="mb-4 text-sm">A DAG (Directed Acyclic Graph) is a collection of all the tasks you want to run, organized to reflect their relationships and dependencies. E.g., Task A (Fetch Data) -> Task B (Run VIAME Model) -> Task C (Format Output). "Directed" means there is a strict order. "Acyclic" means it cannot loop infinitely.</p>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">2. Long-Running vs. Cloud Run</h4>
-                    <p class="mb-4 text-sm">Standard GCP "Cloud Run" jobs have strict time limits (usually 1 hour). If your inference takes longer, the job is killed, and you lose your data. For heavy ecological analyses, we route jobs to <strong>Batch/Long-Running pipelines</strong> (which can run for up to 7 days). It is up to the user to chunk their data into manageable JSON inputs.</p>
+                    <p class="mb-4 text-sm">Standard GCP "Cloud Run" jobs have strict time limits (usually 1 hour). If your inference takes longer, the job is killed, and you lose your data. For heavy ecological analyses, we route jobs to <strong>Batch/Long-Running pipelines</strong> (which can run for up to 7 days). It is up to the user to chunk their data into manageable JSON inputs. You can monitor the health of these jobs using Airflow's built in logging UI or via the CLI.</p>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">3. Triggering Headless Pipelines</h4>
                     <p class="mb-4 text-sm">You do not need to click through the Airflow GUI. You can trigger a DAG directly from your workstation CLI. You define your input bucket, output bucket, and model type in a <code>config.json</code> file, and pass it to the <code>gcloud composer</code> command to start the distributed computation.</p>
@@ -461,23 +492,23 @@ my-project-bucket/
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have prepared your <code>config.json</code> file. You need to trigger the long-running optics pipeline headless from your terminal.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Run: <code>gcloud composer environments run composer-env1</code></li><li>Specify the command: <code>dags trigger -- nmfs-optics-pipeline-longrunning-dag</code></li><li>Pass the config file: <code>--conf \"$(cat config.json)\"</code> <br><em>(Combine all 3 parts into one continuous command separated by spaces)</em></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You have prepared your <code>config.json</code> file. First, verify the pipeline exists, then trigger it headless from your terminal.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>List the available DAGs on the environment: <code>gcloud composer environments run composer-env1 dags list</code></li><li>Trigger the specific DAG and pass the payload: <code>gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\"</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+trigger\s+--\s+nmfs-optics-pipeline-longrunning-dag\s+--conf\s+['"]?\$\(cat\s+['"]?config\.json['"]?\)\s*['"]?$/],
-                successMsg: "DAG triggered successfully. The pipeline will parse the JSON and distribute the workload.",
-                hint: "Type: gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\""
+                expectedCommands: [/^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+list$/, /^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+trigger\s+--\s+nmfs-optics-pipeline-longrunning-dag\s+--conf\s+['"]?\$\(cat\s+['"]?config\.json['"]?\)\s*['"]?$/],
+                successMsg: "DAG triggered successfully. The pipeline will parse the JSON and distribute the workload automatically.",
+                hint: "1. gcloud composer environments run composer-env1 dags list | 2. gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\""
             },
             {
                 id: 'data-processing',
-                title: "Module 7: Model Data Processing",
+                title: "Module 8: Model Data Processing",
                 icon: "fa-solid fa-code-branch",
                 description: "Access OCIO workstations. Set up RStudio, Jupyter, or Positron, and link your GitHub repositories for data analysis.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 7: Analyzing the Outputs</h3>
-                    <p class="mb-4">Once your heavy AI pipelines have run, you need a comfortable environment to analyze the tabular outputs (e.g., CSVs of fish counts or trajectory JSONs). Along with the OSI workstations (see Module 1), we can use OCIO-created workstations to host our favorite IDEs directly in the cloud, allowing us to process data without downloading gigabytes to our local machines.</p>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 8: Analyzing the Outputs</h3>
+                    <p class="mb-4">Once your heavy AI pipelines have run, you need a comfortable environment to analyze the tabular outputs (e.g., CSVs of fish counts or trajectory JSONs). Along with the OSI workstations (see Module 2), we can use OCIO-created workstations to host our favorite IDEs directly in the cloud, allowing us to process data without downloading gigabytes to our local machines.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Accessing OCIO Workstations</h4>
-                    <p class="mb-4 text-sm">Similar to the OSI workstations in Module 1, you can access OCIO-managed environments for downstream data processing:</p>
+                    <p class="mb-4 text-sm">Similar to the OSI workstations, you can access OCIO-managed environments for downstream data processing:</p>
                     <ol class="list-decimal pl-5 space-y-2 mb-4 text-sm">
                         <li>Navigate to the <a href="https://console.cloud.google.com/workstations/list?project=ggn-nmfs-wsent-prod-1&pli=1" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">OCIO Workstations Console</a>.</li>
                             <ol class="list-[lower-alpha] pl-5 space-y-2 mb-4 text-sm">
@@ -488,7 +519,7 @@ my-project-bucket/
                     </ol>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">2. RStudio, Jupyter, & Positron</h4>
-                    <p class="mb-4 text-sm">Depending on your workstation configuration, you can launch different interactive environments directly from your browser:</p>
+                    <p class="mb-4 text-sm">Depending on your workstation configuration, you can launch different interactive environments directly from your browser. <strong>Note:</strong> Always utilize virtual environment managers like <code>renv</code> (for R) or <code>venv/conda</code> (for Python) within these IDEs to keep your package dependencies isolated per project.</p>
                     <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
                         <li><strong>RStudio:</strong> The standard for marine ecologists. Perfect for <code>dplyr</code> and <code>ggplot2</code> workflows.</li>
                         <li><strong>Jupyter Notebooks:</strong> Ideal for Python-based <code>pandas</code> analysis and interactive model debugging.</li>
@@ -554,19 +585,19 @@ ls -l "$MOUNT_POINT"</code></pre>
                         <li><strong>Authentication:</strong> Because cloud workstations are separate from your laptop, you will need to authenticate using a GitHub Personal Access Token (PAT) or by generating a new SSH key pair on the workstation and adding the public key to your GitHub settings.</li>
                     </ul>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have just spun up your OCIO Jupyter workstation. You need to pull down your lab's data processing scripts from GitHub to analyze the latest AI survey outputs.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Use the git CLI to clone the repository.</li><li>The repository URL is: <code>https://github.com/kelseylmartin/OSI_Model_Performance.git</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You spun up your OCIO workstation. You need to pull down your lab's data processing scripts, navigate to the folder, and install the isolated Python dependencies via pip.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Clone the repository: <code>git clone https://github.com/kelseylmartin/OSI_Model_Performance.git</code></li><li>Navigate into the new directory: <code>cd OSI_Model_Performance</code></li><li>Install the dependencies: <code>pip install -r requirements.txt</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^git\s+clone\s+https:\/\/github\.com\/kelseylmartin\/OSI_Model_Performance\.git$/],
-                successMsg: "Repository cloned! Your workspace is now synced and ready for data analysis.",
-                hint: "Type: 'git clone' followed by the repository URL"
+                expectedCommands: [/^git\s+clone\s+https:\/\/github\.com\/kelseylmartin\/OSI_Model_Performance\.git$/, /^cd\s+OSI_Model_Performance$/, /^pip\s+install\s+-r\s+requirements\.txt$/],
+                successMsg: "Repository cloned and dependencies mapped! Your workspace is isolated and ready for data analysis.",
+                hint: "1. git clone https://github.com/kelseylmartin/OSI_Model_Performance.git | 2. cd OSI_Model_Performance | 3. pip install -r requirements.txt"
             },
             {
                 id: 'eval-metrics',
-                title: "Module 8: Evaluation Metrics & Bias",
+                title: "Module 9: Evaluation Metrics & Bias",
                 icon: "fa-solid fa-chart-line",
-                description: "Move beyond simple accuracy. Interpret confusion matrices to identify data gaps and taxonomic grouping strategies.",
+                description: "Move beyond simple accuracy. Interpret confusion matrices, Precision-Recall curves, and calculate F1.",
                 learnContent: `
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 8: When "Standard" Metrics Fail</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Lecture 9: When "Standard" Metrics Fail</h3>
                     <p class="mb-4">In ecology, standard accuracy is misleading. If 99% of your video is empty water, a model that simply guesses "empty" every time is 99% accurate, but utterly useless for finding fish. We must use targeted metrics.</p>
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2 mt-6">1. Precision, Recall, and the F1-Score</h4>
@@ -575,6 +606,7 @@ ls -l "$MOUNT_POINT"</code></pre>
                         <li><strong>Precision:</strong> When the model flags a fish, how often is it actually a fish? $$\\frac{TP}{TP + FP}$$</li>
                         <li><strong>Recall:</strong> Out of all the actual fish in the video, how many did the model find? $$\\frac{TP}{TP + FN}$$</li>
                         <li><strong>F1-Score:</strong> The harmonic mean, balancing both metrics: $$2 \\times \\frac{\\text{Precision} \\times \\text{Recall}}{\\text{Precision} + \\text{Recall}}$$</li>
+                        <li><strong>mAP & PR Curves:</strong> Mean Average Precision. Plotting Precision vs. Recall across all confidence thresholds creates a PR Curve. A larger area under this curve means a stronger, more balanced model.</li>
                     </ul>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">2. The Confusion Matrix & Taxa-Specific Bias</h4>
@@ -594,36 +626,31 @@ ls -l "$MOUNT_POINT"</code></pre>
                     </div>
                 `,
                 exercisePrompt: `
-                    <p><strong>Scenario:</strong> You are reviewing a model's confusion matrix for three classes: Red Snapper (RS), Vermilion Snapper (VS), and Gag Grouper (GG). Rows represent the <em>True</em> labels; Columns represent the <em>Predicted</em> labels.</p>
-                    <pre class="bg-slate-800 p-3 rounded-lg text-xs my-3 font-mono border border-slate-600 text-slate-300 overflow-x-auto">
-          | Pred_RS | Pred_VS | Pred_GG
-----------|---------|---------|---------
-True_RS   |   85    |   35    |    0
-True_VS   |   30    |   70    |    0
-True_GG   |    0    |    0    |    4
-                    </pre>
+                    <p><strong>Scenario:</strong> You are evaluating your model's performance on a reef. The model correctly found 40 snappers (True Positives). However, it missed 10 snappers entirely (False Negatives), and it incorrectly flagged 10 rocks as snappers (False Positives).</p>
                     <ol class='list-[lower-alpha] pl-5 mt-2 space-y-1'>
-                        <li>Which species desperately needs more training data due to an extremely low sample size? (Enter the 2-letter code)</li>
-                        <li>Which two species are highly confused and might need to be combined into a single "Snapper_Complex" training class? (Enter as: XX,XX)</li>
+                        <li>Calculate the Precision (TP / (TP+FP)). Enter the decimal (e.g., 0.50)</li>
+                        <li>Calculate the Recall (TP / (TP+FN)). Enter the decimal.</li>
+                        <li>Calculate the resulting F1-Score. Enter the decimal.</li>
                     </ol>`,
-                terminalType: "text",
-                expectedCommands: [/^GG$/i, /^(RS,VS|VS,RS|RS,\sVS|VS,\sRS)$/i],
-                successMsg: "Correct! GG only has 4 total samples. RS and VS have 65 instances of cross-confusion and may need to be merged.",
-                hint: "1. Look for the row with the lowest total numbers across the board. | 2. Look for the largest numbers outside of the correct diagonal matches (RS and VS)."
+                terminalType: "math",
+                expectedCommands: [/^0\.80?$/, /^0\.80?$/, /^0\.80?$/],
+                successMsg: "Correct! With 40 TP, 10 FP, and 10 FN, both Precision and Recall balance perfectly at 0.8, resulting in an F1 of 0.8.",
+                hint: "1. 40 / 50 = 0.8 | 2. 40 / 50 = 0.8 | 3. F1 equals 0.8."
             },
-{
+            {
                 id: 'resources',
-                title: "Module 9: Resources & SOPs",
-                icon: "fa-solid fa-chart-line",
-                description: "Here are some helpful links and documents that walk you through how to access, use, and interact with the OSI tools.",
+                title: "Module 10: Resources & SOPs",
+                icon: "fa-solid fa-folder-open",
+                description: "Useful links, documents, and webpages",
                 learnContent: `
                     <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Resources & SOPs</h3>
-                    <p class="mb-4">In ecology, standard accuracy is misleading. If 99% of your video is empty water, a model that simply guesses "empty" every time is 99% accurate, but utterly useless for finding fish. We must use targeted metrics.</p>
+                    <p class="mb-4">Here are some helpful links and documents that walk you through how to access, use, and interact with the OSI tools.</p>
+                    <p class="mb-4"><a href="https://nmfs-ost.github.io/optics-si-docs" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">OSI Webpage:</a> Here you will find usefull background information about the Optics Strategic Initiative along with more in-depth detail about our mission</p>
 
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">How to Gain Access</h4>
                     <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
-                    <li><a href="https://apps-st.fisheries.noaa.gov/jira/servicedesk/customer/portal/14/user/login?destination=portal%2F14" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">JIRA Ticket</a> - Needed to gain access to <strong>OSI workstations</strong>, <strong>OCIO workstations</strong>, and <strong>data buckets</strong>.</li>
-                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScUErQURDotb8glOJjDkASTjxfznTS4FHklCrjiVeNsdvUWkw/viewform?usp=dialog" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Optics Environment Issues Report</a> - Submit a form to gain access to Airflow DAG. Also use this form to report any issues that you have had with either the VIAME or DAG the environments.</li>
+                    <li><a href="https://apps-st.fisheries.noaa.gov/jira/servicedesk/customer/portal/14/user/login?destination=portal%2F14" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">JIRA Ticket:</a> Needed to gain access to <strong>OSI workstations</strong>, <strong>OCIO workstations</strong>, and <strong>data buckets</strong>.</li>
+                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScUErQURDotb8glOJjDkASTjxfznTS4FHklCrjiVeNsdvUWkw/viewform?usp=dialog" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Optics Environment Issues Report:</a> Submit a form to gain access to Airflow DAG. Also use this form to report any issues that you have had with either the VIAME or DAG the environments.</li>
                     </ul>
             
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">Guides & Templates</h4>
@@ -633,6 +660,7 @@ True_GG   |    0    |    0    |    4
                         <li><a href="https://docs.google.com/document/d/12fqDmZUKytkDYhLj-7FLqf-RxoFs1BMrfv8ihtv5Zlc/edit?tab=t.0" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Bring Your Own Trained VIAME Model to OSI:</a> Full end-to-end pipeline of how to open a workstation, docker your model, deploy it in Airflow, and run data through your new model.</li>
                         <li><a href="https://docs.google.com/document/d/12fqDmZUKytkDYhLj-7FLqf-RxoFs1BMrfv8ihtv5Zlc/edit?tab=t.0" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">NOAA NMFS Optics Model Deployment Template ("Hello World"):</a> "Hello World" template for the full end-to-end pipeline.</li>
                         <li><a href="https://github.com/csbrown-noaa/optics-models-ultralytics-detection" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">NOAA NMFS Optics Model Deployment Template:</a> This repository is a starting template for deploying custom Ultralytics YOLO Computer Vision models into the Optics SI Airflow ecosystem on Google Cloud.</li>
+                        <li><a href="https://github.com/csbrown-noaa/hierarchical_yolo_vertexai" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Hieracrchical YOLO Template:</a> Vertex AI-oriented hierarchical YOLO workflows for cloud training/deployment experiments.</li>
                     </ul> 
                     
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">VIAME Resources</h4>
@@ -642,7 +670,7 @@ True_GG   |    0    |    0    |    4
                     <li><a href="https://osi-viame-dev.nmfs.local/girder#" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">VIAME Girder Link:</a> Must be on VPN or your centers network to access. Portal to transfer your files to the DIVE environment</li>
                     </ul>
                     
-                    <h4 class="text-lg font-semibold text-teal-300 mb-2">R Package</h4>
+                    <h4 class="text-lg font-semibold text-teal-300 mb-2">Optics R Package</h4>
                     <ul class="list-disc pl-5 space-y-2 mb-4 text-sm">
                     <li><a href="https://kelseylmartin.github.io/OSI_Model_Performance/" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">R Package Site Link</a></li>
                     <li><a href="https://github.com/kelseylmartin/OSI_Model_Performance/tree/main/Optics" class="text-blue-400 underline hover:text-blue-300 transition-colors" target="_blank" rel="noopener">Github Link to Repository</a></li>
@@ -752,7 +780,7 @@ True_GG   |    0    |    0    |    4
             let promptChar = "$";
             if (type === 'python') promptChar = ">>>";
             if (type === 'javascript') promptChar = ">";
-            if (type === 'math') promptChar = "=";
+            if (type === 'math' || type === 'text') promptChar = ">";
             document.getElementById('terminal-prompt').innerText = promptChar;
             document.getElementById('terminal-input').value = "";
             document.getElementById('terminal-output').innerHTML = '<div class="text-slate-500 mb-2">// Session initialized. Waiting for input...</div>';
