@@ -230,11 +230,11 @@
                     <h4 class="text-lg font-semibold text-teal-300 mb-2">4. FAFO: Balancing Time & Money</h4>
                     <p class="mb-4 text-sm">Running massive, deep models on Google Cloud costs money by the hour and can take days to run. A common mantra in applied AI is <strong>FAFO (Fit All and Find Out)</strong>. Rather than immediately committing to a massive model, the best practice is to test multiple small, fast models on your data first to gauge feasibility and save your project budget.</p>
                 `,
-                exercisePrompt: "<p><strong>Concept Check:</strong> Based on the lecture, answer the following two questions to unlock your workstation.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>If you increase a model's depth and resolution to catch tiny fish, what happens to your computational load? (Type: <code>Increase</code> or <code>Decrease</code>)</li><li>What acronym describes the strategy of testing multiple fast models to save money before committing to a massive one? (Type the 4-letter acronym)</li></ol>",
-                terminalType: "text",
-                expectedCommands: [/^Increase$/i, /^FAFO$/i],
-                successMsg: "Correct! Understanding these basic trade-offs will save you hundreds of hours in cloud compute.",
-                hint: "1. Type 'Increase' | 2. Type 'FAFO'"
+                exercisePrompt: "<p><strong>Scenario:</strong> You are evaluating the computational cost of an incoming dataset. If an image is 100x100 pixels with 3 color channels (RGB), you must flatten it into a 1D vector before processing.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Assign the width, height, and channels: <code>w, h, c = 100, 100, 3</code></li><li>Calculate and print the final 1D vector size: <code>print(w * h * c)</code></li></ol>",
+                terminalType: "python",
+                expectedCommands: [/^[wW]\s*,\s*[hH]\s*,\s*[cC]\s*=\s*100\s*,\s*100\s*,\s*3$/, /^print\(\s*[wW]\s*\*\s*[hH]\s*\*\s*[cC]\s*\)$/],
+                successMsg: "Correct! The model processes a vector of 30,000 values for just a single low-res 100x100 image.",
+                hint: "1. w, h, c = 100, 100, 3 | 2. print(w * h * c)"
             },
             {
                 id: 'cloud-cli',
@@ -283,11 +283,11 @@
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You need to copy a batch of pre-processed BRUV video files from the cloud bucket to your workstation, but you need to ensure you have enough disk space first.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Run the command to check disk space in human-readable format: <code>df -h</code></li><li>Create a local folder to hold the data: <code>mkdir -p ./videos/</code></li><li>Copy the data from the bucket to your new folder using the recursive flag: <code>gcloud storage cp -r \"gs://fmc-bruv-bucket/\" \"./videos/\"</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You want to save local disk space by ONLY pulling <code>.mp4</code> video files from the cloud, filtering out irrelevant <code>.txt</code> or <code>.jpg</code> logs stored in the same bucket.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Check your workstation disk space in a human-readable format: <code>df -h</code></li><li>Preview only the .mp4 files in the bucket using a wildcard filter: <code>gcloud storage ls \"gs://fmc-bruv-bucket/*.mp4\"</code></li><li>Copy those specific files to a new local data folder: <code>gcloud storage cp \"gs://fmc-bruv-bucket/*.mp4\" ./data/</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^df\s+-h$/, /^mkdir\s+-p\s+(?:\.\/)?videos\/?$/, /^gcloud\s+storage\s+cp\s+-r\s+['"]?gs:\/\/fmc-bruv-bucket\/?['"]?\s+['"]?(?:\.\/)?videos\/?['"]?$/],
-                successMsg: "Transfer complete! You verified your space and securely pulled data bypassing the browser limits.",
-                hint: "1. df -h | 2. mkdir -p ./videos/ | 3. gcloud storage cp -r \"gs://fmc-bruv-bucket/\" \"./videos/\""
+                expectedCommands: [/^df\s+-h$/, /^gcloud\s+storage\s+ls\s+['"]?gs:\/\/fmc-bruv-bucket\/\*\.mp4['"]?$/, /^gcloud\s+storage\s+cp\s+['"]?gs:\/\/fmc-bruv-bucket\/\*\.mp4['"]?\s+['"]?(?:\.\/)?data\/?['"]?$/],
+                successMsg: "Transfer complete! You verified your space and securely pulled targeted data, bypassing browser limitations.",
+                hint: "1. df -h | 2. gcloud storage ls \"gs://fmc-bruv-bucket/*.mp4\" | 3. gcloud storage cp \"gs://fmc-bruv-bucket/*.mp4\" ./data/"
             },
             {
                 id: 'data-curation',
@@ -333,11 +333,11 @@ my-project-bucket/
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You've been granted IAM write access to your center's bucket. Before uploading your imagery, you need to set up the standardized directory structure locally and prepare your empty manifest file for staging.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Create the standard directories: <code>mkdir -p raw staged annotations evaluation</code></li><li>Create the empty manifest file in the staged folder: <code>touch staged/manifest.csv</code></li><li>Verify it was created by listing the directory contents: <code>ls -la staged/</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> Data hygiene check! You have 10,000 images, but you must ensure no field tech accidentally added spaces to the filenames before you process them.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Build the core OSI directory tree locally: <code>mkdir -p raw staged annotations evaluation</code></li><li>Search the raw directory for any filenames containing a space character: <code>find raw/ -name \"* *\"</code></li><li>Create an empty manifest to prep for data staging: <code>touch staged/manifest.csv</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^mkdir\s+-p\s+raw\s+staged\s+annotations\s+evaluation$/, /^touch\s+staged\/manifest\.csv$/, /^ls\s+-la\s+staged\/?$/],
-                successMsg: "Directories established! You are ready to populate your manifest and run the pipeline.",
-                hint: "1. mkdir -p raw staged annotations evaluation | 2. touch staged/manifest.csv | 3. ls -la staged/"
+                expectedCommands: [/^mkdir\s+-p\s+(?:raw\s+staged\s+annotations\s+evaluation|\{raw,staged,annotations,evaluation\})$/, /^find\s+raw\/?\s+-name\s+['"]\*\s\*['"]$/, /^touch\s+staged\/manifest\.csv$/],
+                successMsg: "Directories established and file checks passed! You are ready to populate your manifest and run the pipeline securely.",
+                hint: "1. mkdir -p raw staged annotations evaluation | 2. find raw/ -name \"* *\" | 3. touch staged/manifest.csv"
             },
             {
                 id: 'model-training',
@@ -427,6 +427,12 @@ my-project-bucket/
                     <h4 class="text-xl font-bold text-white mt-8 mb-2">Common Language & Glossary</h4>
                     <div class="bg-slate-900 p-4 rounded-lg border border-slate-700">
                         <dl>
+                            <dt class="glossary-dt">CNNs</dt>
+                            <dd class="glossary-dd">CNNs (Convolutional Neural Networks) slide a mathematical filter over an image to detect features.</dd>
+                            <dt class="glossary-dt">RF-DETR</dt>
+                            <dd class="glossary-dd">RF-DETR (Detection Transformer) uses "attention mechanisms" instead, excelling in highly variable benthic habitats without needing Non-Maximum Suppression (NMS) to filter boxes.</dd>
+                            <dt class="glossary-dt">Zero-Shot Models</dt>
+                            <dd class="glossary-dd">Massive foundational models trained on the internet. You can ask them to segment a "whale" without explicit training. Great for rapidly generating pseudo-labels.</dd>
                             <dt class="glossary-dt">Epoch</dt>
                             <dd class="glossary-dd">The length of time required for the algorithm to perform one complete pass over the entire training dataset.</dd>
                             <dt class="glossary-dt">Ensembling</dt>
@@ -434,11 +440,11 @@ my-project-bucket/
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You need to set up the directories for a YOLOv8 Nano model, run a quick baseline training cycle, and then validate the best weights on your test data.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Create the directory split: <code>mkdir -p dataset/images/train dataset/labels/train</code></li><li>Train the model: <code>yolo train data='benthic.yaml' model='yolov8n.pt' epochs=10</code></li><li>Validate the output: <code>yolo val model='runs/detect/train/weights/best.pt' data='benthic.yaml'</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You need to construct a specific training command. Your PI requested YOLOv11 Nano (<code>yolo11n.pt</code>) mapped at a 640x640 resolution for exactly 50 epochs using the <code>reef.yaml</code> dataset configuration.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Build and execute the training command: <code>yolo train data=reef.yaml model=yolo11n.pt epochs=50 imgsz=640</code></li><li>After training, test for overfitting using your newly generated weights on the strict test split: <code>yolo val model=runs/detect/train/weights/best.pt data=reef.yaml split=test</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^mkdir\s+-p\s+dataset\/images\/train\s+dataset\/labels\/train$/, /^yolo\s+train\s+data=['"]?benthic\.yaml['"]?\s+model=['"]?yolov8n\.pt['"]?\s+epochs=10$/, /^yolo\s+val\s+model=['"]?runs\/detect\/train\/weights\/best\.pt['"]?\s+data=['"]?benthic\.yaml['"]?$/],
-                successMsg: "Training complete! Validating against 'best.pt' ensures you capture the exact epoch where your model peaked.",
-                hint: "1. mkdir -p dataset/images/train dataset/labels/train | 2. yolo train data='benthic.yaml' model='yolov8n.pt' epochs=10 | 3. yolo val model='runs/detect/train/weights/best.pt' data='benthic.yaml'"
+                expectedCommands: [/^yolo\s+train\s+data=['"]?reef\.yaml['"]?\s+model=['"]?yolo11n\.pt['"]?\s+epochs=50\s+imgsz=640$/, /^yolo\s+val\s+model=['"]?runs\/detect\/train\/weights\/best\.pt['"]?\s+data=['"]?reef\.yaml['"]?\s+split=['"]?test['"]?$/],
+                successMsg: "Training complete! Validating against 'best.pt' on the strict 'test' split ensures you capture the exact epoch where your model peaked.",
+                hint: "1. yolo train data=reef.yaml model=yolo11n.pt epochs=50 imgsz=640 | 2. yolo val model=runs/detect/train/weights/best.pt data=reef.yaml split=test"
             },
             {
                 id: 'model-gov',
@@ -468,11 +474,11 @@ my-project-bucket/
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have finished training your model and filled out the <code>metadata.md</code> Model Card. You need to commit this to your lab's Git repository for peer-review tracking.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Add the model card to the staging index: <code>git add metadata.md</code></li><li>Commit the file to the graph with a descriptive message: <code>git commit -m 'Added NMFS optics model card'</code></li><li>Push your changes to the remote branch: <code>git push origin main</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You've trained a model, but <code>.pt</code> weights files are massive binary blobs. Standard git will crash or bloat the repository if you commit them directly. You must use Git Large File Storage (LFS).</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Tell Git LFS to track all PyTorch weight files: <code>git lfs track \"*.pt\"</code></li><li>Stage the newly generated LFS configuration and your model weights: <code>git add .gitattributes best.pt</code></li><li>Commit the files securely to the repository: <code>git commit -m \"Add LFS tracked model weights\"</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^git\s+add\s+['"]?metadata\.md['"]?$/, /^git\s+commit\s+-m\s+['"]Added NMFS optics model card['"]$/, /^git\s+push\s+origin\s+main$/],
-                successMsg: "Commit and push successful. Your model's provenance is now cryptographically secured on GitHub.",
-                hint: "1. git add metadata.md | 2. git commit -m 'Added NMFS optics model card' | 3. git push origin main"
+                expectedCommands: [/^git\s+lfs\s+track\s+['"]\*\.pt['"]$/, /^git\s+add\s+\.gitattributes\s+best\.pt$/, /^git\s+commit\s+-m\s+['"][^'"]+['"]$/],
+                successMsg: "Commit successful. Your model's massive weight file is now cryptographically tracked without crashing the repository.",
+                hint: "1. git lfs track \"*.pt\" | 2. git add .gitattributes best.pt | 3. git commit -m \"Add LFS tracked model weights\""
             },            
             {
                 id: 'docker-iam',
@@ -502,11 +508,11 @@ my-project-bucket/
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have written a <code>Dockerfile</code> that contains your custom rockfish-detection model. You need to build it, tag it for the cloud, and push it to the GCP registry.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Build the image locally: <code>docker build -t \"nmfs-rockfish-detector\" .</code></li><li>Tag the image for the specific GCP registry path: <code>docker tag nmfs-rockfish-detector gcr.io/ggn-nmfs-osi-dev-1/nmfs-rockfish-detector:v1</code></li><li>Push the image to the cloud repository: <code>docker push gcr.io/ggn-nmfs-osi-dev-1/nmfs-rockfish-detector:v1</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You successfully built a Docker image (<code>docker build -t rockfish-model .</code>), but you need to test it <em>interactively</em> locally to ensure paths are correct before pushing it to GCP.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Run the container interactively, mounting your local <code>$(pwd)/data</code> directory to <code>/app/data</code> inside the container: <code>docker run -it -v $(pwd)/data:/app/data rockfish-model bash</code></li><li>Verify the volume mount worked by listing the contents of the container's data directory: <code>ls -la /app/data</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^docker\s+build\s+-t\s+['"]?nmfs-rockfish-detector['"]?\s+\.$/, /^docker\s+tag\s+nmfs-rockfish-detector\s+gcr\.io\/ggn-nmfs-osi-dev-1\/nmfs-rockfish-detector:v1$/, /^docker\s+push\s+gcr\.io\/ggn-nmfs-osi-dev-1\/nmfs-rockfish-detector:v1$/],
-                successMsg: "Image built, tagged, and pushed successfully! Airflow can now pull this exact container down to run on cloud batches.",
-                hint: "1. docker build -t \"nmfs-rockfish-detector\" . | 2. docker tag nmfs-rockfish-detector gcr.io/ggn-nmfs-osi-dev-1/nmfs-rockfish-detector:v1 | 3. docker push gcr.io/ggn-nmfs-osi-dev-1/nmfs-rockfish-detector:v1"
+                expectedCommands: [/^docker\s+run\s+-it\s+-v\s+\$\(pwd\)\/data:\/app\/data\s+rockfish-model\s+bash$/, /^ls\s+-la\s+\/app\/data\/?$/],
+                successMsg: "Container launched and volumes verified! Mounting volumes ensures your dockerized model can actually 'see' your local survey data.",
+                hint: "1. docker run -it -v $(pwd)/data:/app/data rockfish-model bash | 2. ls -la /app/data"
             },
             {
                 id: 'airflow-dags',
@@ -536,11 +542,11 @@ my-project-bucket/
                         </dl>
                     </div>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You have prepared your <code>config.json</code> file. First, verify the pipeline exists, then trigger it headless from your terminal.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>List the available DAGs on the environment: <code>gcloud composer environments run composer-env1 dags list</code></li><li>Trigger the specific DAG and pass the payload: <code>gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\"</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You are about to trigger a 7-day inference pipeline. If your <code>config.json</code> has a missing comma, it will fail 10 minutes in. You must validate the JSON natively in the terminal before triggering.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Validate the JSON file using Python's built-in bash tool: <code>python -m json.tool config.json</code></li><li>Assuming it passes, trigger the DAG headless and inject the payload: <code>gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\"</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+list$/, /^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+trigger\s+--\s+nmfs-optics-pipeline-longrunning-dag\s+--conf\s+['"]?\$\(cat\s+['"]?config\.json['"]?\)\s*['"]?$/],
-                successMsg: "DAG triggered successfully. The pipeline will parse the JSON and distribute the workload automatically.",
-                hint: "1. gcloud composer environments run composer-env1 dags list | 2. gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\""
+                expectedCommands: [/^python\s+-m\s+json\.tool\s+config\.json$/, /^gcloud\s+composer\s+environments\s+run\s+composer-env1\s+dags\s+trigger\s+--\s+nmfs-optics-pipeline-longrunning-dag\s+--conf\s+['"]?\$\(cat\s+['"]?config\.json['"]?\)\s*['"]?$/],
+                successMsg: "JSON verified and DAG triggered successfully. Pre-flight checks prevent massive cloud architecture failures.",
+                hint: "1. python -m json.tool config.json | 2. gcloud composer environments run composer-env1 dags trigger -- nmfs-optics-pipeline-longrunning-dag --conf \"$(cat config.json)\""
             },
             {
                 id: 'data-processing',
@@ -629,11 +635,11 @@ ls -l "$MOUNT_POINT"</code></pre>
                         <li><strong>Authentication:</strong> Because cloud workstations are separate from your laptop, you will need to authenticate using a GitHub Personal Access Token (PAT) or by generating a new SSH key pair on the workstation and adding the public key to your GitHub settings.</li>
                     </ul>
                 `,
-                exercisePrompt: "<p><strong>Scenario:</strong> You spun up your OCIO workstation. You need to pull down your lab's data processing scripts, navigate to the folder, and install the isolated Python dependencies via pip.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Clone the repository: <code>git clone https://github.com/noaa/nmfs-optics-analysis.git</code></li><li>Navigate into the new directory: <code>cd nmfs-optics-analysis</code></li><li>Install the dependencies: <code>pip install -r requirements.txt</code></li></ol>",
+                exercisePrompt: "<p><strong>Scenario:</strong> You pulled down an analysis script via <code>git clone</code>, but you need to run it in a Virtual Environment so its dependencies don't conflict with your global system packages.</p><ol class='list-decimal pl-5 mt-2 space-y-1'><li>Create a python virtual environment named <code>optics_env</code>: <code>python -m venv optics_env</code></li><li>Activate the virtual environment: <code>source optics_env/bin/activate</code></li><li>Safely install the project requirements: <code>pip install -r requirements.txt</code></li></ol>",
                 terminalType: "bash",
-                expectedCommands: [/^git\s+clone\s+https:\/\/github\.com\/noaa\/nmfs-optics-analysis\.git$/, /^cd\s+nmfs-optics-analysis$/, /^pip\s+install\s+-r\s+requirements\.txt$/],
-                successMsg: "Repository cloned and dependencies mapped! Your workspace is isolated and ready for data analysis.",
-                hint: "1. git clone https://github.com/noaa/nmfs-optics-analysis.git | 2. cd nmfs-optics-analysis | 3. pip install -r requirements.txt"
+                expectedCommands: [/^python\s+-m\s+venv\s+optics_env$/, /^source\s+optics_env\/bin\/activate$/, /^pip\s+install\s+-r\s+requirements\.txt$/],
+                successMsg: "Virtual environment deployed! Your workspace is isolated and ready for data analysis without breaking legacy pipelines.",
+                hint: "1. python -m venv optics_env | 2. source optics_env/bin/activate | 3. pip install -r requirements.txt"
             },
             {
                 id: 'eval-metrics',
@@ -670,16 +676,23 @@ ls -l "$MOUNT_POINT"</code></pre>
                     </div>
                 `,
                 exercisePrompt: `
-                    <p><strong>Scenario:</strong> You are evaluating your model's performance on a reef. The model correctly found 40 snappers (True Positives). However, it missed 10 snappers entirely (False Negatives), and it incorrectly flagged 10 rocks as snappers (False Positives).</p>
+                    <p><strong>Scenario:</strong> Looking at the Red Snapper (RS) confusion matrix below, you need to calculate the F1-Score using Python.</p>
+                    <pre class="bg-slate-800 p-3 rounded-lg text-xs my-3 font-mono border border-slate-600 text-slate-300 overflow-x-auto">
+          | Pred_RS | Pred_VS | Pred_GG
+----------|---------|---------|---------
+True_RS   |   85    |   35    |    0
+True_VS   |   30    |   70    |    0
+True_GG   |    0    |    0    |    4
+                    </pre>
                     <ol class='list-[lower-alpha] pl-5 mt-2 space-y-1'>
-                        <li>Calculate the Precision (TP / (TP+FP)). Enter the decimal (e.g., 0.50)</li>
-                        <li>Calculate the Recall (TP / (TP+FN)). Enter the decimal.</li>
-                        <li>Calculate the resulting F1-Score. Enter the decimal.</li>
+                        <li>Assign the TP (True_RS predicted RS), FP (True_VS predicted RS), and FN (True_RS predicted VS) values to variables: <code>tp, fp, fn = 85, 30, 35</code></li>
+                        <li>Calculate precision and recall simultaneously: <code>p, r = tp/(tp+fp), tp/(tp+fn)</code></li>
+                        <li>Print the final F1 calculation: <code>print(2 * (p * r) / (p + r))</code></li>
                     </ol>`,
-                terminalType: "math",
-                expectedCommands: [/^0\.80?$/, /^0\.80?$/, /^0\.80?$/],
-                successMsg: "Correct! With 40 TP, 10 FP, and 10 FN, both Precision and Recall balance perfectly at 0.8, resulting in an F1 of 0.8.",
-                hint: "1. 40 / 50 = 0.8 | 2. 40 / 50 = 0.8 | 3. F1 equals 0.8."
+                terminalType: "python",
+                expectedCommands: [/^tp\s*,\s*fp\s*,\s*fn\s*=\s*85\s*,\s*30\s*,\s*35$/, /^p\s*,\s*r\s*=\s*tp\/\(tp\+fp\)\s*,\s*tp\/\(tp\+fn\)$/, /^print\(\s*2\s*\*\s*\(\s*[pP]\s*\*\s*[rR]\s*\)\s*\/\s*\(\s*[pP]\s*\+\s*[rR]\s*\)\s*\)$/],
+                successMsg: "Correct! The model's F1-Score for Red Snapper is roughly 0.72. Scripting these calculations allows you to process entire matrices instantly.",
+                hint: "1. tp, fp, fn = 85, 30, 35 | 2. p, r = tp/(tp+fp), tp/(tp+fn) | 3. print(2 * (p * r) / (p + r))"
             },
             {
                 id: 'resources',
